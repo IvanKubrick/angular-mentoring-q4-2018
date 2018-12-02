@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { CoreModule } from '@app/core';
+import { CoursesModule } from './courses/courses.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './page/header/header.component';
@@ -11,7 +12,7 @@ import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.comp
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, SearchComponent, BreadcrumbsComponent],
-  imports: [BrowserModule, AppRoutingModule, CoreModule],
+  imports: [BrowserModule, AppRoutingModule, CoreModule, CoursesModule],
   providers: [],
   bootstrap: [AppComponent]
 })
