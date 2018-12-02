@@ -8,8 +8,12 @@
     "test": "ng test",
     "lint": "ng lint",
     "format:fix": "pretty-quick --staged",
-    "precommit": "run-s format:fix lint",
     "e2e": "ng e2e"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s format:fix lint"
+    }
   },
   "private": true,
   "dependencies": {
