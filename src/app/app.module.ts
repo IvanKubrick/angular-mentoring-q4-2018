@@ -9,9 +9,10 @@ import { HeaderComponent } from './page/header/header.component';
 import { FooterComponent } from './page/footer/footer.component';
 import { SearchComponent } from './page/search/search.component';
 import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.component';
+import { LogoComponent } from './page/logo/logo.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, SearchComponent, BreadcrumbsComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, SearchComponent, BreadcrumbsComponent, LogoComponent],
   imports: [BrowserModule, AppRoutingModule, CoreModule, CoursesModule],
   providers: [],
   bootstrap: [AppComponent]
