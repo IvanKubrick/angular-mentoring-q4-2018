@@ -1,0 +1,41 @@
+.header {
+  background: #ff5f6d; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #ffc371, #ff5f6d); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #ffc371,
+    #ff5f6d
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  &__container {
+    margin: 0 2em;
+  }
+
+  .top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-header__logo {
+    height: 5rem;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .header-logo {
+    &__img {
+      height: 100%;
+    }
+
+    &__title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+  }
+
+  .top-header__user {
+    margin-right: 1rem;
+  }
+}
