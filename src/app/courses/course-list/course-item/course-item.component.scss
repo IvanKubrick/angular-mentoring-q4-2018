@@ -1,0 +1,21 @@
+@import 'src/styles/mixins';
+
+.course-item {
+  @include box-shadow;
+  background-color: #fff;
+  border-radius: 4px;
+  height: 10rem;
+  margin: 1em;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+
+  &__content {
+    width: 80%;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+  }
+}
