@@ -1,2 +1,8 @@
-<app-course-item *ngFor="let course of courses" [course]="course"></app-course-item>
-
+<div class="course-list">
+  <app-course-item
+    *ngFor="let course of courses"
+    [course]="course"
+    (courseDeleted)="onCourseDeleted($event)"
+  ></app-course-item>
+  <button class="button button_blue button-load-more" (click)="onLoadMoreButtonClick()">Load more</button>
+</div>
