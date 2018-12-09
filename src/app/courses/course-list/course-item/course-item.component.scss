@@ -4,11 +4,12 @@
   @include box-shadow;
   background-color: #fff;
   border-radius: 4px;
-  height: 10rem;
+  min-height: 10rem;
   margin: 1em;
   padding: 1em;
   display: flex;
   justify-content: space-between;
+  font-size: 0.875rem;
 
   &__content {
     width: 80%;
@@ -17,5 +18,22 @@
   &__controls {
     display: flex;
     flex-direction: column;
+  }
+}
+
+.course-content {
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    margin-right: auto;
+  }
+
+  &__duration {
+    margin-right: 2rem;
   }
 }
