@@ -1,0 +1,16 @@
+@import 'src/styles/mixins';
+
+.footer {
+  @include gradient-bg;
+
+  height: 3rem;
+
+  &__container {
+    margin: 0 2rem;
+  }
+
+  &__text {
+    text-align: center;
+    padding-top: 1rem;
+  }
+}
