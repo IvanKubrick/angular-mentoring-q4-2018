@@ -1,5 +1,5 @@
 <div class="search">
-  <input class="input" type="text" placeholder="Search by name, description or date" />
-  <button class="button button_blue">Search</button>
+  <input class="input" type="text" placeholder="Search by name, description or date" [(ngModel)]="searchString" />
+  <button class="button button_blue" (click)="onSearchButtonClick()">Search</button>
   <button class="button button_pink button-add-course">Add course</button>
 </div>
