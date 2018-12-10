@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - stable
 script:
-  - npm run build
+  - npm run build:ci
 deploy:
   provider: pages
   skip-cleanup: true
