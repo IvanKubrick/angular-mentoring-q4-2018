@@ -1,1 +1,14 @@
-<p>course-item works!</p>
+<div class="course-item">
+  <div class="course-item__content course-content">
+    <div class="course-content__header">
+      <h2 class="course-content__title">{{ course.title }}</h2>
+      <span class="course-content__duration">{{ course.duration }} min</span>
+      <span class="course-content__date">{{ course.creationDate | date }}</span>
+    </div>
+    <div class="course-content__description">{{ course.description }}</div>
+  </div>
+  <div class="course-item__controls">
+    <button class="button button_blue">Edit</button>
+    <button class="button button_blue" (click)="onDeleteClick()">Delete</button>
+  </div>
+</div>

@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: $bg;
+}
+
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  &__content {
+    flex: 1;
+  }
+}
+
+.input,
+.button {
+  @include box-shadow;
+  background-color: #fff;
+  border-radius: 4px;
+  line-height: 2rem;
+  outline: 0;
+  border: none;
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.button {
+  color: #000;
+  user-select: none;
+  cursor: pointer;
+  min-width: 4rem;
+  transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover:not([disabled]) {
+    background: darken(#fff, 5%);
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+
+  &_blue {
+    background-color: $blue;
+    color: #fff;
+
+    &:hover:not([disabled]) {
+      background: darken($blue, 15%);
+    }
+  }
+
+  &_pink {
+    background-color: $pink;
+    color: #fff;
+
+    &:hover:not([disabled]) {
+      background: darken($pink, 10%);
+    }
+  }
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.25);
+  opacity: 1; /* Firefox */
+}

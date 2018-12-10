@@ -1,0 +1,44 @@
+@import 'src/styles/mixins';
+
+.search {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+
+  @include width600 {
+    flex-direction: row;
+  }
+
+  &__input-block {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__input {
+    width: 100%;
+
+    @include small {
+      width: 20rem;
+    }
+
+    @include width600 {
+      margin-right: 1rem;
+    }
+  }
+
+  &__button {
+    width: 100%;
+
+    @include small {
+      width: auto;
+    }
+  }
+
+  &__button-add-course {
+    @include width600 {
+      margin-left: auto;
+    }
+  }
+}

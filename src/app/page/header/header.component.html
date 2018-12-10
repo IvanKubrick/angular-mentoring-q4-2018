@@ -1,1 +1,16 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header__container">
+    <div class="top-header">
+      <div class="top-header__logo">
+        <img class="header-logo__img" src="assets/img/header-logo.png" alt="logo" />
+        <span class="header-logo__title">courses</span>
+      </div>
+      <div class="top-header__controls">
+        <span class="top-header__user">{{ userName }}</span>
+        <button class="button button" type="button">Log Off</button>
+      </div>
+    </div>
+    <app-breadcrumbs></app-breadcrumbs>
+    <app-search></app-search>
+  </div>
+</header>
