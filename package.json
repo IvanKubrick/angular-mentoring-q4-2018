@@ -7,6 +7,8 @@
     "build": "ng build",
     "build:ci": "ng build --base-href https://ivankubrick.github.io/angular-mentoring-q4-2018/ --prod",
     "test": "ng test",
+    "test:ci": "ng test -- --no-watch --no-progress --browsers=ChromeHeadlessCI",
+    "test:cc": "ng test --no-watch --code-coverage",
     "lint": "ng lint",
     "format:fix": "pretty-quick --staged",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
