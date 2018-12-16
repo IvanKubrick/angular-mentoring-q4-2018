@@ -1,3 +1,15 @@
 .breadcrumbs {
   margin: 1rem 0;
 }
+
+.breadcrumbs__item {
+  position: relative;
+  margin: 0 0.5rem;
+
+  &:after {
+    position: absolute;
+    content: '/';
+    padding-left: 6px;
+    color: #000;
+  }
+}
