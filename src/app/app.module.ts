@@ -8,12 +8,10 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './page/header/header.component';
 import { FooterComponent } from './page/footer/footer.component';
 import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.component';
-import { LogoComponent } from './page/logo/logo.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LogoComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent],
   imports: [BrowserModule, AppRoutingModule, CoreModule, CoursesModule],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
