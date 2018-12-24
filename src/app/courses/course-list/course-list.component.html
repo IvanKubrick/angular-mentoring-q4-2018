@@ -1,7 +1,7 @@
 <div class="course-list">
   <app-search></app-search>
   <app-course-item
-    *ngFor="let course of courses"
+    *ngFor="let course of (courses | orderBy: 'date')"
     [course]="course"
     (courseDeleted)="onCourseDeleted($event)"
   ></app-course-item>

@@ -1,11 +1,11 @@
-import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { CourseItemComponent } from './course-item.component';
 import { Course, Course1 } from '@app/shared';
 import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
+import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
 
 @Component({
   template: `
