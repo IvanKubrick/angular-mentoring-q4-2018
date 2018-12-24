@@ -33,7 +33,7 @@ export class CourseListComponent implements OnInit {
         2,
         'Angular + RxJx',
         new Date(2019, 10, 10),
-        180,
+        44,
         'This course will provide you with deep knowledge regarding using RxJS within an Angular app.RxJS (Reactive Extensions for JavaScript) is a library for reactive programming using observables that makes it easier to compose asynchronous or callback-based code (RxJS Docs). RxJS provides an implementation of the Observable type, which is needed until the type becomes part of the language and until browsers support it. The library also provides utility functions for creating and working with observables.',
         false
       )

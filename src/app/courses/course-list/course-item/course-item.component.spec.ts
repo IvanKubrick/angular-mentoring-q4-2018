@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -21,7 +22,7 @@ describe('CourseItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseItemComponent, TestHostComponent, CourseBorderDirective]
+      declarations: [CourseItemComponent, TestHostComponent, CourseBorderDirective, DurationPipe]
     }).compileComponents();
   }));
 
@@ -46,16 +47,16 @@ describe('CourseItemComponent', () => {
       fixture.detectChanges();
     });
 
-    it('title', () => {
-      expect(courseItemEl.querySelector('.course-content__title').textContent.trim()).toBe('Angular');
+    it('title (in upper case)', () => {
+      expect(courseItemEl.querySelector('.course-content__title').textContent.trim()).toBe('ANGULAR');
     });
 
-    it('date', () => {
-      expect(courseItemEl.querySelector('.course-content__date').textContent).toBe('Jan 1, 1970');
+    it('date (formatted in a proper way)', () => {
+      expect(courseItemEl.querySelector('.course-content__date').textContent).toBe('01.01.1970');
     });
 
-    it('duration', () => {
-      expect(courseItemEl.querySelector('.course-content__duration').textContent).toBe('120 min');
+    it('duration (formatted in a proper way)', () => {
+      expect(courseItemEl.querySelector('.course-content__duration').textContent).toBe('2h 0min');
     });
 
     it('description', () => {
