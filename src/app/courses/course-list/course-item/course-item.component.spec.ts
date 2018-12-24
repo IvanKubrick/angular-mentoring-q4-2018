@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { CourseItemComponent } from './course-item.component';
 import { Course, Course1 } from '@app/shared';
+import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
 
 @Component({
   template: `
@@ -20,7 +21,7 @@ describe('CourseItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseItemComponent, TestHostComponent]
+      declarations: [CourseItemComponent, TestHostComponent, CourseBorderDirective]
     }).compileComponents();
   }));
 
@@ -46,7 +47,7 @@ describe('CourseItemComponent', () => {
     });
 
     it('title', () => {
-      expect(courseItemEl.querySelector('.course-content__title').textContent).toBe('Angular');
+      expect(courseItemEl.querySelector('.course-content__title').textContent.trim()).toBe('Angular');
     });
 
     it('date', () => {
