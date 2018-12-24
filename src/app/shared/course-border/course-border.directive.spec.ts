@@ -11,16 +11,19 @@ const tomorrow = Date.now() + day;
 
 @Component({
   template: `
-    <h2 [appCourseBorder]="longAgo">No border</h2>
-    <h2 [appCourseBorder]="yesterday">Green border</h2>
-    <h2 [appCourseBorder]="tomorrow">Blue border</h2>
+    <div [appCourseBorder]="longAgo">No border</div>
   `
 })
-class TestComponent {}
+class TestComponent {
+  day = 1000 * 60 * 60 * 24;
+  longAgo = new Date(0);
+  yesterday = Date.now() - day;
+  tomorrow = Date.now() + day;
+}
 
 describe('CourseBorderDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
-  let des: DebugElement[];
+  let de: DebugElement;
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
       declarations: [CourseBorderDirective, TestComponent]
@@ -28,12 +31,12 @@ describe('CourseBorderDirective', () => {
 
     fixture.detectChanges();
 
-    des = fixture.debugElement.queryAll(By.directive(CourseBorderDirective));
+    de = fixture.debugElement.query(By.directive(CourseBorderDirective));
   });
 
-  xit('should color 1st <h2> background "yellow"', () => {
+  xit('should color border of recent course in forestgreen', () => {
     fixture.detectChanges();
-    const borderColor = des[1].nativeElement.style.borderColor;
+    const borderColor = de.nativeElement.style.borderColor;
     expect(borderColor).toBe('forestgreen');
   });
 });
