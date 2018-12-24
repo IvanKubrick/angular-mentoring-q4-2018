@@ -1,4 +1,5 @@
 @import 'src/styles/mixins';
+@import 'src/styles/variables';
 
 .course-item {
   @include box-shadow;
@@ -38,6 +39,19 @@
     width: 100%;
     margin-right: auto;
     margin-bottom: 0.25rem;
+    position: relative;
+
+    &:after {
+      position: absolute;
+      top: -0.25rem;
+      right: -1.5rem;
+      content: '\2605';
+      color: transparent;
+    }
+
+    &_top-rated:after {
+      color: $star;
+    }
 
     @include tablet {
       width: auto;

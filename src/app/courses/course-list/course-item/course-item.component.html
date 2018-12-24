@@ -1,7 +1,9 @@
 <div class="course-item" [appCourseBorder]="course?.creationDate">
   <div class="course-item__content course-content">
     <div class="course-content__header">
-      <h2 class="course-content__title">{{ course?.title }}</h2>
+      <h2 class="course-content__title" [ngClass]="{ 'course-content__title_top-rated': course?.topRated }">
+        {{ course?.title }}
+      </h2>
       <span class="course-content__duration">{{ course?.duration }} min</span>
       <span class="course-content__date">{{ course?.creationDate | date }}</span>
     </div>

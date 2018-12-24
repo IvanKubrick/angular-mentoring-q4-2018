@@ -41,7 +41,7 @@ describe('CourseItemComponent', () => {
     beforeEach(() => {
       courseItemDe = fixture.debugElement.query(By.css('.course-item__content'));
       courseItemEl = courseItemDe.nativeElement;
-      component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description');
+      component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description', true);
       fixture.detectChanges();
     });
 
