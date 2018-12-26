@@ -4,6 +4,7 @@ export interface Course {
   creationDate: Date;
   duration: number;
   description: string;
+  topRated?: boolean;
 }
 
 export class Course1 implements Course {
@@ -12,6 +13,7 @@ export class Course1 implements Course {
     public title: string,
     public creationDate: Date,
     public duration: number,
-    public description: string
+    public description: string,
+    public topRated: boolean
   ) {}
 }

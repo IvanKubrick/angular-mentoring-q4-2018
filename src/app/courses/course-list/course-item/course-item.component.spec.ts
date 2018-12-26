@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 
 import { CourseItemComponent } from './course-item.component';
 import { Course, Course1 } from '@app/shared';
+import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
+import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
 
 @Component({
   template: `
@@ -20,7 +22,7 @@ describe('CourseItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseItemComponent, TestHostComponent]
+      declarations: [CourseItemComponent, TestHostComponent, CourseBorderDirective, DurationPipe]
     }).compileComponents();
   }));
 
@@ -41,20 +43,20 @@ describe('CourseItemComponent', () => {
     beforeEach(() => {
       courseItemDe = fixture.debugElement.query(By.css('.course-item__content'));
       courseItemEl = courseItemDe.nativeElement;
-      component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description');
+      component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description', true);
       fixture.detectChanges();
     });
 
-    it('title', () => {
-      expect(courseItemEl.querySelector('.course-content__title').textContent).toBe('Angular');
+    it('title (in upper case)', () => {
+      expect(courseItemEl.querySelector('.course-content__title').textContent.trim()).toBe('ANGULAR');
     });
 
-    it('date', () => {
-      expect(courseItemEl.querySelector('.course-content__date').textContent).toBe('Jan 1, 1970');
+    it('date (formatted in a proper way)', () => {
+      expect(courseItemEl.querySelector('.course-content__date').textContent).toBe('01.01.1970');
     });
 
-    it('duration', () => {
-      expect(courseItemEl.querySelector('.course-content__duration').textContent).toBe('120 min');
+    it('duration (formatted in a proper way)', () => {
+      expect(courseItemEl.querySelector('.course-content__duration').textContent).toBe('2h 0min');
     });
 
     it('description', () => {
