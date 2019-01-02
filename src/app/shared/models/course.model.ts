@@ -1,4 +1,4 @@
-export interface Course {
+export interface ICourse {
   id: number;
   title: string;
   creationDate: Date;
@@ -7,7 +7,7 @@ export interface Course {
   topRated?: boolean;
 }
 
-export class Course1 implements Course {
+export class Course1 implements ICourse {
   constructor(
     public id: number,
     public title: string,

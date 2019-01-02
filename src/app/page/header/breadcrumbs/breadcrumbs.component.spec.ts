@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -26,18 +27,19 @@ describe('BreadcrumbsComponent', () => {
   it('should create the number of links equal to the length of breadcrumbs array', () => {
     component.breadcrumbs = ['courses', 'angular', 'unit-testing'];
     fixture.detectChanges();
-    const breadcrumbsDe = fixture.debugElement.query(By.css('.breadcrumbs'));
-    const breadcrumbsEls = breadcrumbsDe.nativeElement.querySelectorAll('.breadcrumbs__item');
+    const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
+    const breadcrumbsEls: HTMLElement[] = breadcrumbsDe.nativeElement.querySelectorAll('.breadcrumbs__item');
 
     expect(breadcrumbsEls.length).toEqual(3);
   });
 
   it('should not create links if breadcrumbs array is null', () => {
+    // tslint:disable-next-line:no-null-keyword
     component.breadcrumbs = null;
     fixture.detectChanges();
-    const breadcrumbsDe = fixture.debugElement.query(By.css('.breadcrumbs'));
-    const breadcrumbsEl = breadcrumbsDe.nativeElement;
+    const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
+    const breadcrumbsEls: HTMLElement[] = breadcrumbsDe.nativeElement.querySelectorAll('.breadcrumbs__item');
 
-    expect(breadcrumbsEl.childElementCount).toEqual(0);
+    expect(breadcrumbsEls.length).toEqual(0);
   });
 });

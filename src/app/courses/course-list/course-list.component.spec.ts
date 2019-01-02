@@ -1,10 +1,10 @@
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { CourseListComponent } from './course-list.component';
 import { Course1 } from '@app/shared';
 import { OrderByPipe } from 'src/app/shared/orderBy-pipe/order-by.pipe';
+import { CourseListComponent } from './course-list.component';
 
 describe('CourseListComponent', () => {
   let component: CourseListComponent;
@@ -34,7 +34,7 @@ describe('CourseListComponent', () => {
       new Course1(102, 'Angular test3', new Date(), 120, 'test', false)
     ];
     fixture.detectChanges();
-    const courseItemDeArr = fixture.debugElement.queryAll(By.css('app-course-item'));
+    const courseItemDeArr: DebugElement[] = fixture.debugElement.queryAll(By.css('app-course-item'));
 
     expect(courseItemDeArr.length).toEqual(3);
   });
@@ -42,7 +42,7 @@ describe('CourseListComponent', () => {
   it('should not create course-item components if courses array is null', () => {
     component.courses = [];
     fixture.detectChanges();
-    const courseItemDeArr = fixture.debugElement.queryAll(By.css('app-course-item'));
+    const courseItemDeArr: DebugElement[] = fixture.debugElement.queryAll(By.css('app-course-item'));
 
     expect(courseItemDeArr.length).toBe(0);
   });

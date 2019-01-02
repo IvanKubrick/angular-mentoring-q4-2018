@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { CourseItemComponent } from './course-item.component';
-import { Course, Course1 } from '@app/shared';
+import { Course1, ICourse } from '@app/shared';
 import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
 import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
+import { CourseItemComponent } from './course-item.component';
 
 @Component({
   template: `
@@ -13,7 +13,7 @@ import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
   `
 })
 class TestHostComponent {
-  course: Course;
+  course: ICourse;
 }
 
 describe('CourseItemComponent', () => {
@@ -37,8 +37,8 @@ describe('CourseItemComponent', () => {
   });
 
   describe('should display appropriate', () => {
-    let courseItemDe;
-    let courseItemEl;
+    let courseItemDe: DebugElement;
+    let courseItemEl: HTMLElement;
 
     beforeEach(() => {
       courseItemDe = fixture.debugElement.query(By.css('.course-item__content'));

@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
 import { CourseBorderDirective } from './course-border/course-border.directive';
 import { DurationPipe } from './duration-pipe/duration.pipe';
 import { OrderByPipe } from './orderBy-pipe/order-by.pipe';

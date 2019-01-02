@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -24,8 +25,8 @@ describe('FooterComponent', () => {
   });
 
   it('should contain "© All Rights Reserved."', () => {
-    const paragraphDe = fixture.debugElement.query(By.css('.footer__text'));
-    const paragraphEl = paragraphDe.nativeElement;
+    const paragraphDe: DebugElement = fixture.debugElement.query(By.css('.footer__text'));
+    const paragraphEl: HTMLElement = paragraphDe.nativeElement;
     expect(paragraphEl.textContent).toEqual('© All Rights Reserved.');
   });
 });

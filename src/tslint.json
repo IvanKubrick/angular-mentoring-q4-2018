@@ -1,8 +1,27 @@
 {
-  "extends": ["../tslint.json", "tslint-config-prettier", "tslint-plugin-prettier"],
+  "extends": ["../tslint.json", "tslint-microsoft-contrib", "tslint-config-prettier", "tslint-plugin-prettier"],
   "rules": {
     "directive-selector": [true, "attribute", "app", "camelCase"],
     "component-selector": [true, "element", "app", "kebab-case"],
+
+    // disabled rules
+    "no-relative-imports": false,
+    "linebreak-style": false,
+    "export-name": false,
+    "no-submodule-imports": false,
+    "no-unnecessary-class": false,
+    "no-implicit-dependencies": false,
+    "no-import-side-effect": [true, { "ignore-pattern": "/rxjs.*/" }],
+    "no-empty": false,
+    "no-parameter-properties": false,
+    "completed-docs": false,
+    "import-name": false,
+    "no-floating-promises": false,
+
+    //modified riles
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "member-access": [true, "no-public"],
+
     "prettier": true
   }
 }
