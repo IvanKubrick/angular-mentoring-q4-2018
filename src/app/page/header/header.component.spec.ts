@@ -27,13 +27,13 @@ describe('HeaderComponent', () => {
 
   it('should contain "courses" title', () => {
     const logoTitleDe: DebugElement = fixture.debugElement.query(By.css('.header-logo__title'));
-    const logoTitleEl: HTMLElement = logoTitleDe.nativeElement;
+    const logoTitleEl: HTMLSpanElement = <HTMLSpanElement>logoTitleDe.nativeElement;
     expect(logoTitleEl.textContent).toEqual('courses');
   });
 
   it('should contain button titled "Log Off"', () => {
     const buttonLogOffDe: DebugElement = fixture.debugElement.query(By.css('.button-log-off'));
-    const buttonLogOffEl: HTMLElement = buttonLogOffDe.nativeElement;
+    const buttonLogOffEl: HTMLButtonElement = <HTMLButtonElement>buttonLogOffDe.nativeElement;
     expect(buttonLogOffEl.textContent).toEqual('Log Off');
   });
 });

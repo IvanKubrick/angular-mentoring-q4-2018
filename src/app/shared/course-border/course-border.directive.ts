@@ -27,7 +27,7 @@ export class CourseBorderDirective implements OnInit {
 
   ngOnInit(): void {
     if (Boolean(this.borderColor)) {
-      this.el.nativeElement.style.border = `3px solid ${this.borderColor}`;
+      (<HTMLDivElement>this.el.nativeElement).style.border = `3px solid ${this.borderColor}`;
     }
   }
 }

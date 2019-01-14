@@ -17,6 +17,7 @@
     "completed-docs": false,
     "import-name": false,
     "no-floating-promises": false,
+    "no-null-keyword": false,
 
     //modified riles
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],

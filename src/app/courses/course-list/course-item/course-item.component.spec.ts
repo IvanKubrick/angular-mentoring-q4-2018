@@ -38,11 +38,11 @@ describe('CourseItemComponent', () => {
 
   describe('should display appropriate', () => {
     let courseItemDe: DebugElement;
-    let courseItemEl: HTMLElement;
+    let courseItemEl: HTMLDivElement;
 
     beforeEach(() => {
       courseItemDe = fixture.debugElement.query(By.css('.course-item__content'));
-      courseItemEl = courseItemDe.nativeElement;
+      courseItemEl = <HTMLDivElement>courseItemDe.nativeElement;
       component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description', true);
       fixture.detectChanges();
     });

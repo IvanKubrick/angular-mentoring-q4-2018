@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, ElementRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -28,17 +28,18 @@ describe('BreadcrumbsComponent', () => {
     component.breadcrumbs = ['courses', 'angular', 'unit-testing'];
     fixture.detectChanges();
     const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
-    const breadcrumbsEls: HTMLElement[] = breadcrumbsDe.nativeElement.querySelectorAll('.breadcrumbs__item');
+    const breadcrumbsParentEl: HTMLDivElement = <HTMLDivElement>breadcrumbsDe.nativeElement;
+    const breadcrumbsEls: NodeListOf<HTMLAnchorElement> = breadcrumbsParentEl.querySelectorAll('.breadcrumbs__item');
 
     expect(breadcrumbsEls.length).toEqual(3);
   });
 
   it('should not create links if breadcrumbs array is null', () => {
-    // tslint:disable-next-line:no-null-keyword
     component.breadcrumbs = null;
     fixture.detectChanges();
     const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
-    const breadcrumbsEls: HTMLElement[] = breadcrumbsDe.nativeElement.querySelectorAll('.breadcrumbs__item');
+    const breadcrumbsParentEl: HTMLDivElement = <HTMLDivElement>breadcrumbsDe.nativeElement;
+    const breadcrumbsEls: NodeListOf<HTMLAnchorElement> = breadcrumbsParentEl.querySelectorAll('.breadcrumbs__item');
 
     expect(breadcrumbsEls.length).toEqual(0);
   });

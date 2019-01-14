@@ -28,7 +28,7 @@ describe('SearchComponent', () => {
 
   it('should update searchString property on user input', () => {
     const inputDe: DebugElement = fixture.debugElement.query(By.css('input'));
-    const inputEl: HTMLFormElement = inputDe.nativeElement;
+    const inputEl: HTMLFormElement = <HTMLFormElement>inputDe.nativeElement;
 
     inputEl.value = 'Some text value';
     inputEl.dispatchEvent(new Event('input'));

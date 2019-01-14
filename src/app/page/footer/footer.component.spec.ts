@@ -26,7 +26,7 @@ describe('FooterComponent', () => {
 
   it('should contain "© All Rights Reserved."', () => {
     const paragraphDe: DebugElement = fixture.debugElement.query(By.css('.footer__text'));
-    const paragraphEl: HTMLElement = paragraphDe.nativeElement;
+    const paragraphEl: HTMLParagraphElement = <HTMLParagraphElement>paragraphDe.nativeElement;
     expect(paragraphEl.textContent).toEqual('© All Rights Reserved.');
   });
 });
