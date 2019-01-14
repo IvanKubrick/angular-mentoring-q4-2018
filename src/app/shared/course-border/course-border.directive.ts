@@ -4,6 +4,7 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core';
   selector: '[appCourseBorder]'
 })
 export class CourseBorderDirective implements OnInit {
+  // tslint:disable-next-line: no-unsafe-any
   @Input('appCourseBorder')
   get borderColor(): string {
     return this._borderColor;

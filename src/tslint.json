@@ -9,10 +9,8 @@
     "linebreak-style": false,
     "export-name": false,
     "no-submodule-imports": false,
-    "no-unnecessary-class": false,
     "no-implicit-dependencies": false,
     "no-import-side-effect": [true, { "ignore-pattern": "/rxjs.*/" }],
-    "no-empty": false,
     "no-parameter-properties": false,
     "completed-docs": false,
     "import-name": false,
@@ -22,6 +20,7 @@
     //modified riles
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
     "member-access": [true, "no-public"],
+    "no-unnecessary-class": [true, "allow-empty-class"],
 
     "prettier": true
   }
