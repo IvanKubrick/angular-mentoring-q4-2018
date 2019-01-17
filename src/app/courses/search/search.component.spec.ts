@@ -1,8 +1,9 @@
-import { FormsModule } from '@angular/forms';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
-import { SearchComponent } from './search.component';
 import { By } from '@angular/platform-browser';
+import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -26,8 +27,8 @@ describe('SearchComponent', () => {
   });
 
   it('should update searchString property on user input', () => {
-    const inputDe = fixture.debugElement.query(By.css('input'));
-    const inputEl = inputDe.nativeElement;
+    const inputDe: DebugElement = fixture.debugElement.query(By.css('input'));
+    const inputEl: HTMLFormElement = <HTMLFormElement>inputDe.nativeElement;
 
     inputEl.value = 'Some text value';
     inputEl.dispatchEvent(new Event('input'));

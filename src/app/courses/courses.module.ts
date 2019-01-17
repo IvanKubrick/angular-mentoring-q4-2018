@@ -1,11 +1,11 @@
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { SearchComponent } from './search/search.component';
-import { CourseListComponent } from './course-list/course-list.component';
-import { CourseItemComponent } from './course-list/course-item/course-item.component';
 import { SharedModule } from './../shared/shared.module';
+import { CourseItemComponent } from './course-list/course-item/course-item.component';
+import { CourseListComponent } from './course-list/course-list.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [CourseListComponent, CourseItemComponent, SearchComponent],

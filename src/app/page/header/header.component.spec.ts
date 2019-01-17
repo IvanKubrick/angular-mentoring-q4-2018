@@ -1,5 +1,5 @@
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { HeaderComponent } from './header.component';
@@ -26,14 +26,14 @@ describe('HeaderComponent', () => {
   });
 
   it('should contain "courses" title', () => {
-    const logoTitleDe = fixture.debugElement.query(By.css('.header-logo__title'));
-    const logoTitleEl = logoTitleDe.nativeElement;
+    const logoTitleDe: DebugElement = fixture.debugElement.query(By.css('.header-logo__title'));
+    const logoTitleEl: HTMLSpanElement = <HTMLSpanElement>logoTitleDe.nativeElement;
     expect(logoTitleEl.textContent).toEqual('courses');
   });
 
   it('should contain button titled "Log Off"', () => {
-    const buttonLogOffDe = fixture.debugElement.query(By.css('.button-log-off'));
-    const buttonLogOffEl = buttonLogOffDe.nativeElement;
+    const buttonLogOffDe: DebugElement = fixture.debugElement.query(By.css('.button-log-off'));
+    const buttonLogOffEl: HTMLButtonElement = <HTMLButtonElement>buttonLogOffDe.nativeElement;
     expect(buttonLogOffEl.textContent).toEqual('Log Off');
   });
 });

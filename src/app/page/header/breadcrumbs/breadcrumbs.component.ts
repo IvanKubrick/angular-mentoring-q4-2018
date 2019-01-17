@@ -8,9 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class BreadcrumbsComponent implements OnInit {
   breadcrumbs: string[];
 
-  constructor() {}
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.breadcrumbs = ['courses'];
   }
 }
