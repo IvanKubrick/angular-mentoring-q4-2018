@@ -2,8 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { Course1 } from '@app/shared';
-import { OrderByPipe } from 'src/app/shared/orderBy-pipe/order-by.pipe';
+import { Course1, FilterByNamePipe, OrderByPipe } from '@app/shared';
 import { CourseListComponent } from './course-list.component';
 
 describe('CourseListComponent', () => {
@@ -12,7 +11,8 @@ describe('CourseListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseListComponent, OrderByPipe],
+      declarations: [CourseListComponent, OrderByPipe, FilterByNamePipe],
+      providers: [FilterByNamePipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

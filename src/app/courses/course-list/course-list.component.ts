@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Course1, ICourse } from '@app/shared';
+import { Course1, FilterByNamePipe, ICourse } from '@app/shared';
 
 @Component({
   selector: 'app-course-list',
@@ -10,7 +10,7 @@ import { Course1, ICourse } from '@app/shared';
 export class CourseListComponent implements OnInit {
   courses: ICourse[];
 
-  private readonly _courses: ICourse[] = [
+  initialCourses: ICourse[] = [
     new Course1(
       0,
       'Angular Basics',
@@ -37,8 +37,10 @@ export class CourseListComponent implements OnInit {
     )
   ];
 
+  constructor(private readonly filterByNamePipe: FilterByNamePipe) {}
+
   ngOnInit(): void {
-    this.courses = this._courses;
+    this.courses = this.initialCourses;
   }
 
   onCourseDeleted(courseId: number): void {
@@ -50,8 +52,6 @@ export class CourseListComponent implements OnInit {
   }
 
   onSearchButtonClicked(searchString: string): void {
-    this.courses = this._courses.filter(
-      (course: ICourse) => course.title.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
-    );
+    this.courses = this.filterByNamePipe.transform(this.initialCourses, searchString);
   }
 }
