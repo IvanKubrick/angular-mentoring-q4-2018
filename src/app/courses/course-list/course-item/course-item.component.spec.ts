@@ -2,7 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { Course1, ICourse } from '@app/shared';
+import { Course, ICourse } from '@app/shared';
 import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
 import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
 import { CourseItemComponent } from './course-item.component';
@@ -43,7 +43,7 @@ describe('CourseItemComponent', () => {
     beforeEach(() => {
       courseItemDe = fixture.debugElement.query(By.css('.course-item__content'));
       courseItemEl = <HTMLDivElement>courseItemDe.nativeElement;
-      component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description', true);
+      component.course = new Course(100, 'Angular', new Date(0), 120, 'test description', true);
       fixture.detectChanges();
     });
 

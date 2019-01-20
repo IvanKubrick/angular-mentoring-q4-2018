@@ -7,7 +7,7 @@ export interface ICourse {
   topRated?: boolean;
 }
 
-export class Course1 implements ICourse {
+export class Course implements ICourse {
   constructor(
     public id: number,
     public title: string,

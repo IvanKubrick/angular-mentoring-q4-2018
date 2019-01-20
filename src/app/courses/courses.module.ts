@@ -6,11 +6,12 @@ import { FilterByNamePipe } from '@app/shared';
 import { SharedModule } from './../shared/shared.module';
 import { CourseItemComponent } from './course-list/course-item/course-item.component';
 import { CourseListComponent } from './course-list/course-list.component';
+import { CoursesService } from './courses.service';
 import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [CourseListComponent, CourseItemComponent, SearchComponent],
-  providers: [FilterByNamePipe],
+  providers: [FilterByNamePipe, CoursesService],
   imports: [CommonModule, FormsModule, SharedModule]
 })
 export class CoursesModule {}
