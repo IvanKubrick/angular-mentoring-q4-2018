@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
 import { CoursesService } from '../courses.service';
+import { DialogComponent } from './../../shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-course-list',
@@ -14,7 +16,11 @@ export class CourseListComponent implements OnInit, OnDestroy {
   private fetchedCourses: ICourse[];
   private readonly _subscriptions: Subscription[] = [];
 
-  constructor(private readonly filterByNamePipe: FilterByNamePipe, private readonly coursesService: CoursesService) {}
+  constructor(
+    private readonly filterByNamePipe: FilterByNamePipe,
+    private readonly coursesService: CoursesService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this._subscriptions.push(
@@ -31,13 +37,13 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   onCourseDeleted(courseId: number): void {
-    this._subscriptions.push(
-      this.coursesService.removeItem(courseId).subscribe(() => {
-        this.coursesService.getList().subscribe((courses: ICourse[]) => {
-          this.fetchCourses(courses);
-        });
-      })
-    );
+    const dialogRef: MatDialogRef<DialogComponent> = this.dialog.open(DialogComponent);
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.removeItem(courseId);
+      }
+    });
   }
 
   onLoadMoreButtonClick(): void {
@@ -51,5 +57,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
   private fetchCourses(courses: ICourse[]): void {
     this.fetchedCourses = courses;
     this.courses = courses;
+  }
+
+  private removeItem(courseId: number): void {
+    this._subscriptions.push(
+      this.coursesService.removeItem(courseId).subscribe(() => {
+        this.coursesService.getList().subscribe((courses: ICourse[]) => {
+          this.fetchCourses(courses);
+        });
+      })
+    );
   }
 }
