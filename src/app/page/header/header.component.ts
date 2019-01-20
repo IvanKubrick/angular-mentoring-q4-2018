@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { AuthService } from '@app/core';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   userName: string = 'Ivan Hrushevich';
+
+  constructor(private readonly authService: AuthService) {}
+
+  onLogOffClick(): void {
+    this.authService.logout();
+  }
 }

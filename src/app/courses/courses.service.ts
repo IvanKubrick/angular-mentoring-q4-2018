@@ -4,7 +4,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { Course, ICourse } from '@app/shared';
 
 // tslint:disable-next-line: no-unsafe-any
-Injectable();
+@Injectable()
 export class CoursesService {
   courses: ICourse[] = [
     new Course(
