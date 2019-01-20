@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
@@ -25,7 +26,11 @@ describe('CourseListComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [CourseListComponent, OrderByPipe, FilterByNamePipe],
-      providers: [FilterByNamePipe, { provide: CoursesService, useValue: coursesServiceMock }],
+      providers: [
+        FilterByNamePipe,
+        { provide: CoursesService, useValue: coursesServiceMock },
+        { provide: MatDialog, useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
