@@ -1,4 +1,7 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '@app/core';
 
 import { LoginPageComponent } from './login-page.component';
 
@@ -8,7 +11,10 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginPageComponent]
+      imports: [ReactiveFormsModule],
+      declarations: [LoginPageComponent],
+      providers: [{ provide: AuthService, useValue: {} }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
