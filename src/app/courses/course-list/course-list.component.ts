@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
 import { CoursesService } from '../courses.service';
@@ -39,11 +40,12 @@ export class CourseListComponent implements OnInit, OnDestroy {
   onCourseDeleted(courseId: number): void {
     const dialogRef: MatDialogRef<DialogComponent> = this.dialog.open(DialogComponent);
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
+    dialogRef
+      .afterClosed()
+      .pipe(filter((value: boolean) => value === true))
+      .subscribe((result: boolean) => {
         this.removeItem(courseId);
-      }
-    });
+      });
   }
 
   onLoadMoreButtonClick(): void {

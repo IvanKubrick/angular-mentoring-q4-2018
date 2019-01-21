@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { IAuthData } from '@app/shared';
-import { BehaviorSubject } from 'rxjs';
+import { IAuthData, IUser, User } from '@app/shared';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 const lsKey: string = 'ngCourses';
 
@@ -11,29 +10,37 @@ const lsKey: string = 'ngCourses';
 export class AuthService {
   userData: IAuthData;
 
-  isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly router: Router) {}
+  get isAuthenticated(): Observable<boolean> {
+    return this._isAuthenticated.asObservable();
+  }
 
-  login(authData: IAuthData): void {
+  login(authData: IAuthData): Observable<IUser> {
     this.userData = authData;
     localStorage.setItem(lsKey, JSON.stringify(authData));
-    this.isAuthenticated.next(true);
+    this._isAuthenticated.next(true);
     window.console.log('logged in successfully');
 
-    this.router.navigate(['/courses']);
+    const mockedUser: User = new User(0, 'Ivan', 'Hrushevich');
+
+    return of(mockedUser);
   }
 
-  logout(): void {
+  logout(): Observable<IUser> {
     localStorage.removeItem(lsKey);
     this.userData = null;
-    this.isAuthenticated.next(false);
+    this._isAuthenticated.next(false);
     window.console.log('logout');
 
-    this.router.navigate(['/']);
+    const mockedUser: User = new User(0, 'Ivan', 'Hrushevich');
+
+    return of(mockedUser);
   }
 
-  getUserInfo(): IAuthData {
-    return this.userData;
+  getUserInfo(): Observable<IUser> {
+    const mockedUser: User = new User(0, 'Ivan', 'Hrushevich');
+
+    return of(mockedUser);
   }
 }
