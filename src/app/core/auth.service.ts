@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { IAuthData } from '@app/shared';
+import { BehaviorSubject } from 'rxjs';
 
 const lsKey: string = 'ngCourses';
 
@@ -10,18 +11,14 @@ const lsKey: string = 'ngCourses';
 export class AuthService {
   userData: IAuthData;
 
-  private _isAuthenticated: boolean;
-
-  get isAuthenticated(): boolean {
-    return this._isAuthenticated;
-  }
+  isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly router: Router) {}
 
   login(authData: IAuthData): void {
     this.userData = authData;
     localStorage.setItem(lsKey, JSON.stringify(authData));
-    this._isAuthenticated = true;
+    this.isAuthenticated.next(true);
     window.console.log('logged in successfully');
 
     this.router.navigate(['/courses']);
@@ -30,7 +27,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(lsKey);
     this.userData = null;
-    this._isAuthenticated = false;
+    this.isAuthenticated.next(false);
     window.console.log('logout');
 
     this.router.navigate(['/']);

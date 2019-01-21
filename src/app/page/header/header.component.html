@@ -5,11 +5,11 @@
         <img class="header-logo__img" src="assets/img/header-logo.png" alt="logo" />
         <span class="header-logo__title">courses</span>
       </div>
-      <div class="top-header__controls">
+      <div class="top-header__controls" *ngIf="isLoggedIn">
         <span class="top-header__user">{{ userName }}</span>
         <button class="button button-log-off" type="button" (click)="onLogOffClick()">Log Off</button>
       </div>
     </div>
-    <app-breadcrumbs></app-breadcrumbs>
+    <app-breadcrumbs *ngIf="isLoggedIn"></app-breadcrumbs>
   </div>
 </header>
