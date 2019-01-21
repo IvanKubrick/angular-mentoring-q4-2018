@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
 import { CoursesService } from '../courses.service';
@@ -63,11 +63,12 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   private removeItem(courseId: number): void {
     this._subscriptions.push(
-      this.coursesService.removeItem(courseId).subscribe(() => {
-        this.coursesService.getList().subscribe((courses: ICourse[]) => {
+      this.coursesService
+        .removeItem(courseId)
+        .pipe(switchMap(() => this.coursesService.getList()))
+        .subscribe((courses: ICourse[]) => {
           this.fetchCourses(courses);
-        });
-      })
+        })
     );
   }
 }

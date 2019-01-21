@@ -37,16 +37,24 @@ export class CoursesService {
     return of(this.courses);
   }
 
-  createCourse(course: ICourse): void {
+  createCourse(course: ICourse): Observable<number> {
     this.courses.push(course);
+
+    const courseId: number = 1;
+
+    return of(courseId);
   }
 
-  getItemById(id: number): ICourse {
-    return this.courses.find((course: ICourse) => course.id === course[id]);
+  getItemById(id: number): Observable<ICourse> {
+    const course: ICourse = this.courses.find((c: ICourse) => c.id === id);
+
+    return of(course);
   }
 
-  updateItem(id: number, updatedCourse: ICourse): void {
+  updateItem(id: number, updatedCourse: ICourse): Observable<ICourse> {
     this.courses = [...this.courses.filter((course: ICourse) => course.id !== id), updatedCourse];
+
+    return of(updatedCourse);
   }
 
   removeItem(id: number): Observable<ICourse[]> {

@@ -12,6 +12,6 @@ import { OrderByPipe } from './orderBy-pipe/order-by.pipe';
 @NgModule({
   declarations: [CourseBorderDirective, DurationPipe, OrderByPipe, FilterByNamePipe, DialogComponent],
   imports: [CommonModule, MatDialogModule, MatButtonModule],
-  exports: [CourseBorderDirective, DurationPipe, OrderByPipe, MatButtonModule, MatDialogModule]
+  exports: [CourseBorderDirective, DurationPipe, OrderByPipe]
 })
 export class SharedModule {}

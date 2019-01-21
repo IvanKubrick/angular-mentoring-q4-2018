@@ -2,9 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { Course, ICourse } from '@app/shared';
-import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
-import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
+import { Course, CourseBorderDirective, DurationPipe, ICourse } from '@app/shared';
 import { CourseItemComponent } from './course-item.component';
 
 @Component({
