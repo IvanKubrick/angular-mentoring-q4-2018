@@ -5,7 +5,7 @@ import { filter, switchMap } from 'rxjs/operators';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
 import { CoursesService } from '../courses.service';
-import { DialogComponent } from './../../shared/dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
   selector: 'app-course-list',
