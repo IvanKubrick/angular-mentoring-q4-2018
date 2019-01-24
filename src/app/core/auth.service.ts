@@ -22,7 +22,7 @@ export class AuthService {
     this._isAuthenticated.next(true);
     window.console.log('logged in successfully');
 
-    const mockedUser: User = new User(0, 'Ivan', 'Hrushevich');
+    const mockedUser: IUser = new User(0, 'Ivan', 'Hrushevich');
 
     return of(mockedUser);
   }
@@ -33,13 +33,13 @@ export class AuthService {
     this._isAuthenticated.next(false);
     window.console.log('logout');
 
-    const mockedUser: User = new User(0, 'Ivan', 'Hrushevich');
+    const mockedUser: IUser = new User(0, 'Ivan', 'Hrushevich');
 
     return of(mockedUser);
   }
 
   getUserInfo(): Observable<IUser> {
-    const mockedUser: User = new User(0, 'Ivan', 'Hrushevich');
+    const mockedUser: IUser = new User(0, 'Ivan', 'Hrushevich');
 
     return of(mockedUser);
   }

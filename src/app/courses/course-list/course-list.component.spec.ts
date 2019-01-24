@@ -20,8 +20,7 @@ describe('CourseListComponent', () => {
       new Course(102, 'Angular test3', new Date(), 120, 'test', false)
     ];
 
-    // tslint:disable-next-line: no-unsafe-any
-    coursesServiceMock = jasmine.createSpyObj('CoursesService', ['getList']);
+    coursesServiceMock = jasmine.createSpyObj<CoursesService>('CoursesService', ['getList']);
     coursesServiceMock.getList.and.returnValue(of(courses));
 
     TestBed.configureTestingModule({
