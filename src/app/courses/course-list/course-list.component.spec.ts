@@ -4,7 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-import { Course, FilterByNamePipe, ICourse, OrderByPipe } from '@app/shared';
+import { createCoursesStub } from '@testing';
+
+import { FilterByNamePipe, ICourse, OrderByPipe } from '@app/shared';
 import { CoursesService } from '../courses.service';
 import { CourseListComponent } from './course-list.component';
 
@@ -12,13 +14,10 @@ describe('CourseListComponent', () => {
   let component: CourseListComponent;
   let fixture: ComponentFixture<CourseListComponent>;
   let coursesServiceMock: jasmine.SpyObj<CoursesService>;
+  let courses: ICourse[];
 
   beforeEach(async(() => {
-    const courses: ICourse[] = [
-      new Course(100, 'Angular test1', new Date(), 120, 'test', false),
-      new Course(101, 'Angular test2', new Date(), 120, 'test', false),
-      new Course(102, 'Angular test3', new Date(), 120, 'test', false)
-    ];
+    courses = createCoursesStub();
 
     coursesServiceMock = jasmine.createSpyObj<CoursesService>('CoursesService', ['getList']);
     coursesServiceMock.getList.and.returnValue(of(courses));
@@ -45,11 +44,7 @@ describe('CourseListComponent', () => {
   });
 
   it('should create the number of course-item components equal to courses array length', () => {
-    component.courses = [
-      new Course(100, 'Angular test1', new Date(), 120, 'test', false),
-      new Course(101, 'Angular test2', new Date(), 120, 'test', false),
-      new Course(102, 'Angular test3', new Date(), 120, 'test', false)
-    ];
+    component.courses = courses;
     fixture.detectChanges();
     const courseItemDeArr: DebugElement[] = fixture.debugElement.queryAll(By.css('app-course-item'));
 

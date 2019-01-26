@@ -9,19 +9,19 @@ import { CourseBorderDirective } from './course-border.directive';
     <div [appCourseBorder]="borderColor"></div>
   `
 })
-class TestComponent {
+class TestHostComponent {
   borderColor: string;
 }
 
 describe('CourseBorderDirective', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let component: TestComponent;
+  let fixture: ComponentFixture<TestHostComponent>;
+  let component: TestHostComponent;
   let de: DebugElement;
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [CourseBorderDirective, TestComponent]
-    }).createComponent(TestComponent);
+      declarations: [CourseBorderDirective, TestHostComponent]
+    }).createComponent(TestHostComponent);
 
     component = fixture.componentInstance;
 
@@ -34,7 +34,7 @@ describe('CourseBorderDirective', () => {
 
     component.borderColor = yesterday;
     fixture.detectChanges();
-    const borderColor: string = de.nativeElement.style.borderColor;
+    const borderColor: string = (<HTMLDivElement>de.nativeElement).style.borderColor;
 
     expect(borderColor).toBe('forestgreen');
   });
@@ -45,7 +45,7 @@ describe('CourseBorderDirective', () => {
 
     component.borderColor = tomorrow;
     fixture.detectChanges();
-    const borderColor: string = de.nativeElement.style.borderColor;
+    const borderColor: string = (<HTMLDivElement>de.nativeElement).style.borderColor;
 
     expect(borderColor).toBe('skyblue');
   });
@@ -55,7 +55,7 @@ describe('CourseBorderDirective', () => {
 
     component.borderColor = longAgo;
     fixture.detectChanges();
-    const borderColor: string = de.nativeElement.style.borderColor;
+    const borderColor: string = (<HTMLDivElement>de.nativeElement).style.borderColor;
 
     expect(borderColor).toBe('');
   });
