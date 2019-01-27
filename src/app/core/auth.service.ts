@@ -9,6 +9,7 @@ const lsKey: string = 'ngCourses';
 @Injectable()
 export class AuthService {
   userData: IAuthData;
+  user: IUser = new User(0, 'Ivan', 'Hrushevich');
 
   private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -22,9 +23,7 @@ export class AuthService {
     this._isAuthenticated.next(true);
     window.console.log('logged in successfully');
 
-    const mockedUser: IUser = new User(0, 'Ivan', 'Hrushevich');
-
-    return of(mockedUser);
+    return of(this.user);
   }
 
   logout(): Observable<IUser> {
@@ -33,14 +32,10 @@ export class AuthService {
     this._isAuthenticated.next(false);
     window.console.log('logout');
 
-    const mockedUser: IUser = new User(0, 'Ivan', 'Hrushevich');
-
-    return of(mockedUser);
+    return of(this.user);
   }
 
   getUserInfo(): Observable<IUser> {
-    const mockedUser: IUser = new User(0, 'Ivan', 'Hrushevich');
-
-    return of(mockedUser);
+    return of(this.user);
   }
 }
