@@ -1,24 +1,43 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
-import { Course1, ICourse } from '@app/shared';
-import { CourseBorderDirective } from './../../../shared/course-border/course-border.directive';
-import { DurationPipe } from './../../../shared/duration-pipe/duration.pipe';
+import { Course, CourseBorderDirective, DurationPipe, ICourse } from '@app/shared';
+import { Page } from '@testing';
+
 import { CourseItemComponent } from './course-item.component';
+
+class TestPage extends Page<TestHostComponent> {
+  get deleteButton(): HTMLButtonElement {
+    return super.query<HTMLButtonElement>('.button_delete');
+  }
+
+  get courseItem(): HTMLDivElement {
+    return super.query<HTMLDivElement>('.course-item__content');
+  }
+
+  constructor(fixture: ComponentFixture<TestHostComponent>) {
+    super(fixture);
+  }
+}
 
 @Component({
   template: `
-    <app-course-item [course]="course"></app-course-item>
+    <app-course-item [course]="course" (courseDeleted)="onCourseDeleted($event)"></app-course-item>
   `
 })
 class TestHostComponent {
   course: ICourse;
+  deletedCourseId: number;
+
+  onCourseDeleted(courseId: number): void {
+    this.deletedCourseId = courseId;
+  }
 }
 
 describe('CourseItemComponent', () => {
   let component: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
+  let page: TestPage;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +48,8 @@ describe('CourseItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);
     component = fixture.componentInstance;
+    component.course = new Course(100, 'Angular', new Date(0), 120, 'test description', true);
+    page = new TestPage(fixture);
     fixture.detectChanges();
   });
 
@@ -36,31 +57,28 @@ describe('CourseItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should emit event on "Delete" button click', () => {
+    page.deleteButton.click();
+    fixture.detectChanges();
+
+    expect(component.deletedCourseId).toBe(100);
+  });
+
   describe('should display appropriate', () => {
-    let courseItemDe: DebugElement;
-    let courseItemEl: HTMLDivElement;
-
-    beforeEach(() => {
-      courseItemDe = fixture.debugElement.query(By.css('.course-item__content'));
-      courseItemEl = <HTMLDivElement>courseItemDe.nativeElement;
-      component.course = new Course1(100, 'Angular', new Date(0), 120, 'test description', true);
-      fixture.detectChanges();
-    });
-
     it('title (in upper case)', () => {
-      expect(courseItemEl.querySelector('.course-content__title').textContent.trim()).toBe('ANGULAR');
+      expect(page.courseItem.querySelector('.course-content__title').textContent.trim()).toBe('ANGULAR');
     });
 
     it('date (formatted in a proper way)', () => {
-      expect(courseItemEl.querySelector('.course-content__date').textContent).toBe('01.01.1970');
+      expect(page.courseItem.querySelector('.course-content__date').textContent).toBe('01.01.1970');
     });
 
     it('duration (formatted in a proper way)', () => {
-      expect(courseItemEl.querySelector('.course-content__duration').textContent).toBe('2h 0min');
+      expect(page.courseItem.querySelector('.course-content__duration').textContent).toBe('2h 0min');
     });
 
     it('description', () => {
-      expect(courseItemEl.querySelector('.course-content__description').textContent).toBe('test description');
+      expect(page.courseItem.querySelector('.course-content__description').textContent).toBe('test description');
     });
   });
 });
