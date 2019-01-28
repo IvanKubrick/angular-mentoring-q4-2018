@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -12,12 +12,12 @@ import { skipUntil, takeUntil } from 'rxjs/operators';
   styleUrls: ['./new-course.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewCourseComponent implements OnInit {
+export class NewCourseComponent implements OnInit, OnDestroy {
   courseForm: FormGroup;
   duration: number;
 
-  private readonly _initialized = new Subject<void>();
-  private readonly _destroyed = new Subject<void>();
+  private readonly _initialized: Subject<void> = new Subject<void>();
+  private readonly _destroyed: Subject<void> = new Subject<void>();
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {
     this.courseForm = new FormGroup({
@@ -42,7 +42,7 @@ export class NewCourseComponent implements OnInit {
     this._initialized.next();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._initialized.complete();
     this._destroyed.next();
     this._destroyed.complete();

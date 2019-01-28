@@ -1,4 +1,4 @@
-import { DebugElement, ElementRef } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -17,7 +17,6 @@ describe('BreadcrumbsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -25,7 +24,7 @@ describe('BreadcrumbsComponent', () => {
   });
 
   it('should create the number of links equal to the length of breadcrumbs array', () => {
-    component.breadcrumbs = ['courses', 'angular', 'unit-testing'];
+    component.fetchedBreadcrumbs = ['courses', 'angular', 'unit-testing'];
     fixture.detectChanges();
     const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
     const breadcrumbsParentEl: HTMLDivElement = <HTMLDivElement>breadcrumbsDe.nativeElement;
@@ -35,7 +34,7 @@ describe('BreadcrumbsComponent', () => {
   });
 
   it('should not create links if breadcrumbs array is null', () => {
-    component.breadcrumbs = null;
+    component.fetchedBreadcrumbs = null;
     fixture.detectChanges();
     const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
     const breadcrumbsParentEl: HTMLDivElement = <HTMLDivElement>breadcrumbsDe.nativeElement;

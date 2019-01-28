@@ -26,8 +26,11 @@
         </mat-form-field>
         <div class="duration__text">{{ duration | duration }}</div>
       </div>
+      <div class="course-card__field"><app-authors></app-authors></div>
     </div>
-    <button class="course-card__button" type="submit" mat-raised-button color="primary">Save</button>
-    <button class="course-card__button" type="button" mat-button color="primary" (click)="onCancel()">Cancel</button>
+    <button class="course-card__button_save" type="submit" mat-raised-button color="primary">Save</button>
+    <button class="course-card__button_cancel" type="button" mat-button color="primary" (click)="onCancel()">
+      Cancel
+    </button>
   </form>
 </mat-card>
