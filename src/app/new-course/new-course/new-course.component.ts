@@ -54,4 +54,8 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   onCancel(): void {
     //
   }
+
+  onDateChanged(date: Date): void {
+    this.courseForm.patchValue({ date: date });
+  }
 }

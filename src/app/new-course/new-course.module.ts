@@ -11,10 +11,11 @@ import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@app/shared';
 
 import { AuthorsComponent } from './new-course/authors/authors.component';
+import { InputDateComponent } from './new-course/input-date/input-date.component';
 import { NewCourseComponent } from './new-course/new-course.component';
 
 @NgModule({
-  declarations: [NewCourseComponent, AuthorsComponent],
+  declarations: [NewCourseComponent, AuthorsComponent, InputDateComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,
