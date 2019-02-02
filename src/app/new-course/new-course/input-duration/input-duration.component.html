@@ -1,0 +1,15 @@
+<form [formGroup]="durationForm">
+  <div class="course-card__duration duration">
+    <mat-form-field class="duration__control">
+      <input
+        type="number"
+        min="10"
+        class="course-form__duration"
+        matInput
+        placeholder="Duration"
+        formControlName="duration"
+      />
+    </mat-form-field>
+    <div class="duration__text">{{ duration | duration }}</div>
+  </div>
+</form>

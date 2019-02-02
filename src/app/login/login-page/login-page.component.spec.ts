@@ -13,7 +13,7 @@ import { Page } from '@testing';
 
 import { LoginPageComponent } from './login-page.component';
 
-class TestPage extends Page<TestHostComponent> {
+class TestPage extends Page<LoginPageComponent> {
   get form(): HTMLFormElement {
     return super.query<HTMLFormElement>('form');
   }
@@ -27,21 +27,14 @@ class TestPage extends Page<TestHostComponent> {
     return super.query<HTMLInputElement>('.login-card__button');
   }
 
-  constructor(fixture: ComponentFixture<TestHostComponent>) {
+  constructor(fixture: ComponentFixture<LoginPageComponent>) {
     super(fixture);
   }
 }
 
-@Component({
-  template: `
-    <app-login-page></app-login-page>
-  `
-})
-class TestHostComponent {}
-
 describe('LoginPageComponent', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let component: LoginPageComponent;
+  let fixture: ComponentFixture<LoginPageComponent>;
   let page: TestPage;
 
   beforeEach(async(() => {
@@ -55,13 +48,13 @@ describe('LoginPageComponent', () => {
         MatButtonModule,
         BrowserAnimationsModule
       ],
-      declarations: [TestHostComponent, LoginPageComponent],
+      declarations: [LoginPageComponent, LoginPageComponent],
       providers: [{ provide: AuthService, useValue: {} }]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(LoginPageComponent);
     component = fixture.componentInstance;
     page = new TestPage(fixture);
     fixture.detectChanges();

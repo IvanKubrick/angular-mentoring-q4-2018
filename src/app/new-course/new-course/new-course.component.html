@@ -9,19 +9,7 @@
         <input class="course-form__description" matInput placeholder="Description" formControlName="description" />
       </mat-form-field>
       <app-input-date (dateChanged)="onDateChanged($event)"></app-input-date>
-      <div class="course-card__duration duration">
-        <mat-form-field class="duration__control">
-          <input
-            type="number"
-            min="10"
-            class="course-form__duration"
-            matInput
-            placeholder="Duration"
-            formControlName="duration"
-          />
-        </mat-form-field>
-        <div class="duration__text">{{ duration | duration }}</div>
-      </div>
+      <app-input-duration (durationChanged)="onDurationChanged($event)"></app-input-duration>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>
     <button class="course-card__button_save" type="submit" mat-raised-button color="primary">Save</button>

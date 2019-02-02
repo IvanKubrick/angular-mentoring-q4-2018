@@ -12,10 +12,11 @@ import { SharedModule } from '@app/shared';
 
 import { AuthorsComponent } from './new-course/authors/authors.component';
 import { InputDateComponent } from './new-course/input-date/input-date.component';
+import { InputDurationComponent } from './new-course/input-duration/input-duration.component';
 import { NewCourseComponent } from './new-course/new-course.component';
 
 @NgModule({
-  declarations: [NewCourseComponent, AuthorsComponent, InputDateComponent],
+  declarations: [NewCourseComponent, AuthorsComponent, InputDateComponent, InputDurationComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,

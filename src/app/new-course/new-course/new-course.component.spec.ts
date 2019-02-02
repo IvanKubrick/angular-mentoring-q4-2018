@@ -14,9 +14,11 @@ import { SharedModule } from '@app/shared';
 import { Page } from '@testing';
 
 import { AuthorsComponent } from './authors/authors.component';
+import { InputDateComponent } from './input-date/input-date.component';
+import { InputDurationComponent } from './input-duration/input-duration.component';
 import { NewCourseComponent } from './new-course.component';
 
-class TestPage extends Page<TestHostComponent> {
+class TestPage extends Page<NewCourseComponent> {
   get form(): HTMLFormElement {
     return super.query<HTMLFormElement>('form');
   }
@@ -42,21 +44,14 @@ class TestPage extends Page<TestHostComponent> {
     return super.query<HTMLInputElement>('.course-card__button_cancel');
   }
 
-  constructor(fixture: ComponentFixture<TestHostComponent>) {
+  constructor(fixture: ComponentFixture<NewCourseComponent>) {
     super(fixture);
   }
 }
 
-@Component({
-  template: `
-    <app-new-course></app-new-course>
-  `
-})
-class TestHostComponent {}
-
 describe('NewCourseComponent', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let component: NewCourseComponent;
+  let fixture: ComponentFixture<NewCourseComponent>;
   let page: TestPage;
 
   beforeEach(async(() => {
@@ -73,14 +68,13 @@ describe('NewCourseComponent', () => {
         MatNativeDateModule,
         SharedModule
       ],
-      declarations: [TestHostComponent, NewCourseComponent, AuthorsComponent],
-      providers: [{ provide: AuthService, useValue: {} }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      declarations: [NewCourseComponent, AuthorsComponent, InputDurationComponent, InputDateComponent],
+      providers: [{ provide: AuthService, useValue: {} }]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(NewCourseComponent);
     component = fixture.componentInstance;
     page = new TestPage(fixture);
     fixture.detectChanges();
