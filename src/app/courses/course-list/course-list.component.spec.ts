@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
@@ -9,39 +9,32 @@ import { FilterByNamePipe, ICourse, OrderByPipe } from '@app/shared';
 import { CoursesService } from '../courses.service';
 import { CourseListComponent } from './course-list.component';
 
-class TestPage extends Page<TestHostComponent> {
+class TestPage extends Page<CourseListComponent> {
   get courseItems(): HTMLElement[] {
     return super.queryAll<HTMLElement>('app-course-item');
   }
 
-  constructor(fixture: ComponentFixture<TestHostComponent>) {
+  constructor(fixture: ComponentFixture<CourseListComponent>) {
     super(fixture);
   }
 }
 
-@Component({
-  template: `
-    <app-course-list></app-course-list>
-  `
-})
-class TestHostComponent {}
-
 describe('CourseListComponent', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let component: CourseListComponent;
+  let fixture: ComponentFixture<CourseListComponent>;
   let page: TestPage;
   let coursesService: CoursesService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHostComponent, CourseListComponent, OrderByPipe, FilterByNamePipe],
+      declarations: [CourseListComponent, OrderByPipe, FilterByNamePipe],
       providers: [FilterByNamePipe, CoursesService, { provide: MatDialog, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
     page = new TestPage(fixture);
     // tslint:disable-next-line: no-unsafe-any

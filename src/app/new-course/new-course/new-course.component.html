@@ -1,0 +1,20 @@
+<mat-card class="course-card">
+  <mat-card-title class="course-card__title">New Course</mat-card-title>
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div class="course-card__form course-form">
+      <mat-form-field class="course-card__field">
+        <input class="course-form__title" matInput placeholder="Title" formControlName="title" />
+      </mat-form-field>
+      <mat-form-field class="course-card__field">
+        <input class="course-form__description" matInput placeholder="Description" formControlName="description" />
+      </mat-form-field>
+      <app-input-date (dateChanged)="onDateChanged($event)"></app-input-date>
+      <app-input-duration (durationChanged)="onDurationChanged($event)"></app-input-duration>
+      <div class="course-card__field"><app-authors></app-authors></div>
+    </div>
+    <button class="course-card__button_save" type="submit" mat-raised-button color="primary">Save</button>
+    <button class="course-card__button_cancel" type="button" mat-button color="primary" (click)="onCancel()">
+      Cancel
+    </button>
+  </form>
+</mat-card>

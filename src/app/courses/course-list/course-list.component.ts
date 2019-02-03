@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
@@ -10,7 +10,8 @@ import { DialogComponent } from './dialog/dialog.component';
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.scss']
+  styleUrls: ['./course-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseListComponent implements OnInit, OnDestroy {
   courses: ICourse[];
@@ -20,7 +21,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
   constructor(
     private readonly filterByNamePipe: FilterByNamePipe,
     private readonly coursesService: CoursesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   private fetchCourses(courses: ICourse[]): void {
     this.fetchedCourses = courses;
     this.courses = courses;
+    this.changeDetectorRef.markForCheck();
   }
 
   private removeItem(courseId: number): void {

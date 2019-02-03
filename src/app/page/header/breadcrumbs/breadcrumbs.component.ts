@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
-  styleUrls: ['./breadcrumbs.component.scss']
+  styleUrls: ['./breadcrumbs.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BreadcrumbsComponent implements OnInit {
   breadcrumbs: string[];
+  fetchedBreadcrumbs: string[] = ['courses'];
 
   ngOnInit(): void {
-    this.breadcrumbs = ['courses'];
+    this.breadcrumbs = this.fetchedBreadcrumbs;
   }
 }

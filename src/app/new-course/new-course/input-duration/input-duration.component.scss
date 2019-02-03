@@ -1,0 +1,22 @@
+@import 'src/styles/mixins';
+
+.duration {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 24rem;
+  margin-bottom: 1rem;
+
+  @include tablet {
+    flex-direction: row;
+  }
+
+  &__control {
+    width: 12rem;
+  }
+
+  &__text {
+    width: 10rem;
+  }
+}
