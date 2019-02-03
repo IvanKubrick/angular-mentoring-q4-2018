@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { createCoursesStub, Page } from '@testing';
@@ -27,6 +28,7 @@ describe('CourseListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [CourseListComponent, OrderByPipe, FilterByNamePipe],
       providers: [FilterByNamePipe, CoursesService, { provide: MatDialog, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

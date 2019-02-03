@@ -10,7 +10,7 @@
     <div class="course-content__description">{{ course?.description }}</div>
   </div>
   <div class="course-item__controls">
-    <button class="button button_blue button_edit">Edit</button>
+    <button class="button button_blue button_edit" (click)="onEditClick()">Edit</button>
     <button class="button button_blue button_delete" (click)="onDeleteClick()">Delete</button>
   </div>
 </div>

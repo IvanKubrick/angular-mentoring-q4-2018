@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
@@ -22,7 +23,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
     private readonly filterByNamePipe: FilterByNamePipe,
     private readonly coursesService: CoursesService,
     public dialog: MatDialog,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,12 +52,20 @@ export class CourseListComponent implements OnInit, OnDestroy {
       });
   }
 
+  onCourseEditClicked(courseId: number): void {
+    this.router.navigate(['/courses', courseId]);
+  }
+
   onLoadMoreButtonClick(): void {
     window.console.log('Load more');
   }
 
   onSearchButtonClicked(searchString: string): void {
     this.courses = this.filterByNamePipe.transform(this.fetchedCourses, searchString);
+  }
+
+  onAddCourseButtonClicked(): void {
+    this.router.navigate(['/courses/new']);
   }
 
   private fetchCourses(courses: ICourse[]): void {
