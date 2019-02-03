@@ -24,7 +24,6 @@ export class NewCourseComponent {
 
   onSubmit(): void {
     //
-    console.log(this.courseForm.value);
   }
   onCancel(): void {
     //
