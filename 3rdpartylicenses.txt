@@ -339,6 +339,8 @@ THE SOFTWARE.
 
 @angular/material/dialog
 
+@angular/material/datepicker
+
 zone.js
 MIT
 The MIT License
