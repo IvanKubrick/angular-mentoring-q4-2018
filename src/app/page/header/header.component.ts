@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Subscription, of } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { ICourse } from '@app/shared';
+
+import { CoursesService } from 'src/app/courses/courses.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +16,7 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userName: string = 'Ivan Hrushevich';
-  breadcrumbs: string[];
+  breadcrumb: string;
 
   private _isLoggedIn: boolean;
   private readonly _subscriptions: Subscription[] = [];
@@ -24,6 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly authService: AuthService,
+    private readonly coursesService: CoursesService,
     private readonly router: Router,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -39,13 +43,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter((event: RouterEvent) => event instanceof NavigationEnd && event.url.indexOf('/courses') === 0),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        map((event: NavigationEnd) => {
+          return event.url
+            .slice(1)
+            .split('/')
+            .slice(1)[0];
+        }),
+        switchMap((breadcrumb: string | undefined) => {
+          if (breadcrumb === 'new') {
+            return of('new');
+          }
+
+          return breadcrumb ? this.coursesService.getItemById(Number(breadcrumb)) : of(null);
+        })
       )
-      .subscribe(
-        (event: NavigationEnd): void => {
-          this.createBreadCrumbs(event.url);
+      .subscribe((value: ICourse | 'new') => {
+        if (value === 'new') {
+          this.breadcrumb = 'new';
+        } else if (value && value.title) {
+          this.breadcrumb = value.title;
+        } else {
+          this.breadcrumb = '';
         }
-      );
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   ngOnDestroy(): void {
@@ -60,10 +82,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.router.navigate(['/login']);
       })
     );
-  }
-
-  private createBreadCrumbs(url: string): void {
-    this.breadcrumbs = url.slice(1).split('/');
-    this.changeDetectorRef.markForCheck();
   }
 }
