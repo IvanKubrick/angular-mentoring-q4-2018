@@ -10,6 +10,6 @@
         <button class="button button-log-off" type="button" (click)="onLogOffClick()">Log Off</button>
       </div>
     </div>
-    <app-breadcrumbs *ngIf="isLoggedIn"></app-breadcrumbs>
+    <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
   </div>
 </header>

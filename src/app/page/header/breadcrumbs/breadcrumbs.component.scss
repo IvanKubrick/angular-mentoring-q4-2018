@@ -5,11 +5,12 @@
 .breadcrumbs__item {
   position: relative;
   margin: 0 0.5rem;
+  color: #000;
 
-  &:after {
+  & + &:before {
     position: absolute;
     content: '/';
-    padding-left: 6px;
+    left: -10px;
     color: #000;
   }
 }

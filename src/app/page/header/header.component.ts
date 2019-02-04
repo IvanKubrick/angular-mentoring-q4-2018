@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '@app/core';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,7 @@ import { AuthService } from '@app/core';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userName: string = 'Ivan Hrushevich';
+  breadcrumbs: string[];
 
   private _isLoggedIn: boolean;
   private readonly _subscriptions: Subscription[] = [];
@@ -20,14 +22,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this._isLoggedIn;
   }
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this._subscriptions.push(
       this.authService.isAuthenticated.subscribe((value: boolean) => {
         this._isLoggedIn = value;
+        this.changeDetectorRef.markForCheck();
       })
     );
+
+    this.router.events
+      .pipe(
+        filter((event: RouterEvent) => event instanceof NavigationEnd && event.url.indexOf('/courses') === 0),
+        distinctUntilChanged()
+      )
+      .subscribe(
+        (event: NavigationEnd): void => {
+          this.createBreadCrumbs(event.url);
+        }
+      );
   }
 
   ngOnDestroy(): void {
@@ -42,5 +61,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       })
     );
+  }
+
+  private createBreadCrumbs(url: string): void {
+    this.breadcrumbs = url.slice(1).split('/');
+    this.changeDetectorRef.markForCheck();
   }
 }

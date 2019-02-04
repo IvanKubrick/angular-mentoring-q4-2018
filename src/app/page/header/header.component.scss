@@ -3,6 +3,8 @@
 .header {
   @include gradient-bg;
 
+  height: 8.5rem;
+
   color: #fff;
 
   &__container {
