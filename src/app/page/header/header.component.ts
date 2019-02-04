@@ -25,13 +25,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this._subscriptions.push(
-      this.authService.isAuthenticated.subscribe((value: boolean) => {
+      this.authService.isAuthenticated$.subscribe((value: boolean) => {
         this._isLoggedIn = value;
         this.changeDetectorRef.markForCheck();
       })
@@ -58,7 +57,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogOffClick(): void {
     this._subscriptions.push(
       this.authService.logout().subscribe(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       })
     );
   }

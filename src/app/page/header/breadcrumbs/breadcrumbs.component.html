@@ -1,4 +1,4 @@
-<div *ngIf="breadcrumbs.length" class="breadcrumbs">
+<div class="breadcrumbs">
   <a class="link breadcrumbs__item" routerLink="/courses">Courses</a>
   <span class="breadcrumbs__item" *ngFor="let breadcrumb of (breadcrumbs | slice: 1)">{{ breadcrumb }}</span>
 </div>

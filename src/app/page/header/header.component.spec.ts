@@ -16,7 +16,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     const authServiceStub: Partial<AuthService> = {
-      get isAuthenticated(): Observable<boolean> {
+      get isAuthenticated$(): Observable<boolean> {
         return of(true);
       },
       login(): Observable<IUser> {
