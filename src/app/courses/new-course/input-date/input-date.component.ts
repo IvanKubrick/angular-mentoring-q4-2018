@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { skipUntil, takeUntil } from 'rxjs/operators';
@@ -10,6 +10,8 @@ import { skipUntil, takeUntil } from 'rxjs/operators';
 })
 export class InputDateComponent implements OnInit, OnDestroy {
   dateForm: FormGroup;
+
+  @Input() date: Date;
 
   @Output() dateChanged: EventEmitter<Date> = new EventEmitter<Date>();
 
