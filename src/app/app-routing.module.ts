@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'courses/new', component: NewCourseComponent },
   { path: 'courses/:id', component: NewCourseComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: 'unauthorized', loadChildren: './unauthorized/unauthorized.module#UnauthorizedModule' },
   { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
   { path: '', redirectTo: '/courses', pathMatch: 'full' },
   { path: '**', redirectTo: 'not-found' }
