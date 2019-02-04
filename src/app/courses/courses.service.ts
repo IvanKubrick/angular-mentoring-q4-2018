@@ -48,7 +48,11 @@ export class CoursesService {
     return of(this.courses);
   }
 
-  createCourse(course: ICourse): Observable<number> {
+  createCourse(courseForm: ICourse): Observable<number> {
+    const course: ICourse = {
+      ...courseForm,
+      id: this.courses.length
+    };
     this.courses.push(course);
 
     return of(course.id);

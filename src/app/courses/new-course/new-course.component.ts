@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Route, Router } from '@angular/router';
 import { ICourse } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
-import { AuthService } from '@app/core';
 import { CoursesService } from '../courses.service';
 
 @Component({
@@ -19,19 +18,20 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   date: Date;
   duration: number;
 
+  private _editMode: boolean = false;
+  private _activeCourseId: number;
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
 
   constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly coursesService: CoursesService
   ) {
     this.courseForm = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.minLength(4)]),
       description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
-      date: new FormControl(null, Validators.required),
+      creationDate: new FormControl(null, Validators.required),
       duration: new FormControl(null, [Validators.required, Validators.min(10)])
     });
   }
@@ -40,9 +40,12 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this.route.paramMap
       .pipe(
         takeUntil(this._destroyed),
+        filter((params: ParamMap) => Boolean(params.get('id'))),
         switchMap(
           (params: ParamMap): Observable<ICourse> => {
+            this._editMode = true;
             const courseId: number = Number(params.get('id'));
+            this._activeCourseId = courseId;
 
             return this.coursesService.getItemById(courseId);
           }
@@ -60,14 +63,26 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    //
+    if (this._editMode) {
+      this.coursesService.updateItem(this._activeCourseId, <ICourse>this.courseForm.value).subscribe(
+        (course: ICourse): void => {
+          this.router.navigate(['/courses']);
+        }
+      );
+    } else {
+      this.coursesService.createCourse(<ICourse>this.courseForm.value).subscribe(
+        (courseId: number): void => {
+          this.router.navigate(['/courses']);
+        }
+      );
+    }
   }
   onCancel(): void {
-    //
+    this.router.navigate(['/courses']);
   }
 
   onDateChanged(date: Date): void {
-    this.courseForm.patchValue({ date: date });
+    this.courseForm.patchValue({ creationDate: date });
   }
   onDurationChanged(duration: number): void {
     this.courseForm.patchValue({ duration: duration });
@@ -78,7 +93,7 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this.courseForm.patchValue({
       title: course.title,
       description: course.description,
-      date: course.creationDate,
+      creationDate: course.creationDate,
       duration: course.duration
     });
     this.date = course.creationDate;
