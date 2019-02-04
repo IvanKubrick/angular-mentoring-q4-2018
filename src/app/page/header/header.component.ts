@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { Subscription, of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
@@ -55,13 +55,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
             return of('new');
           }
 
-          return breadcrumb ? this.coursesService.getItemById(Number(breadcrumb)) : of(null);
+          return Boolean(breadcrumb) ? this.coursesService.getItemById(Number(breadcrumb)) : of(null);
         })
       )
       .subscribe((value: ICourse | 'new') => {
         if (value === 'new') {
           this.breadcrumb = 'new';
-        } else if (value && value.title) {
+        } else if (Boolean(value) && Boolean(value.title)) {
           this.breadcrumb = value.title;
         } else {
           this.breadcrumb = '';
