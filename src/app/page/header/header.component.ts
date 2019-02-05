@@ -39,7 +39,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.markForCheck();
       })
     );
+    this.subscribeForRouterEvents();
+  }
 
+  ngOnDestroy(): void {
+    this._subscriptions.forEach((s: Subscription) => {
+      s.unsubscribe();
+    });
+  }
+
+  onLogOffClick(): void {
+    this._subscriptions.push(
+      this.authService.logout().subscribe(() => {
+        this.router.navigate(['/login']);
+      })
+    );
+  }
+
+  private subscribeForRouterEvents(): void {
     this.router.events
       .pipe(
         filter((event: RouterEvent) => event instanceof NavigationEnd && event.url.indexOf('/courses') === 0),
@@ -68,19 +85,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
         this.changeDetectorRef.markForCheck();
       });
-  }
-
-  ngOnDestroy(): void {
-    this._subscriptions.forEach((s: Subscription) => {
-      s.unsubscribe();
-    });
-  }
-
-  onLogOffClick(): void {
-    this._subscriptions.push(
-      this.authService.logout().subscribe(() => {
-        this.router.navigate(['/login']);
-      })
-    );
   }
 }
