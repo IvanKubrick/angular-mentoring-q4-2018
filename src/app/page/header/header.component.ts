@@ -75,15 +75,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
           return Boolean(breadcrumb) ? this.coursesService.getItemById(Number(breadcrumb)) : of(null);
         })
       )
-      .subscribe((value: ICourse | 'new') => {
-        if (value === 'new') {
-          this.breadcrumb = 'new';
-        } else if (Boolean(value) && Boolean(value.title)) {
-          this.breadcrumb = value.title;
-        } else {
-          this.breadcrumb = '';
-        }
-        this.changeDetectorRef.markForCheck();
-      });
+      .subscribe(this.createBreadcrumbs);
   }
+
+  private createBreadcrumbs = (value: ICourse | 'new'): void => {
+    if (value === 'new') {
+      this.breadcrumb = 'new';
+    } else if (Boolean(value) && Boolean(value.title)) {
+      this.breadcrumb = value.title;
+    } else {
+      this.breadcrumb = '';
+    }
+    this.changeDetectorRef.markForCheck();
+  };
 }
