@@ -15,8 +15,8 @@ import { DialogComponent } from './dialog/dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  courses: ICourse[];
-  private fetchedCourses: ICourse[];
+  courses: ICourse[] = [];
+  private loadMoreClickNumber: number = 0;
   private readonly _subscriptions: Subscription[] = [];
 
   constructor(
@@ -28,17 +28,21 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this._subscriptions.push(
-      this.coursesService.getList().subscribe((courses: ICourse[]) => {
-        this.fetchCourses(courses);
-      })
-    );
+    this.getCourses();
   }
 
   ngOnDestroy(): void {
     this._subscriptions.forEach((s: Subscription) => {
       s.unsubscribe();
     });
+  }
+
+  getCourses(): void {
+    this._subscriptions.push(
+      this.coursesService.getList(this.loadMoreClickNumber * 5).subscribe((courses: ICourse[]) => {
+        this.updateCourseList(courses);
+      })
+    );
   }
 
   onCourseDeleted(courseId: number): void {
@@ -57,20 +61,20 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   onLoadMoreButtonClick(): void {
-    window.console.log('Load more');
+    this.loadMoreClickNumber = this.loadMoreClickNumber + 1;
+    this.getCourses();
   }
 
   onSearchButtonClicked(searchString: string): void {
-    this.courses = this.filterByNamePipe.transform(this.fetchedCourses, searchString);
+    // this.courses = this.filterByNamePipe.transform(this.fetchedCourses, searchString);
   }
 
   onAddCourseButtonClicked(): void {
     this.router.navigate(['/courses', 'new']);
   }
 
-  private fetchCourses(courses: ICourse[]): void {
-    this.fetchedCourses = courses;
-    this.courses = courses;
+  private updateCourseList(courses: ICourse[]): void {
+    this.courses.push(...courses);
     this.changeDetectorRef.markForCheck();
   }
 
@@ -78,9 +82,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this._subscriptions.push(
       this.coursesService
         .removeItem(courseId)
-        .pipe(switchMap(() => this.coursesService.getList()))
+        .pipe(switchMap(() => this.coursesService.getList(this.loadMoreClickNumber * 5)))
         .subscribe((courses: ICourse[]) => {
-          this.fetchCourses(courses);
+          this.courses = [];
+          this.updateCourseList(courses);
         })
     );
   }

@@ -21,8 +21,8 @@ describe('CoursesService', () => {
 
   beforeEach(() => {
     course = {
-      title: 'Angular Basics',
-      creationDate: new Date(0),
+      name: 'Angular Basics',
+      date: new Date(0),
       duration: 120,
       description: 'description'
     };

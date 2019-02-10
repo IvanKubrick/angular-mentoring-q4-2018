@@ -8,9 +8,7 @@ export class OrderByPipe implements PipeTransform {
   transform(courses: ICourse[], filter: string): ICourse[] {
     switch (filter) {
       case 'date':
-        return courses.sort(
-          (course1: ICourse, course2: ICourse) => Number(course1.creationDate) - Number(course2.creationDate)
-        );
+        return courses.sort((course1: ICourse, course2: ICourse) => Number(course1.date) - Number(course2.date));
 
       case 'duration':
         return courses.sort(

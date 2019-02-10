@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { IAuthData, IUser, User } from '@app/shared';
@@ -15,9 +16,11 @@ export class AuthService {
     return this._isAuthenticated.asObservable();
   }
 
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean = true;
 
   private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  constructor(private readonly http: HttpClient) {}
 
   login(authData: IAuthData): Observable<IUser> {
     this.userData = authData;
@@ -28,6 +31,15 @@ export class AuthService {
 
     return of(this.user);
   }
+  // login(authData: IAuthData): Observable<IUser> {
+  //   const url: string = 'http://localhost:3004/auth/login';
+  //   // const params: {} = {
+  //   // login: 'Sparks',
+  //   // password: 'consectetur'
+  //   // };
+
+  //   return this.http.post<IUser>(url, { login: 'Warner', password: 'ea' });
+  // }
 
   logout(): Observable<IUser> {
     localStorage.removeItem(lsKey);

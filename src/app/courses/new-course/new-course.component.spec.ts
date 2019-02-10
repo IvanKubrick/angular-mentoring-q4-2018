@@ -86,11 +86,11 @@ describe('NewCourseComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update creationDate property of form on "onDateChanged" event', () => {
+  it('should update date property of form on "onDateChanged" event', () => {
     const date: Date = new Date(2020, 1, 1);
     component.onDateChanged(date);
     fixture.detectChanges();
-    expect(component.courseForm.get('creationDate').value).toBe(date);
+    expect(component.courseForm.get('date').value).toBe(date);
   });
 
   it('should update duration property of form on "onDurationChanged" event', () => {

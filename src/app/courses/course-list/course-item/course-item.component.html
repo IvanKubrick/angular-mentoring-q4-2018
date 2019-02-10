@@ -1,11 +1,11 @@
-<div class="course-item" [appCourseBorder]="course?.creationDate?.toISOString()">
+<div class="course-item" [appCourseBorder]="course?.date">
   <div class="course-item__content course-content">
     <div class="course-content__header">
       <h2 class="course-content__title" [ngClass]="{ 'course-content__title_top-rated': course?.topRated }">
-        {{ course?.title | uppercase }}
+        {{ course?.name | uppercase }}
       </h2>
       <span class="course-content__duration">{{ course?.duration | duration }}</span>
-      <span class="course-content__date">{{ course?.creationDate | date: 'MM.dd.yyyy' }}</span>
+      <span class="course-content__date">{{ course?.date | date: 'MM.dd.yyyy' }}</span>
     </div>
     <div class="course-content__description">{{ course?.description }}</div>
   </div>

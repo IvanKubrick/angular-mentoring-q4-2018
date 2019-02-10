@@ -4,7 +4,7 @@
     (addCourseButtonClicked)="onAddCourseButtonClicked()"
   ></app-search>
   <app-course-item
-    *ngFor="let course of (courses | orderBy: 'date')"
+    *ngFor="let course of courses"
     [course]="course"
     (courseDeleted)="onCourseDeleted($event)"
     (courseEditClicked)="onCourseEditClicked($event)"

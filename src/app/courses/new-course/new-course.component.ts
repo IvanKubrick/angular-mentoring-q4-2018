@@ -29,9 +29,9 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     private readonly coursesService: CoursesService
   ) {
     this.courseForm = new FormGroup({
-      title: new FormControl(null, [Validators.required, Validators.minLength(4)]),
+      name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
       description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
-      creationDate: new FormControl(null, Validators.required),
+      date: new FormControl(null, Validators.required),
       duration: new FormControl(null, [Validators.required, Validators.min(10)])
     });
   }
@@ -82,7 +82,7 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   }
 
   onDateChanged(date: Date): void {
-    this.courseForm.patchValue({ creationDate: date });
+    this.courseForm.patchValue({ date: date });
   }
   onDurationChanged(duration: number): void {
     this.courseForm.patchValue({ duration: duration });
@@ -91,12 +91,12 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   private patchForm(course: ICourse): void {
     window.console.log(course);
     this.courseForm.patchValue({
-      title: course.title,
+      name: course.name,
       description: course.description,
-      creationDate: course.creationDate,
+      date: course.date,
       duration: course.duration
     });
-    this.date = course.creationDate;
+    this.date = course.date;
     this.duration = course.duration;
   }
 }

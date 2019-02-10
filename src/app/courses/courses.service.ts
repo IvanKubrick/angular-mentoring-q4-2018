@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 
@@ -44,8 +45,16 @@ export class CoursesService {
     )
   ];
 
-  getList(): Observable<ICourse[]> {
-    return of(this.courses);
+  constructor(private readonly http: HttpClient) {}
+
+  getList(start: number): Observable<ICourse[]> {
+    const url: string = 'http://localhost:3004/courses';
+    const params: {} = {
+      start: start,
+      count: 5
+    };
+
+    return this.http.get<ICourse[]>(url, { params });
   }
 
   createCourse(courseForm: ICourse): Observable<number> {
@@ -59,9 +68,9 @@ export class CoursesService {
   }
 
   getItemById(id: number): Observable<ICourse> {
-    const course: ICourse = this.courses.find((c: ICourse) => c.id === id);
+    const url: string = `http://localhost:3004/courses/${id}`;
 
-    return of(course);
+    return this.http.get<ICourse>(url);
   }
 
   updateItem(id: number, updatedCourse: ICourse): Observable<ICourse> {
