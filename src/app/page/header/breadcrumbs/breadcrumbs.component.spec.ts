@@ -1,45 +1,59 @@
-import { DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+
+import { Page } from '@testing';
 
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 
+class TestPage extends Page<TestHostComponent> {
+  get breadcrumb(): HTMLSpanElement {
+    return super.query<HTMLSpanElement>('span.breadcrumbs__item');
+  }
+
+  constructor(fixture: ComponentFixture<TestHostComponent>) {
+    super(fixture);
+  }
+}
+
+@Component({
+  template: `
+    <app-breadcrumbs [breadcrumb]="breadcrumb"></app-breadcrumbs>
+  `
+})
+class TestHostComponent {
+  breadcrumb: string;
+}
+
 describe('BreadcrumbsComponent', () => {
-  let component: BreadcrumbsComponent;
-  let fixture: ComponentFixture<BreadcrumbsComponent>;
+  let component: TestHostComponent;
+  let fixture: ComponentFixture<TestHostComponent>;
+  let page: TestPage;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BreadcrumbsComponent]
+      declarations: [TestHostComponent, BreadcrumbsComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BreadcrumbsComponent);
+    fixture = TestBed.createComponent(TestHostComponent);
     component = fixture.componentInstance;
+    component.breadcrumb = 'test';
+    page = new TestPage(fixture);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create the number of links equal to the length of breadcrumbs array', () => {
-    // component.fetchedBreadcrumbs = ['courses', 'angular', 'unit-testing'];
-    fixture.detectChanges();
-    const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
-    const breadcrumbsParentEl: HTMLDivElement = <HTMLDivElement>breadcrumbsDe.nativeElement;
-    const breadcrumbsEls: NodeListOf<HTMLAnchorElement> = breadcrumbsParentEl.querySelectorAll('.breadcrumbs__item');
-
-    expect(breadcrumbsEls.length).toEqual(3);
+  it('should show correct breadcrumb received via Input', () => {
+    expect(page.breadcrumb.textContent).toBe('test');
   });
 
-  it('should not create links if breadcrumbs array is null', () => {
-    // component.fetchedBreadcrumbs = null;
+  it('should be empty if Input is null', () => {
+    component.breadcrumb = null;
     fixture.detectChanges();
-    const breadcrumbsDe: DebugElement = fixture.debugElement.query(By.css('.breadcrumbs'));
-    const breadcrumbsParentEl: HTMLDivElement = <HTMLDivElement>breadcrumbsDe.nativeElement;
-    const breadcrumbsEls: NodeListOf<HTMLAnchorElement> = breadcrumbsParentEl.querySelectorAll('.breadcrumbs__item');
-
-    expect(breadcrumbsEls.length).toEqual(0);
+    expect(page.breadcrumb.textContent).toBe('');
   });
 });
