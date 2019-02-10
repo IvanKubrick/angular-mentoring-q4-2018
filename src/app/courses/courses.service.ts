@@ -65,9 +65,10 @@ export class CoursesService {
   }
 
   updateItem(id: number, updatedCourse: ICourse): Observable<ICourse> {
-    this.courses = [...this.courses.filter((course: ICourse) => course.id !== id), updatedCourse];
+    this.courses = [...this.courses.filter((course: ICourse) => course.id !== id), { ...updatedCourse, id }];
+    const newCourse: ICourse = this.courses.find((course: ICourse) => course.id === id);
 
-    return of(updatedCourse);
+    return of(newCourse);
   }
 
   removeItem(id: number): Observable<ICourse[]> {

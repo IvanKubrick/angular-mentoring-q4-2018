@@ -2,6 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from '@app/core';
 
@@ -13,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@app/shared';
 import { Page } from '@testing';
 
+import { CoursesService } from '../courses.service';
 import { AuthorsComponent } from './authors/authors.component';
 import { InputDateComponent } from './input-date/input-date.component';
 import { InputDurationComponent } from './input-duration/input-duration.component';
@@ -69,7 +71,7 @@ describe('NewCourseComponent', () => {
         SharedModule
       ],
       declarations: [NewCourseComponent, AuthorsComponent, InputDurationComponent, InputDateComponent],
-      providers: [{ provide: AuthService, useValue: {} }]
+      providers: [{ provide: AuthService, useValue: {} }, { provide: CoursesService, useValue: {} }]
     }).compileComponents();
   }));
 
@@ -82,6 +84,27 @@ describe('NewCourseComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should update creationDate property of form on "onDateChanged" event', () => {
+    const date: Date = new Date(2020, 1, 1);
+    component.onDateChanged(date);
+    fixture.detectChanges();
+    expect(component.courseForm.get('creationDate').value).toBe(date);
+  });
+
+  it('should update duration property of form on "onDurationChanged" event', () => {
+    const duration: number = 777;
+    component.onDurationChanged(duration);
+    fixture.detectChanges();
+    expect(component.courseForm.get('duration').value).toBe(duration);
+  });
+
+  it('shoul redirect to "courses" page on "Cancel" button click', () => {
+    const navigateSpy: jasmine.Spy = spyOn(TestBed.get(Router), 'navigate');
+    page.cancelButton.click();
+    expect(navigateSpy).toHaveBeenCalledTimes(1);
+    expect(navigateSpy).toHaveBeenCalledWith(['/courses']);
   });
 
   describe('form should be', () => {

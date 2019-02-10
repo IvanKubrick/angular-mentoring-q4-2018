@@ -20,7 +20,12 @@ describe('CoursesService', () => {
   let course: ICourse;
 
   beforeEach(() => {
-    course = new Course(1, 'Angular Basics', new Date(0), 120, 'test', false);
+    course = {
+      title: 'Angular Basics',
+      creationDate: new Date(0),
+      duration: 120,
+      description: 'description'
+    };
 
     TestBed.configureTestingModule({
       providers: [CoursesService]
@@ -41,21 +46,22 @@ describe('CoursesService', () => {
 
   it('should return created course id on createCourse', inject([CoursesService], (service: CoursesService) => {
     service.createCourse(course).subscribe((courseId: number) => {
-      expect(courseId).toBe(1);
+      expect(typeof courseId).toBe('number');
     });
   }));
 
   it('should return proper course by id on getItemById', inject([CoursesService], (service: CoursesService) => {
-    service.getItemById(course.id).subscribe((fetchedCourse: ICourse) => {
+    const requestedId: number = 1;
+    service.getItemById(requestedId).subscribe((fetchedCourse: ICourse) => {
       expect(fetchedCourse instanceof Course).toBeTruthy();
-      expect(fetchedCourse.id).toBe(1);
+      expect(fetchedCourse.id).toBe(requestedId);
     });
   }));
 
   it('should return updated course on updateItem', inject([CoursesService], (service: CoursesService) => {
-    service.updateItem(course.id, course).subscribe((fetchedCourse: ICourse) => {
-      expect(fetchedCourse instanceof Course).toBeTruthy();
-      expect(fetchedCourse).toEqual(course);
+    const requestedId: number = 1;
+    service.updateItem(requestedId, course).subscribe((fetchedCourse: ICourse) => {
+      expect(fetchedCourse.id).toBe(requestedId);
     });
   }));
 
