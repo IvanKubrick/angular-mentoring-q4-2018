@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
@@ -25,6 +26,7 @@ describe('CourseListComponent', () => {
   let fixture: ComponentFixture<CourseListComponent>;
   let page: TestPage;
   let coursesService: CoursesService;
+  let navigateSpy: jasmine.Spy;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +43,7 @@ describe('CourseListComponent', () => {
     page = new TestPage(fixture);
     // tslint:disable-next-line: no-unsafe-any
     coursesService = TestBed.get(CoursesService);
+    navigateSpy = spyOn(TestBed.get(Router), 'navigate');
   });
 
   it('should create', () => {
@@ -63,5 +66,17 @@ describe('CourseListComponent', () => {
     fixture.detectChanges();
 
     expect(page.courseItems.length).toBe(0);
+  });
+
+  it('should redirect to course edit page after "courseEditClicked" event emitted', () => {
+    component.onCourseEditClicked(1);
+    expect(navigateSpy).toHaveBeenCalledTimes(1);
+    expect(navigateSpy).toHaveBeenCalledWith(['/courses', 1]);
+  });
+
+  it('should redirect to new course page after "addCourseButtonClicked" event emitted', () => {
+    component.onAddCourseButtonClicked();
+    expect(navigateSpy).toHaveBeenCalledTimes(1);
+    expect(navigateSpy).toHaveBeenCalledWith(['/courses', 'new']);
   });
 });

@@ -65,7 +65,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   onAddCourseButtonClicked(): void {
-    this.router.navigate(['/courses/new']);
+    this.router.navigate(['/courses', 'new']);
   }
 
   private fetchCourses(courses: ICourse[]): void {
