@@ -9,7 +9,10 @@
         <span class="top-header__user">{{ userName }}</span>
         <button class="button button-log-off" type="button" (click)="onLogOffClick()">Log Off</button>
       </div>
+      <div class="top-header__controls" *ngIf="!isLoggedIn">
+        <button class="button button-log-in" type="button" [routerLink]="'/login'">Log In</button>
+      </div>
     </div>
-    <app-breadcrumbs *ngIf="isLoggedIn"></app-breadcrumbs>
+    <app-breadcrumbs *ngIf="isLoggedIn" [breadcrumb]="breadcrumb"></app-breadcrumbs>
   </div>
 </header>

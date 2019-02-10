@@ -16,14 +16,14 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should return isAuthenticated value', inject([AuthService], (service: AuthService) => {
-    service.isAuthenticated.subscribe((value: boolean) => {
+  it('should return isAuthenticated$ value', inject([AuthService], (service: AuthService) => {
+    service.isAuthenticated$.subscribe((value: boolean) => {
       return expect(value).toBeFalsy();
     });
   }));
 
-  it('should return isAuthenticated as Observable', inject([AuthService], (service: AuthService) => {
-    expect(isObservable(service.isAuthenticated)).toBeTruthy();
+  it('should return isAuthenticated$ as Observable', inject([AuthService], (service: AuthService) => {
+    expect(isObservable(service.isAuthenticated$)).toBeTruthy();
   }));
 
   it('should return User instance on login', inject([AuthService], (service: AuthService) => {

@@ -10,7 +10,9 @@ class TestPage extends Page<TestHostComponent> {
   get deleteButton(): HTMLButtonElement {
     return super.query<HTMLButtonElement>('.button_delete');
   }
-
+  get editButton(): HTMLButtonElement {
+    return super.query<HTMLButtonElement>('.button_edit');
+  }
   get courseItem(): HTMLDivElement {
     return super.query<HTMLDivElement>('.course-item__content');
   }
@@ -22,15 +24,23 @@ class TestPage extends Page<TestHostComponent> {
 
 @Component({
   template: `
-    <app-course-item [course]="course" (courseDeleted)="onCourseDeleted($event)"></app-course-item>
+    <app-course-item
+      [course]="course"
+      (courseDeleted)="onCourseDeleted($event)"
+      (courseEditClicked)="onCourseEditClicked($event)"
+    ></app-course-item>
   `
 })
 class TestHostComponent {
   course: ICourse;
   deletedCourseId: number;
+  editedCourseId: number;
 
   onCourseDeleted(courseId: number): void {
     this.deletedCourseId = courseId;
+  }
+  onCourseEditClicked(courseId: number): void {
+    this.editedCourseId = courseId;
   }
 }
 
@@ -62,6 +72,13 @@ describe('CourseItemComponent', () => {
     fixture.detectChanges();
 
     expect(component.deletedCourseId).toBe(100);
+  });
+
+  it('should emit event on "Edit" button click', () => {
+    page.editButton.click();
+    fixture.detectChanges();
+
+    expect(component.editedCourseId).toBe(100);
   });
 
   describe('should display appropriate', () => {

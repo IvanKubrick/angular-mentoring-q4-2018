@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { skipUntil, takeUntil } from 'rxjs/operators';
@@ -11,7 +11,8 @@ import { skipUntil, takeUntil } from 'rxjs/operators';
 })
 export class InputDurationComponent implements OnInit, OnDestroy {
   durationForm: FormGroup;
-  duration: number;
+
+  @Input() duration: number;
 
   @Output() durationChanged: EventEmitter<number> = new EventEmitter<number>();
 

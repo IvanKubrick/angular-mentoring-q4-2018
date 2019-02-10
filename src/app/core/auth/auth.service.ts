@@ -11,16 +11,19 @@ export class AuthService {
   userData: IAuthData;
   user: IUser = new User(0, 'Ivan', 'Hrushevich');
 
-  private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  get isAuthenticated(): Observable<boolean> {
+  get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated.asObservable();
   }
+
+  isAuthenticated: boolean = false;
+
+  private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   login(authData: IAuthData): Observable<IUser> {
     this.userData = authData;
     localStorage.setItem(lsKey, JSON.stringify(authData));
     this._isAuthenticated.next(true);
+    this.isAuthenticated = true;
     window.console.log('logged in successfully');
 
     return of(this.user);
@@ -29,6 +32,7 @@ export class AuthService {
   logout(): Observable<IUser> {
     localStorage.removeItem(lsKey);
     this.userData = null;
+    this.isAuthenticated = false;
     this._isAuthenticated.next(false);
     window.console.log('logout');
 

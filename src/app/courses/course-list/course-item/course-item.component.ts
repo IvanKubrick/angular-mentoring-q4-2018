@@ -11,8 +11,13 @@ import { ICourse } from '@app/shared';
 export class CourseItemComponent {
   @Input() course: ICourse;
   @Output() courseDeleted: EventEmitter<number> = new EventEmitter<number>();
+  @Output() courseEditClicked: EventEmitter<number> = new EventEmitter<number>();
 
   onDeleteClick(): void {
     this.courseDeleted.emit(this.course.id);
+  }
+
+  onEditClick(): void {
+    this.courseEditClicked.emit(this.course.id);
   }
 }
