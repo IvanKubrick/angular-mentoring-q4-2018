@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
+import { ICoursesResponse } from '../courses-response.model';
 import { CoursesService } from '../courses.service';
 import { DialogComponent } from './dialog/dialog.component';
 
@@ -17,6 +18,8 @@ import { DialogComponent } from './dialog/dialog.component';
 export class CourseListComponent implements OnInit, OnDestroy {
   courses: ICourse[] = [];
   private loadMoreClickNumber: number = 0;
+  private filterBySearchString: boolean = false;
+  private searchString: string;
   private readonly _subscriptions: Subscription[] = [];
 
   constructor(
@@ -39,9 +42,19 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   getCourses(): void {
     this._subscriptions.push(
-      this.coursesService.getList(this.loadMoreClickNumber * 5).subscribe((courses: ICourse[]) => {
-        this.updateCourseList(courses);
+      this.coursesService.getList(this.loadMoreClickNumber * 5).subscribe((value: ICoursesResponse) => {
+        this.updateCourseList(value.courses);
       })
+    );
+  }
+
+  getCoursesByString(): void {
+    this._subscriptions.push(
+      this.coursesService
+        .getListByName(this.loadMoreClickNumber * 5, this.searchString)
+        .subscribe((value: ICoursesResponse) => {
+          this.updateCourseList(value.courses);
+        })
     );
   }
 
@@ -62,11 +75,19 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   onLoadMoreButtonClick(): void {
     this.loadMoreClickNumber = this.loadMoreClickNumber + 1;
-    this.getCourses();
+    if (!this.filterBySearchString) {
+      this.getCourses();
+    } else {
+      this.getCoursesByString();
+    }
   }
 
-  onSearchButtonClicked(searchString: string): void {
-    // this.courses = this.filterByNamePipe.transform(this.fetchedCourses, searchString);
+  onSearchButtonClicked(searchString: string = ''): void {
+    this.searchString = searchString;
+    this.loadMoreClickNumber = 0;
+    this.courses = [];
+    this.filterBySearchString = true;
+    this.getCoursesByString();
   }
 
   onAddCourseButtonClicked(): void {

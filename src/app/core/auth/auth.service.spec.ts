@@ -28,7 +28,7 @@ describe('AuthService', () => {
 
   it('should return User instance on login', inject([AuthService], (service: AuthService) => {
     const userDataStub: IAuthData = {
-      email: 'test@gmail.com',
+      login: 'test-login',
       password: 'password123'
     };
 

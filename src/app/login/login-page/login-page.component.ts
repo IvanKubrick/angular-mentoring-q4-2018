@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '@app/core';
-import { IAuthData } from '@app/shared';
+import { IAuthData, IUser } from '@app/shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -16,16 +17,23 @@ export class LoginPageComponent {
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {
     this.loginForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)])
+      login: new FormControl(null, [Validators.required]),
+      password: new FormControl(null, [Validators.required])
     });
   }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.authService.login(<IAuthData>this.loginForm.value).subscribe(() => {
-        this.router.navigate(['/courses']);
-      });
+      this.authService.login(<IAuthData>this.loginForm.value).subscribe(
+        (value: IUser) => {
+          this.router.navigate(['/courses']);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/unauthorized']);
+          }
+        }
+      );
     }
   }
 }

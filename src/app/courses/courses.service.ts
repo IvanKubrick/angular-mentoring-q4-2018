@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 
 import { Course, ICourse } from '@app/shared';
+import { ICoursesResponse } from './courses-response.model';
 
 // tslint:disable-next-line: no-unsafe-any
 @Injectable()
@@ -47,14 +48,25 @@ export class CoursesService {
 
   constructor(private readonly http: HttpClient) {}
 
-  getList(start: number): Observable<ICourse[]> {
+  getList(start: number): Observable<ICoursesResponse> {
     const url: string = 'http://localhost:3004/courses';
     const params: {} = {
       start: start,
       count: 5
     };
 
-    return this.http.get<ICourse[]>(url, { params });
+    return this.http.get<ICoursesResponse>(url, { params });
+  }
+
+  getListByName(start: number, searchString: string): Observable<ICoursesResponse> {
+    const url: string = 'http://localhost:3004/courses';
+    const params: {} = {
+      start: start,
+      count: 5,
+      textFragment: searchString
+    };
+
+    return this.http.get<ICoursesResponse>(url, { params });
   }
 
   createCourse(courseForm: ICourse): Observable<number> {

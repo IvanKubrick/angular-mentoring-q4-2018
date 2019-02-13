@@ -10,7 +10,7 @@ const lsKey: string = 'ngCourses';
 @Injectable()
 export class AuthService {
   userData: IAuthData;
-  user: IUser = new User(0, 'Ivan', 'Hrushevich');
+  user: IUser = new User('token', 'Ivan', 'Hrushevich');
 
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated.asObservable();
@@ -23,23 +23,10 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   login(authData: IAuthData): Observable<IUser> {
-    this.userData = authData;
-    localStorage.setItem(lsKey, JSON.stringify(authData));
-    this._isAuthenticated.next(true);
-    this.isAuthenticated = true;
-    window.console.log('logged in successfully');
+    const url: string = 'http://localhost:3004/auth/login';
 
-    return of(this.user);
+    return this.http.post<IUser>(url, { login: authData.login, password: authData.password });
   }
-  // login(authData: IAuthData): Observable<IUser> {
-  //   const url: string = 'http://localhost:3004/auth/login';
-  //   // const params: {} = {
-  //   // login: 'Sparks',
-  //   // password: 'consectetur'
-  //   // };
-
-  //   return this.http.post<IUser>(url, { login: 'Warner', password: 'ea' });
-  // }
 
   logout(): Observable<IUser> {
     localStorage.removeItem(lsKey);
