@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { IAuthData, IUser, User } from '@app/shared';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { IUserInfo } from 'src/app/userInfo.model';
 
 const lsKey: string = 'ngCourses';
 
@@ -38,7 +39,9 @@ export class AuthService {
     return of(this.user);
   }
 
-  getUserInfo(): Observable<IUser> {
-    return of(this.user);
+  getUserInfo(token: string): Observable<IUserInfo> {
+    const url: string = 'http://localhost:3004/auth/userinfo';
+
+    return this.http.post<IUserInfo>(url, null);
   }
 }

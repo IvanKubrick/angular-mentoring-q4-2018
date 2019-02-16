@@ -104,9 +104,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
       this.coursesService
         .removeItem(courseId)
         .pipe(switchMap(() => this.coursesService.getList(this.loadMoreClickNumber * 5)))
-        .subscribe((courses: ICourse[]) => {
+        .subscribe((value: ICoursesResponse) => {
           this.courses = [];
-          this.updateCourseList(courses);
+          this.updateCourseList(value.courses);
         })
     );
   }

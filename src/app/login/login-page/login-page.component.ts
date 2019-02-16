@@ -26,11 +26,17 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       this.authService.login(<IAuthData>this.loginForm.value).subscribe(
         (value: IUser) => {
+          debugger;
+          this.authService.user = value;
+          localStorage.setItem('angularCoursesToken', value.token);
           this.router.navigate(['/courses']);
         },
         (error: HttpErrorResponse) => {
+          debugger;
           if (error.status === 401) {
             this.router.navigate(['/unauthorized']);
+          } else {
+            this.router.navigate(['/error']);
           }
         }
       );
