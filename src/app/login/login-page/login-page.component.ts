@@ -1,10 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '@app/core';
 import { IAuthData, IUser } from '@app/shared';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
