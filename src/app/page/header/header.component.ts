@@ -81,8 +81,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private readonly createBreadcrumbs = (value: ICourse | 'new'): void => {
     if (value === 'new') {
       this.breadcrumb = 'new';
-    } else if (Boolean(value) && Boolean(value.title)) {
-      this.breadcrumb = value.title;
+    } else if (Boolean(value) && Boolean(value.name)) {
+      this.breadcrumb = value.name;
     } else {
       this.breadcrumb = '';
     }

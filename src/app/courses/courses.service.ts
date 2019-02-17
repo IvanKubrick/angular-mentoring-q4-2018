@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 
 import { Course, ICourse } from '@app/shared';
+import { ICoursesResponse } from './courses-response.model';
 
 // tslint:disable-next-line: no-unsafe-any
 @Injectable()
@@ -44,36 +46,50 @@ export class CoursesService {
     )
   ];
 
-  getList(): Observable<ICourse[]> {
-    return of(this.courses);
+  constructor(private readonly http: HttpClient) {}
+
+  getList(start: number): Observable<ICoursesResponse> {
+    const url: string = 'http://localhost:3004/courses';
+    const params: {} = {
+      start: start,
+      count: 5
+    };
+
+    return this.http.get<ICoursesResponse>(url, { params });
   }
 
-  createCourse(courseForm: ICourse): Observable<number> {
-    const course: ICourse = {
-      ...courseForm,
-      id: this.courses.length
+  getListByName(start: number, searchString: string): Observable<ICoursesResponse> {
+    const url: string = 'http://localhost:3004/courses';
+    const params: {} = {
+      start: start,
+      count: 5,
+      filter: searchString
     };
-    this.courses.push(course);
 
-    return of(course.id);
+    return this.http.get<ICoursesResponse>(url, { params });
+  }
+
+  createCourse(course: ICourse): Observable<ICourse> {
+    const url: string = `http://localhost:3004/courses`;
+
+    return this.http.post<ICourse>(url, course);
   }
 
   getItemById(id: number): Observable<ICourse> {
-    const course: ICourse = this.courses.find((c: ICourse) => c.id === id);
+    const url: string = `http://localhost:3004/courses/${id}`;
 
-    return of(course);
+    return this.http.get<ICourse>(url);
   }
 
-  updateItem(id: number, updatedCourse: ICourse): Observable<ICourse> {
-    this.courses = [...this.courses.filter((course: ICourse) => course.id !== id), { ...updatedCourse, id }];
-    const newCourse: ICourse = this.courses.find((course: ICourse) => course.id === id);
+  updateItem(id: number, course: ICourse): Observable<ICourse> {
+    const url: string = `http://localhost:3004/courses/${id}`;
 
-    return of(newCourse);
+    return this.http.put<ICourse>(url, course);
   }
 
-  removeItem(id: number): Observable<ICourse[]> {
-    this.courses = this.courses.filter((course: ICourse) => course.id !== id);
+  removeItem(id: number): Observable<{}> {
+    const url: string = `http://localhost:3004/courses/${id}`;
 
-    return of(this.courses);
+    return this.http.delete(url);
   }
 }

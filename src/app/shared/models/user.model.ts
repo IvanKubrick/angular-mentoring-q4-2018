@@ -1,9 +1,9 @@
 export interface IUser {
-  id: number;
+  token: string;
   firstName: string;
   lastName: string;
 }
 
 export class User implements IUser {
-  constructor(public id: number, public firstName: string, public lastName: string) {}
+  constructor(public token: string, public firstName: string, public lastName: string) {}
 }

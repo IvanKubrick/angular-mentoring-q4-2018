@@ -7,6 +7,6 @@ import { ICourse } from '@app/shared';
 })
 export class FilterByNamePipe implements PipeTransform {
   transform(courses: ICourse[], searchString: string): ICourse[] {
-    return courses.filter((course: ICourse) => course.title.toLowerCase().indexOf(searchString.toLowerCase()) !== -1);
+    return courses.filter((course: ICourse) => course.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1);
   }
 }

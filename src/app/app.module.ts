@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -14,7 +15,15 @@ import { HeaderComponent } from './page/header/header.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent],
-  imports: [BrowserModule, AppRoutingModule, CoreModule, CoursesModule, BrowserAnimationsModule, LoginModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    CoreModule,
+    CoursesModule,
+    BrowserAnimationsModule,
+    LoginModule,
+    HttpClientModule
+  ],
   bootstrap: [AppComponent],
   entryComponents: [DialogComponent]
 })

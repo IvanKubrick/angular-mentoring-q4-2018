@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
+import { ICoursesResponse } from '../courses-response.model';
 import { CoursesService } from '../courses.service';
 import { DialogComponent } from './dialog/dialog.component';
 
@@ -15,8 +16,10 @@ import { DialogComponent } from './dialog/dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  courses: ICourse[];
-  private fetchedCourses: ICourse[];
+  courses: ICourse[] = [];
+  private loadMoreClickNumber: number = 0;
+  private filterBySearchString: boolean = false;
+  private searchString: string;
   private readonly _subscriptions: Subscription[] = [];
 
   constructor(
@@ -28,17 +31,31 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this._subscriptions.push(
-      this.coursesService.getList().subscribe((courses: ICourse[]) => {
-        this.fetchCourses(courses);
-      })
-    );
+    this.getCourses();
   }
 
   ngOnDestroy(): void {
     this._subscriptions.forEach((s: Subscription) => {
       s.unsubscribe();
     });
+  }
+
+  getCourses(): void {
+    this._subscriptions.push(
+      this.coursesService.getList(this.loadMoreClickNumber * 5).subscribe((value: ICoursesResponse) => {
+        this.updateCourseList(value.courses);
+      })
+    );
+  }
+
+  getCoursesByString(): void {
+    this._subscriptions.push(
+      this.coursesService
+        .getListByName(this.loadMoreClickNumber * 5, this.searchString)
+        .subscribe((value: ICoursesResponse) => {
+          this.updateCourseList(value.courses);
+        })
+    );
   }
 
   onCourseDeleted(courseId: number): void {
@@ -57,20 +74,28 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   onLoadMoreButtonClick(): void {
-    window.console.log('Load more');
+    this.loadMoreClickNumber = this.loadMoreClickNumber + 1;
+    if (!this.filterBySearchString) {
+      this.getCourses();
+    } else {
+      this.getCoursesByString();
+    }
   }
 
-  onSearchButtonClicked(searchString: string): void {
-    this.courses = this.filterByNamePipe.transform(this.fetchedCourses, searchString);
+  onSearchButtonClicked(searchString: string = ''): void {
+    this.searchString = searchString;
+    this.loadMoreClickNumber = 0;
+    this.courses = [];
+    this.filterBySearchString = true;
+    this.getCoursesByString();
   }
 
   onAddCourseButtonClicked(): void {
     this.router.navigate(['/courses', 'new']);
   }
 
-  private fetchCourses(courses: ICourse[]): void {
-    this.fetchedCourses = courses;
-    this.courses = courses;
+  private updateCourseList(courses: ICourse[]): void {
+    this.courses.push(...courses);
     this.changeDetectorRef.markForCheck();
   }
 
@@ -78,9 +103,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this._subscriptions.push(
       this.coursesService
         .removeItem(courseId)
-        .pipe(switchMap(() => this.coursesService.getList()))
-        .subscribe((courses: ICourse[]) => {
-          this.fetchCourses(courses);
+        .pipe(switchMap(() => this.coursesService.getList(this.loadMoreClickNumber * 5)))
+        .subscribe((value: ICoursesResponse) => {
+          this.courses = [];
+          this.updateCourseList(value.courses);
         })
     );
   }

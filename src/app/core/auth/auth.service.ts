@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { IAuthData, IUser, User } from '@app/shared';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { IUserInfo } from 'src/app/userInfo.model';
 
 const lsKey: string = 'ngCourses';
 
@@ -9,37 +11,40 @@ const lsKey: string = 'ngCourses';
 @Injectable()
 export class AuthService {
   userData: IAuthData;
-  user: IUser = new User(0, 'Ivan', 'Hrushevich');
+  user: IUser = new User('token', 'Ivan', 'Hrushevich');
 
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated.asObservable();
   }
 
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean = true;
 
   private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  login(authData: IAuthData): Observable<IUser> {
-    this.userData = authData;
-    localStorage.setItem(lsKey, JSON.stringify(authData));
-    this._isAuthenticated.next(true);
-    this.isAuthenticated = true;
-    window.console.log('logged in successfully');
+  constructor(private readonly http: HttpClient) {}
 
-    return of(this.user);
+  login(authData: IAuthData): Observable<IUser> {
+    const url: string = 'http://localhost:3004/auth/login';
+
+    return this.http.post<IUser>(url, { login: authData.login, password: authData.password });
   }
 
   logout(): Observable<IUser> {
-    localStorage.removeItem(lsKey);
+    localStorage.removeItem('angularCoursesToken');
     this.userData = null;
     this.isAuthenticated = false;
     this._isAuthenticated.next(false);
-    window.console.log('logout');
 
     return of(this.user);
   }
 
-  getUserInfo(): Observable<IUser> {
-    return of(this.user);
+  getUserInfo(token: string): Observable<IUserInfo> {
+    const url: string = 'http://localhost:3004/auth/userinfo';
+
+    return this.http.post<IUserInfo>(url, null);
+  }
+
+  authenticate(): void {
+    this._isAuthenticated.next(true);
   }
 }
