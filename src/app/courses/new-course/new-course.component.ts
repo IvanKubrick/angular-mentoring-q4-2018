@@ -71,7 +71,7 @@ export class NewCourseComponent implements OnInit, OnDestroy {
       );
     } else {
       this.coursesService.createCourse(<ICourse>this.courseForm.value).subscribe(
-        (courseId: number): void => {
+        (course: ICourse): void => {
           this.router.navigate(['/courses']);
         }
       );

@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const token: string = localStorage.getItem('angularCoursesToken');
 
-    debugger;
     if (token !== null) {
       this.getUserInfo(token);
     } else {
@@ -28,6 +27,7 @@ export class AppComponent implements OnInit {
   private getUserInfo(token: string): void {
     this.authService.getUserInfo(token).subscribe(
       (value: IUserInfo) => {
+        this.authService.authenticate();
         this.router.navigate(['/courses']);
       },
       (error: HttpErrorResponse) => {

@@ -30,11 +30,10 @@ export class AuthService {
   }
 
   logout(): Observable<IUser> {
-    localStorage.removeItem(lsKey);
+    localStorage.removeItem('angularCoursesToken');
     this.userData = null;
     this.isAuthenticated = false;
     this._isAuthenticated.next(false);
-    window.console.log('logout');
 
     return of(this.user);
   }
@@ -43,5 +42,9 @@ export class AuthService {
     const url: string = 'http://localhost:3004/auth/userinfo';
 
     return this.http.post<IUserInfo>(url, null);
+  }
+
+  authenticate(): void {
+    this._isAuthenticated.next(true);
   }
 }

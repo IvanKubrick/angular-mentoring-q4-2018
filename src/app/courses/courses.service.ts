@@ -63,20 +63,16 @@ export class CoursesService {
     const params: {} = {
       start: start,
       count: 5,
-      textFragment: searchString
+      filter: searchString
     };
 
     return this.http.get<ICoursesResponse>(url, { params });
   }
 
-  createCourse(courseForm: ICourse): Observable<number> {
-    const course: ICourse = {
-      ...courseForm,
-      id: this.courses.length
-    };
-    this.courses.push(course);
+  createCourse(course: ICourse): Observable<ICourse> {
+    const url: string = `http://localhost:3004/courses`;
 
-    return of(course.id);
+    return this.http.post<ICourse>(url, course);
   }
 
   getItemById(id: number): Observable<ICourse> {
@@ -85,16 +81,15 @@ export class CoursesService {
     return this.http.get<ICourse>(url);
   }
 
-  updateItem(id: number, updatedCourse: ICourse): Observable<ICourse> {
-    this.courses = [...this.courses.filter((course: ICourse) => course.id !== id), { ...updatedCourse, id }];
-    const newCourse: ICourse = this.courses.find((course: ICourse) => course.id === id);
+  updateItem(id: number, course: ICourse): Observable<ICourse> {
+    const url: string = `http://localhost:3004/courses/${id}`;
 
-    return of(newCourse);
+    return this.http.put<ICourse>(url, course);
   }
 
-  removeItem(id: number): Observable<ICourse[]> {
-    this.courses = this.courses.filter((course: ICourse) => course.id !== id);
+  removeItem(id: number): Observable<{}> {
+    const url: string = `http://localhost:3004/courses/${id}`;
 
-    return of(this.courses);
+    return this.http.delete(url);
   }
 }
