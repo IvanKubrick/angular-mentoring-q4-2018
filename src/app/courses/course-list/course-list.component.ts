@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -80,14 +80,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
     } else {
       this.getCoursesByString();
     }
-  }
-
-  onSearchButtonClicked(searchString: string = ''): void {
-    this.searchString = searchString;
-    this.loadMoreClickNumber = 0;
-    this.courses = [];
-    this.filterBySearchString = true;
-    this.getCoursesByString();
   }
 
   onAddCourseButtonClicked(): void {

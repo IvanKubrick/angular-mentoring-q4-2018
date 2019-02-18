@@ -10,13 +10,7 @@ export class SearchComponent {
   searchString: string;
 
   @Output()
-  searchButtonClicked: EventEmitter<string> = new EventEmitter<string>();
-  @Output()
   addCourseButtonClicked: EventEmitter<void> = new EventEmitter();
-
-  onSearchButtonClick(): void {
-    this.searchButtonClicked.emit(this.searchString);
-  }
 
   onAddCourseButtonClick(): void {
     this.addCourseButtonClicked.emit();
