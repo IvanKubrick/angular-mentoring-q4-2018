@@ -12,9 +12,10 @@ import { LoginModule } from './login/login.module';
 import { FooterComponent } from './page/footer/footer.component';
 import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.component';
 import { HeaderComponent } from './page/header/header.component';
+import { LoaderComponent } from './page/loader/loader.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LoaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
