@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { IAuthData, IUser, User } from '@app/shared';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { IUserInfo } from 'src/app/userInfo.model';
 
 const lsKey: string = 'ngCourses';
@@ -11,7 +11,7 @@ const lsKey: string = 'ngCourses';
 @Injectable()
 export class AuthService {
   userData: IAuthData;
-  user: IUser = new User('token', 'Ivan', 'Hrushevich');
+  user: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
 
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated.asObservable();
@@ -30,12 +30,14 @@ export class AuthService {
   }
 
   logout(): Observable<IUser> {
+    const loggedOutUser: IUser = this.user.getValue();
     localStorage.removeItem('angularCoursesToken');
     this.userData = null;
     this.isAuthenticated = false;
     this._isAuthenticated.next(false);
+    this.user.next(null);
 
-    return of(this.user);
+    return of(loggedOutUser);
   }
 
   getUserInfo(token: string): Observable<IUserInfo> {
@@ -46,5 +48,9 @@ export class AuthService {
 
   authenticate(): void {
     this._isAuthenticated.next(true);
+  }
+
+  revealUserData(token: string, name: { first: string; last: string }): void {
+    this.user.next(new User(token, name.first, name.last));
   }
 }

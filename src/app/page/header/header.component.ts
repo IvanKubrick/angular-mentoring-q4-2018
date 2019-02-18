@@ -4,7 +4,7 @@ import { of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
-import { ICourse } from '@app/shared';
+import { ICourse, IUser } from '@app/shared';
 
 import { CoursesService } from 'src/app/courses/courses.service';
 
@@ -37,6 +37,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.authService.isAuthenticated$.subscribe((value: boolean) => {
         this._isLoggedIn = value;
         this.changeDetectorRef.markForCheck();
+      }),
+      this.authService.user.subscribe((value: IUser) => {
+        console.log(value);
       })
     );
     this.subscribeForRouterEvents();
