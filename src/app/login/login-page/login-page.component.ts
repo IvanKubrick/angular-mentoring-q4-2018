@@ -26,7 +26,9 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       this.authService.login(<IAuthData>this.loginForm.value).subscribe(
         (value: IUser) => {
-          this.authService.user.next(value);
+          this.authService.authenticate();
+          this.authService.revealUserData(value.token, value.firstName, value.lastName);
+
           localStorage.setItem('angularCoursesToken', value.token);
           this.router.navigate(['/courses']);
         },

@@ -15,14 +15,18 @@ import { CoursesService } from 'src/app/courses/courses.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  userName: string = 'Ivan Hrushevich';
   breadcrumb: string;
+  loggedInUser: IUser;
 
   private _isLoggedIn: boolean;
   private readonly _subscriptions: Subscription[] = [];
 
   get isLoggedIn(): boolean {
     return this._isLoggedIn;
+  }
+
+  get userName(): string {
+    return `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}`;
   }
 
   constructor(
@@ -39,7 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.markForCheck();
       }),
       this.authService.user.subscribe((value: IUser) => {
-        console.log(value);
+        this.loggedInUser = value;
+        this.changeDetectorRef.markForCheck();
       })
     );
     this.subscribeForRouterEvents();

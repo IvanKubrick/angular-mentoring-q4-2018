@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.authService.getUserInfo(token).subscribe(
       (value: IUserInfo) => {
         this.authService.authenticate();
-        this.authService.revealUserData(value.fakeToken, value.name);
+        this.authService.revealUserData(value.fakeToken, value.name.first, value.name.last);
         this.router.navigate(['/courses']);
       },
       (error: HttpErrorResponse) => {

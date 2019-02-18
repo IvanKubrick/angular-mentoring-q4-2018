@@ -17,7 +17,7 @@ export class AuthService {
     return this._isAuthenticated.asObservable();
   }
 
-  isAuthenticated: boolean = true;
+  isAuthenticated: boolean = false;
 
   private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -47,10 +47,11 @@ export class AuthService {
   }
 
   authenticate(): void {
+    this.isAuthenticated = true;
     this._isAuthenticated.next(true);
   }
 
-  revealUserData(token: string, name: { first: string; last: string }): void {
-    this.user.next(new User(token, name.first, name.last));
+  revealUserData(token: string, firstName: string, lastName: string): void {
+    this.user.next(new User(token, firstName, lastName));
   }
 }
