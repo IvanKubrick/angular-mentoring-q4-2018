@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -7,12 +8,17 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
-  searchString: string;
+  @Input()
+  searchString$: Subject<string>;
 
   @Output()
   addCourseButtonClicked: EventEmitter<void> = new EventEmitter();
 
   onAddCourseButtonClick(): void {
     this.addCourseButtonClicked.emit();
+  }
+
+  onSearchInputChange(searchString: string): void {
+    this.searchString$.next(searchString);
   }
 }

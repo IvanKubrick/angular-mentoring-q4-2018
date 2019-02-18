@@ -4,8 +4,7 @@
       class="search__input input"
       type="text"
       placeholder="Search by name, description or date"
-      (change)="onSearchInputChange()"
-      [(ngModel)]="searchString"
+      (keyup)="onSearchInputChange($event.target.value)"
     />
   </div>
   <button class="search__button_add-course button button_pink" (click)="onAddCourseButtonClick()">Add course</button>
