@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Route, Router } from '@angular/router';
 import { ICourse } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { LoaderService } from './../../page/loader/loader.service';
 
 import { CoursesService } from '../courses.service';
 
@@ -26,7 +27,8 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly coursesService: CoursesService
+    private readonly coursesService: CoursesService,
+    private readonly loaderService: LoaderService
   ) {
     this.courseForm = new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
@@ -63,18 +65,25 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.loaderService.loading.next(true);
     if (this._editMode) {
-      this.coursesService.updateItem(this._activeCourseId, <ICourse>this.courseForm.value).subscribe(
-        (course: ICourse): void => {
-          this.router.navigate(['/courses']);
-        }
-      );
+      this.coursesService
+        .updateItem(this._activeCourseId, <ICourse>this.courseForm.value)
+        .pipe(finalize((): void => this.loaderService.loading.next(false)))
+        .subscribe(
+          (course: ICourse): void => {
+            this.router.navigate(['/courses']);
+          }
+        );
     } else {
-      this.coursesService.createCourse(<ICourse>this.courseForm.value).subscribe(
-        (course: ICourse): void => {
-          this.router.navigate(['/courses']);
-        }
-      );
+      this.coursesService
+        .createCourse(<ICourse>this.courseForm.value)
+        .pipe(finalize((): void => this.loaderService.loading.next(false)))
+        .subscribe(
+          (course: ICourse): void => {
+            this.router.navigate(['/courses']);
+          }
+        );
     }
   }
   onCancel(): void {

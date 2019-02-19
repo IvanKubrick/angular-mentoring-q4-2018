@@ -2,11 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, filter, switchMap } from 'rxjs/operators';
+import { debounceTime, filter, finalize, switchMap } from 'rxjs/operators';
 
 import { FilterByNamePipe, ICourse } from '@app/shared';
+
 import { ICoursesResponse } from '../courses-response.model';
 import { CoursesService } from '../courses.service';
+import { LoaderService } from './../../page/loader/loader.service';
 import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
@@ -28,7 +30,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
     private readonly coursesService: CoursesService,
     public dialog: MatDialog,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -49,19 +52,28 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   getCourses(): void {
+    this.loaderService.loading.next(true);
     this._subscriptions.push(
-      this.coursesService.getList(this.loadMoreClickNumber * 5).subscribe((value: ICoursesResponse) => {
-        this.updateCourseList(value.courses);
-      })
+      this.coursesService
+        .getList(this.loadMoreClickNumber * 5)
+        .pipe(finalize((): void => this.loaderService.loading.next(false)))
+        .subscribe((value: ICoursesResponse) => {
+          this.updateCourseList(value.courses);
+        })
     );
   }
 
   onCourseDeleted(courseId: number): void {
     const dialogRef: MatDialogRef<DialogComponent> = this.dialog.open(DialogComponent);
 
+    this.loaderService.loading.next(true);
+
     dialogRef
       .afterClosed()
-      .pipe(filter((value: boolean) => value === true))
+      .pipe(
+        filter((value: boolean) => value === true),
+        finalize((): void => this.loaderService.loading.next(false))
+      )
       .subscribe((result: boolean) => {
         this.removeItem(courseId);
       });
@@ -85,9 +97,11 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   private getCoursesByString(): void {
+    this.loaderService.loading.next(true);
     this._subscriptions.push(
       this.coursesService
         .getListByName(this.loadMoreClickNumber * 5, this.searchString)
+        .pipe(finalize((): void => this.loaderService.loading.next(false)))
         .subscribe((value: ICoursesResponse) => {
           this.updateCourseList(value.courses);
         })

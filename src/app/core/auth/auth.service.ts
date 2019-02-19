@@ -12,12 +12,11 @@ const lsKey: string = 'ngCourses';
 export class AuthService {
   userData: IAuthData;
   user: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+  isAuthenticated: boolean = false;
 
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated.asObservable();
   }
-
-  isAuthenticated: boolean = false;
 
   private readonly _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
