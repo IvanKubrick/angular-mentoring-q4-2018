@@ -28,15 +28,12 @@ export class AuthService {
     return this.http.post<IUser>(url, { login: authData.login, password: authData.password });
   }
 
-  logout(): Observable<IUser> {
-    const loggedOutUser: IUser = this.user.getValue();
+  logout(): void {
     localStorage.removeItem('angularCoursesToken');
     this.userData = null;
     this.isAuthenticated = false;
     this._isAuthenticated.next(false);
     this.user.next(null);
-
-    return of(loggedOutUser);
   }
 
   getUserInfo(token: string): Observable<IUserInfo> {
