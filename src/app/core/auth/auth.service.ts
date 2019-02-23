@@ -10,7 +10,6 @@ import { IUserInfo } from 'src/app/userInfo.model';
 export class AuthService {
   userData: IAuthData;
   user: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
-  isAuthenticated: boolean = false;
 
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated.asObservable();
@@ -29,7 +28,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('angularCoursesToken');
     this.userData = null;
-    this.isAuthenticated = false;
     this._isAuthenticated.next(false);
     this.user.next(null);
   }
@@ -41,7 +39,6 @@ export class AuthService {
   }
 
   authenticate(): void {
-    this.isAuthenticated = true;
     this._isAuthenticated.next(true);
   }
 
