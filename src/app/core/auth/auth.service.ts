@@ -2,10 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { IAuthData, IUser, User } from '@app/shared';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { IUserInfo } from 'src/app/userInfo.model';
-
-const lsKey: string = 'ngCourses';
 
 // tslint:disable-next-line: no-unsafe-any
 @Injectable()
@@ -49,5 +47,9 @@ export class AuthService {
 
   revealUserData(token: string, firstName: string, lastName: string): void {
     this.user.next(new User(token, firstName, lastName));
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('angularCoursesToken');
   }
 }

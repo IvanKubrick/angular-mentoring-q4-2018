@@ -27,10 +27,23 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const token: string = localStorage.getItem('angularCoursesToken');
+    const token: string | null = this.authService.getToken();
 
     if (token !== null) {
-      this.getUserInfo(token);
+      this.loaderService.loading.next(true);
+      this.authService
+        .getUserInfo(token)
+        .pipe(finalize((): void => this.loaderService.loading.next(false)))
+        .subscribe(
+          (value: IUserInfo) => {
+            this.authService.authenticate();
+            this.authService.revealUserData(value.fakeToken, value.name.first, value.name.last);
+            this.router.navigate(['/courses']);
+          },
+          (error: HttpErrorResponse) => {
+            this.router.navigate(['/unauthorized']);
+          }
+        );
     } else {
       this.router.navigate(['/login']);
     }
@@ -47,22 +60,5 @@ export class AppComponent implements OnInit, OnDestroy {
     this._subscriptions.forEach((s: Subscription) => {
       s.unsubscribe();
     });
-  }
-
-  private getUserInfo(token: string): void {
-    this.loaderService.loading.next(true);
-    this.authService
-      .getUserInfo(token)
-      .pipe(finalize((): void => this.loaderService.loading.next(false)))
-      .subscribe(
-        (value: IUserInfo) => {
-          this.authService.authenticate();
-          this.authService.revealUserData(value.fakeToken, value.name.first, value.name.last);
-          this.router.navigate(['/courses']);
-        },
-        (error: HttpErrorResponse) => {
-          this.router.navigate(['/unauthorized']);
-        }
-      );
   }
 }
