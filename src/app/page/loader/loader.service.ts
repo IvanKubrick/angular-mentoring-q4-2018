@@ -8,7 +8,7 @@ export class LoaderService {
     return this.loading.asObservable();
   }
 
-  private loading: Subject<boolean> = new Subject<boolean>();
+  private readonly loading: Subject<boolean> = new Subject<boolean>();
 
   show(): void {
     this.loading.next(true);

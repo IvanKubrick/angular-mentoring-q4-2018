@@ -13,7 +13,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(private loaderService: LoaderService, private readonly changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private readonly loaderService: LoaderService, private readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.subscription = this.loaderService.loading$.subscribe((loading: boolean) => {

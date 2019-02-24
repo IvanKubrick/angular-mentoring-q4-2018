@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, filter, finalize, switchMap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime, filter, switchMap } from 'rxjs/operators';
 
-import { FilterByNamePipe, ICourse } from '@app/shared';
+import { ICourse } from '@app/shared';
 
 import { ICoursesResponse } from '../courses-response.model';
 import { CoursesService } from '../courses.service';
-import { LoaderService } from './../../page/loader/loader.service';
 import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
@@ -19,7 +18,7 @@ import { DialogComponent } from './dialog/dialog.component';
 })
 export class CourseListComponent implements OnInit, OnDestroy {
   courses: ICourse[] = [];
-  searchString$: Subject<string> = new Subject<string>();
+  searchString$: Observable<string> = new Subject<string>().pipe(debounceTime(500));
 
   private loadMoreClickNumber: number = 0;
   private searchString: string;
@@ -35,11 +34,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getCourses();
 
-    this.searchString$.pipe(debounceTime(300)).subscribe((searchString: string) => {
+    this.searchString$.subscribe((searchString: string) => {
       this.searchString = searchString;
-      if (this.searchString.length > 2) {
-        this.getCoursesByString();
-      }
+      this.getCoursesByString();
     });
   }
 

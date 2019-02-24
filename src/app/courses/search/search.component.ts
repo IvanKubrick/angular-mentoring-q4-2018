@@ -19,6 +19,8 @@ export class SearchComponent {
   }
 
   onSearchInputChange(searchString: string): void {
-    this.searchString$.next(searchString);
+    if (searchString.length > 2) {
+      this.searchString$.next(searchString);
+    }
   }
 }

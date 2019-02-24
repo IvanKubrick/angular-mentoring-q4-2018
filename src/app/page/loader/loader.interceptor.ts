@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoaderService } from './loader.service';
 
+// tslint:disable-next-line: no-unsafe-any
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderInterceptorService implements HttpInterceptor {
-  constructor(private loaderService: LoaderService) {}
+  constructor(private readonly loaderService: LoaderService) {}
 
   // tslint:disable: no-any
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
