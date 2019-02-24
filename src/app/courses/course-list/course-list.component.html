@@ -1,8 +1,5 @@
 <div class="course-list">
-  <app-search
-    (searchButtonClicked)="onSearchButtonClicked($event)"
-    (addCourseButtonClicked)="onAddCourseButtonClicked()"
-  ></app-search>
+  <app-search (addCourseButtonClicked)="onAddCourseButtonClicked()" [searchString$]="searchString$"></app-search>
   <app-course-item
     *ngFor="let course of courses"
     [course]="course"

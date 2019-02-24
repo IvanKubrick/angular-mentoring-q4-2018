@@ -4,7 +4,7 @@ import { of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
-import { ICourse } from '@app/shared';
+import { ICourse, IUser } from '@app/shared';
 
 import { CoursesService } from 'src/app/courses/courses.service';
 
@@ -15,14 +15,13 @@ import { CoursesService } from 'src/app/courses/courses.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  userName: string = 'Ivan Hrushevich';
   breadcrumb: string;
+  loggedInUser: IUser;
 
-  private _isLoggedIn: boolean;
   private readonly _subscriptions: Subscription[] = [];
 
-  get isLoggedIn(): boolean {
-    return this._isLoggedIn;
+  get userName(): string {
+    return `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}`;
   }
 
   constructor(
@@ -34,8 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._subscriptions.push(
-      this.authService.isAuthenticated$.subscribe((value: boolean) => {
-        this._isLoggedIn = value;
+      this.authService.user.subscribe((value: IUser) => {
+        this.loggedInUser = value;
         this.changeDetectorRef.markForCheck();
       })
     );
@@ -49,11 +48,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogOffClick(): void {
-    this._subscriptions.push(
-      this.authService.logout().subscribe(() => {
-        this.router.navigate(['/login']);
-      })
-    );
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   private subscribeForRouterEvents(): void {

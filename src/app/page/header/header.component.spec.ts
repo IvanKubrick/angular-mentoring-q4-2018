@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Page } from '@testing';
 import { Observable, of } from 'rxjs';
 import { CoursesService } from 'src/app/courses/courses.service';
+import { IUserInfo } from './../../userInfo.model';
 
 import { AuthService } from '@app/core';
 import { IUser, User } from '@app/shared';
@@ -30,9 +31,20 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let page: TestPage;
   let mockedUser: IUser;
+  let mockedUserInfo: IUserInfo;
 
   beforeEach(async(() => {
     mockedUser = new User(0, 'Ivan', 'Hrushevich');
+    mockedUserInfo = {
+      fakeToken: 'test',
+      id: 1,
+      login: 'test',
+      name: {
+        first: 'test',
+        last: 'test'
+      },
+      password: 'test'
+    };
 
     const authServiceStub: Partial<AuthService> = {
       get isAuthenticated$(): Observable<boolean> {
@@ -41,11 +53,11 @@ describe('HeaderComponent', () => {
       login(): Observable<IUser> {
         return of(mockedUser);
       },
-      logout(): Observable<IUser> {
-        return of(mockedUser);
+      logout(): void {
+        //
       },
-      getUserInfo(): Observable<IUser> {
-        return of(mockedUser);
+      getUserInfo(): Observable<IUserInfo> {
+        return of(mockedUserInfo);
       }
     };
 
