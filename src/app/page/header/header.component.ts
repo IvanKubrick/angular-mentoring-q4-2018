@@ -18,12 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   breadcrumb: string;
   loggedInUser: IUser;
 
-  private _isLoggedIn: boolean;
   private readonly _subscriptions: Subscription[] = [];
-
-  get isLoggedIn(): boolean {
-    return this._isLoggedIn;
-  }
 
   get userName(): string {
     return `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}`;
@@ -38,10 +33,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._subscriptions.push(
-      this.authService.isAuthenticated$.subscribe((value: boolean) => {
-        this._isLoggedIn = value;
-        this.changeDetectorRef.markForCheck();
-      }),
       this.authService.user.subscribe((value: IUser) => {
         this.loggedInUser = value;
         this.changeDetectorRef.markForCheck();
