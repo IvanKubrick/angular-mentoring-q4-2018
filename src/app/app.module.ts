@@ -1,6 +1,8 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/core';
@@ -14,6 +16,7 @@ import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.comp
 import { HeaderComponent } from './page/header/header.component';
 import { LoaderComponent } from './page/loader/loader.component';
 import { LoaderInterceptorService } from './page/loader/loader.interceptor';
+import { reducers } from './store/app.reducers';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LoaderComponent],
@@ -24,7 +27,11 @@ import { LoaderInterceptorService } from './page/loader/loader.interceptor';
     CoursesModule,
     BrowserAnimationsModule,
     LoginModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(reducers)
+    // StoreDevtoolsModule.instrumentOnlyWithExtension({
+    //   maxAge: 5
+    // })
   ],
   providers: [
     {

@@ -17,6 +17,8 @@
     "no-floating-promises": false,
     "no-null-keyword": false,
     "no-backbone-get-set-outside-model": false,
+    "max-classes-per-file": false,
+    "no-reserved-keywords": false,
 
     //modified riles
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
