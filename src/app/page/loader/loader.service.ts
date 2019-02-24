@@ -1,8 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 // tslint:disable-next-line: no-unsafe-any
 @Injectable()
 export class LoaderService {
-  loading: Subject<boolean> = new Subject<boolean>();
+  get loading$(): Observable<boolean> {
+    return this.loading.asObservable();
+  }
+
+  private loading: Subject<boolean> = new Subject<boolean>();
+
+  show(): void {
+    this.loading.next(true);
+  }
+
+  hide(): void {
+    this.loading.next(false);
+  }
 }

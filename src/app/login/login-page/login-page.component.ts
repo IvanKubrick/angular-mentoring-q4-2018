@@ -29,27 +29,23 @@ export class LoginPageComponent {
   }
 
   onSubmit(): void {
-    this.loaderService.loading.next(true);
     if (this.loginForm.valid) {
-      this.authService
-        .login(<IAuthData>this.loginForm.value)
-        .pipe(finalize((): void => this.loaderService.loading.next(false)))
-        .subscribe(
-          (value: IUser) => {
-            this.authService.authenticate();
-            this.authService.revealUserData(value.token, value.firstName, value.lastName);
+      this.authService.login(<IAuthData>this.loginForm.value).subscribe(
+        (value: IUser) => {
+          this.authService.authenticate();
+          this.authService.revealUserData(value.token, value.firstName, value.lastName);
 
-            localStorage.setItem('angularCoursesToken', value.token);
-            this.router.navigate(['/courses']);
-          },
-          (error: HttpErrorResponse) => {
-            if (error.status === 401) {
-              this.router.navigate(['/unauthorized']);
-            } else {
-              this.router.navigate(['/error']);
-            }
+          localStorage.setItem('angularCoursesToken', value.token);
+          this.router.navigate(['/courses']);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/unauthorized']);
+          } else {
+            this.router.navigate(['/error']);
           }
-        );
+        }
+      );
     }
   }
 }

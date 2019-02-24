@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { LoaderService } from './loader.service';
 
 @Component({
   selector: 'app-loader',
@@ -6,4 +8,20 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoaderComponent {}
+export class LoaderComponent implements OnInit, OnDestroy {
+  show: boolean = false;
+
+  private subscription: Subscription;
+
+  constructor(private loaderService: LoaderService, private readonly changeDetectorRef: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.subscription = this.loaderService.loading$.subscribe((loading: boolean) => {
+      this.show = loading;
+      this.changeDetectorRef.markForCheck();
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}

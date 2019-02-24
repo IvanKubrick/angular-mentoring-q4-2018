@@ -26,12 +26,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
   private readonly _subscriptions: Subscription[] = [];
 
   constructor(
-    private readonly filterByNamePipe: FilterByNamePipe,
     private readonly coursesService: CoursesService,
     public dialog: MatDialog,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly router: Router,
-    private readonly loaderService: LoaderService
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -52,28 +50,19 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   getCourses(): void {
-    this.loaderService.loading.next(true);
     this._subscriptions.push(
-      this.coursesService
-        .getList(this.loadMoreClickNumber * 5)
-        .pipe(finalize((): void => this.loaderService.loading.next(false)))
-        .subscribe((value: ICoursesResponse) => {
-          this.updateCourseList(value.courses);
-        })
+      this.coursesService.getList(this.loadMoreClickNumber * 5).subscribe((value: ICoursesResponse) => {
+        this.updateCourseList(value.courses);
+      })
     );
   }
 
   onCourseDeleted(courseId: number): void {
     const dialogRef: MatDialogRef<DialogComponent> = this.dialog.open(DialogComponent);
 
-    this.loaderService.loading.next(true);
-
     dialogRef
       .afterClosed()
-      .pipe(
-        filter((value: boolean) => value === true),
-        finalize((): void => this.loaderService.loading.next(false))
-      )
+      .pipe(filter((value: boolean) => value === true))
       .subscribe((result: boolean) => {
         this.removeItem(courseId);
       });
@@ -97,11 +86,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   private getCoursesByString(): void {
-    this.loaderService.loading.next(true);
     this._subscriptions.push(
       this.coursesService
         .getListByName(this.loadMoreClickNumber * 5, this.searchString)
-        .pipe(finalize((): void => this.loaderService.loading.next(false)))
         .subscribe((value: ICoursesResponse) => {
           this.updateCourseList(value.courses);
         })

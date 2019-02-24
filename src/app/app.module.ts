@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,6 +13,7 @@ import { FooterComponent } from './page/footer/footer.component';
 import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.component';
 import { HeaderComponent } from './page/header/header.component';
 import { LoaderComponent } from './page/loader/loader.component';
+import { LoaderInterceptorService } from './page/loader/loader.interceptor';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LoaderComponent],
@@ -24,6 +25,13 @@ import { LoaderComponent } from './page/loader/loader.component';
     BrowserAnimationsModule,
     LoginModule,
     HttpClientModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [DialogComponent]

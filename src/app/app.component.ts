@@ -14,51 +14,25 @@ import { IUserInfo } from './userInfo.model';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit, OnDestroy {
-  loading: boolean = false;
-
-  private readonly _subscriptions: Subscription[] = [];
-
-  constructor(
-    private readonly router: Router,
-    private readonly authService: AuthService,
-    private readonly loaderService: LoaderService,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ) {}
+export class AppComponent implements OnInit {
+  constructor(private readonly router: Router, private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     const token: string | null = this.authService.getToken();
 
     if (token !== null) {
-      this.loaderService.loading.next(true);
-      this.authService
-        .getUserInfo(token)
-        .pipe(finalize((): void => this.loaderService.loading.next(false)))
-        .subscribe(
-          (value: IUserInfo) => {
-            this.authService.authenticate();
-            this.authService.revealUserData(value.fakeToken, value.name.first, value.name.last);
-            this.router.navigate(['/courses']);
-          },
-          (error: HttpErrorResponse) => {
-            this.router.navigate(['/unauthorized']);
-          }
-        );
+      this.authService.getUserInfo(token).subscribe(
+        (value: IUserInfo) => {
+          this.authService.authenticate();
+          this.authService.revealUserData(value.fakeToken, value.name.first, value.name.last);
+          this.router.navigate(['/courses']);
+        },
+        (error: HttpErrorResponse) => {
+          this.router.navigate(['/unauthorized']);
+        }
+      );
     } else {
       this.router.navigate(['/login']);
     }
-
-    this._subscriptions.push(
-      this.loaderService.loading.subscribe((value: boolean) => {
-        this.loading = value;
-        this.changeDetectorRef.markForCheck();
-      })
-    );
-  }
-
-  ngOnDestroy(): void {
-    this._subscriptions.forEach((s: Subscription) => {
-      s.unsubscribe();
-    });
   }
 }

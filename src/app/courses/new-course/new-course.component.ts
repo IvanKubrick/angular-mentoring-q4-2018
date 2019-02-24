@@ -65,25 +65,18 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.loaderService.loading.next(true);
     if (this._editMode) {
-      this.coursesService
-        .updateItem(this._activeCourseId, <ICourse>this.courseForm.value)
-        .pipe(finalize((): void => this.loaderService.loading.next(false)))
-        .subscribe(
-          (course: ICourse): void => {
-            this.router.navigate(['/courses']);
-          }
-        );
+      this.coursesService.updateItem(this._activeCourseId, <ICourse>this.courseForm.value).subscribe(
+        (course: ICourse): void => {
+          this.router.navigate(['/courses']);
+        }
+      );
     } else {
-      this.coursesService
-        .createCourse(<ICourse>this.courseForm.value)
-        .pipe(finalize((): void => this.loaderService.loading.next(false)))
-        .subscribe(
-          (course: ICourse): void => {
-            this.router.navigate(['/courses']);
-          }
-        );
+      this.coursesService.createCourse(<ICourse>this.courseForm.value).subscribe(
+        (course: ICourse): void => {
+          this.router.navigate(['/courses']);
+        }
+      );
     }
   }
   onCancel(): void {
