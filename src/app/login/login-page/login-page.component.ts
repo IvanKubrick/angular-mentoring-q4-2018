@@ -2,11 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoaderService } from './../../page/loader/loader.service';
+import { Store } from '@ngrx/store';
 
 import { AuthService } from '@app/core';
 import { IAuthData, IUser } from '@app/shared';
-import { finalize } from 'rxjs/operators';
+
+import * as AuthActions from '../../core/auth/store/auth.actions';
+import * as fromApp from '../../store/app.reducers';
 
 @Component({
   selector: 'app-login-page',
@@ -20,7 +22,7 @@ export class LoginPageComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly loaderService: LoaderService
+    private store: Store<fromApp.IAppState>
   ) {
     this.loginForm = new FormGroup({
       login: new FormControl(null, [Validators.required]),
@@ -30,22 +32,26 @@ export class LoginPageComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.authService.login(<IAuthData>this.loginForm.value).subscribe(
-        (value: IUser) => {
-          this.authService.authenticate();
-          this.authService.revealUserData(value.token, value.firstName, value.lastName);
-
-          localStorage.setItem('angularCoursesToken', value.token);
-          this.router.navigate(['/courses']);
-        },
-        (error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this.router.navigate(['/unauthorized']);
-          } else {
-            this.router.navigate(['/error']);
-          }
-        }
+      this.store.dispatch(
+        new AuthActions.TryLogin({ login: this.loginForm.value.login, password: this.loginForm.value.password })
       );
+
+      // this.authService.login(<IAuthData>this.loginForm.value).subscribe(
+      //   (value: IUser) => {
+      //     this.authService.authenticate();
+      //     this.authService.revealUserData(value.token, value.firstName, value.lastName);
+
+      //     localStorage.setItem('angularCoursesToken', value.token);
+      //     this.router.navigate(['/courses']);
+      //   },
+      //   (error: HttpErrorResponse) => {
+      //     if (error.status === 401) {
+      //       this.router.navigate(['/unauthorized']);
+      //     } else {
+      //       this.router.navigate(['/error']);
+      //     }
+      //   }
+      // );
     }
   }
 }

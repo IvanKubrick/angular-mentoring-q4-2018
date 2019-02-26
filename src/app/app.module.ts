@@ -2,7 +2,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/core';
@@ -29,9 +28,6 @@ import { reducers } from './store/app.reducers';
     LoginModule,
     HttpClientModule,
     StoreModule.forRoot(reducers)
-    // StoreDevtoolsModule.instrumentOnlyWithExtension({
-    //   maxAge: 5
-    // })
   ],
   providers: [
     {
