@@ -18,6 +18,8 @@ import { HeaderComponent } from './page/header/header.component';
 import { LoaderComponent } from './page/loader/loader.component';
 import { LoaderInterceptorService } from './page/loader/loader.interceptor';
 import { metaReducers, reducers } from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LoaderComponent],
@@ -30,7 +32,8 @@ import { metaReducers, reducers } from './reducers';
     LoginModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [
     {
