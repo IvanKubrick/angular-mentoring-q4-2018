@@ -7,6 +7,7 @@ import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { IAuthData, IUser } from '@app/shared';
 import { AuthService } from '../auth.service';
 import * as AuthActions from './auth.actions';
+import * as fromAuth from './auth.reducer';
 
 // tslint:disable
 @Injectable()
@@ -21,6 +22,22 @@ export class AuthEffects {
         catchError(error => of(new AuthActions.LoginFailure({ error })))
       )
     )
+  );
+
+  @Effect({ dispatch: false })
+  loginSuccess$ = this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.LoginSuccess),
+    map((action: { payload: IUser }) => {
+      action.payload;
+    }),
+    tap<any>((user: IUser) => {
+      if (!user) {
+        return;
+      }
+      debugger;
+      localStorage.setItem('angularCoursesToken', user.token);
+      this.router.navigate(['/courses']);
+    })
   );
 
   constructor(
