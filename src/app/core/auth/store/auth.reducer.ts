@@ -4,18 +4,36 @@ import * as AuthActions from './auth.actions';
 
 export interface State {
   user: IUser | null;
+  authenticated: boolean;
 }
 
 export const initialState: State = {
-  user: null
+  user: null,
+  authenticated: false
 };
 
-export function reducer(state: State = initialState, action: AuthActions.AuthActionsUnion): State {
+// tslint:disable:typedef
+export function reducer(state: State = initialState, action): State {
   switch (action.type) {
+    case AuthActions.AuthActionTypes.Login: {
+      return {
+        ...state
+      };
+    }
+
     case AuthActions.AuthActionTypes.LoginSuccess: {
       return {
         ...state,
-        user: action.payload.user
+        user: action.payload.user,
+        authenticated: true
+      };
+    }
+
+    case AuthActions.AuthActionTypes.LoginFailure: {
+      return {
+        ...state,
+        user: null,
+        authenticated: false
       };
     }
 
@@ -29,5 +47,4 @@ export function reducer(state: State = initialState, action: AuthActions.AuthAct
   }
 }
 
-// tslint:disable-next-line:typedef
 export const getUser = (state: State): IUser | null => state.user;

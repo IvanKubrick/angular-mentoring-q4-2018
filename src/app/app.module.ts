@@ -4,11 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/core';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppEffects } from './app.effects';
+import { AuthEffects } from './core/auth/store/auth.effects';
 import { DialogComponent } from './courses/course-list/dialog/dialog.component';
 import { CoursesModule } from './courses/courses.module';
 import { LoginModule } from './login/login.module';
@@ -18,8 +21,6 @@ import { HeaderComponent } from './page/header/header.component';
 import { LoaderComponent } from './page/loader/loader.component';
 import { LoaderInterceptorService } from './page/loader/loader.interceptor';
 import { metaReducers, reducers } from './reducers';
-import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LoaderComponent],
@@ -33,7 +34,8 @@ import { AppEffects } from './app.effects';
     HttpClientModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([AppEffects])
+    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forFeature([AuthEffects])
   ],
   providers: [
     {
