@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppEffects } from './app.effects';
+import { AuthModule } from './core/auth/auth.module';
 import { AuthEffects } from './core/auth/store/auth.effects';
 import { DialogComponent } from './courses/course-list/dialog/dialog.component';
 import { CoursesModule } from './courses/courses.module';
@@ -20,7 +21,6 @@ import { BreadcrumbsComponent } from './page/header/breadcrumbs/breadcrumbs.comp
 import { HeaderComponent } from './page/header/header.component';
 import { LoaderComponent } from './page/loader/loader.component';
 import { LoaderInterceptorService } from './page/loader/loader.interceptor';
-import { metaReducers, reducers } from './reducers';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent, LoaderComponent],
@@ -32,7 +32,8 @@ import { metaReducers, reducers } from './reducers';
     BrowserAnimationsModule,
     LoginModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot({}),
+    AuthModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([AuthEffects])

@@ -13,12 +13,12 @@ export const initialState: State = {
 };
 
 // tslint:disable:typedef
-export function reducer(state: State = initialState, action): State {
+export function reducer(state: State = initialState, action: AuthActions.AuthActionsUnion): State {
   switch (action.type) {
     case AuthActions.AuthActionTypes.LoginSuccess: {
       return {
         ...state,
-        user: action.payload.user,
+        user: (<AuthActions.LoginSuccess>action).payload.user,
         authenticated: true
       };
     }

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { LoaderService } from './../../page/loader/loader.service';
 
 import { AuthService } from '@app/core';
@@ -34,8 +34,8 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.subscribe((state: fromAuth.State) => {
-      console.log(state);
+    this.store.pipe(select('user')).subscribe((user: IUser) => {
+      console.log(user);
     });
   }
 

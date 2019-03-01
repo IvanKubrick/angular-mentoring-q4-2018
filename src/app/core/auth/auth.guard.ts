@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    // return this.store.select('authenticated');
-    return this.authService.isAuthenticated$;
+    return this.store.select('authenticated');
+    // return this.authService.isAuthenticated$;
   }
 }

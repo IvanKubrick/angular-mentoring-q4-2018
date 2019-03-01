@@ -27,14 +27,8 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   loginSuccess$ = this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.LoginSuccess),
-    map((action: { payload: IUser }) => {
-      action.payload;
-    }),
+    map((action: { payload: { user: IUser } }) => action.payload.user),
     tap<any>((user: IUser) => {
-      if (!user) {
-        return;
-      }
-      debugger;
       localStorage.setItem('angularCoursesToken', user.token);
       this.router.navigate(['/courses']);
     })
