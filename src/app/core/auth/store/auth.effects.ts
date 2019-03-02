@@ -1,8 +1,9 @@
+import { IUserInfo } from './../../../userInfo.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { of, empty } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { IAuthData, IUser } from '@app/shared';
@@ -13,6 +14,48 @@ import * as fromAuth from './auth.reducer';
 // tslint:disable
 @Injectable()
 export class AuthEffects {
+  @Effect()
+  tryToLogin$ = this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.TryToLogin),
+    map(() => this.authService.getToken()),
+    exhaustMap((token: string) => {
+      if (token !== null) {
+        return this.authService.getUserInfo(token).pipe(
+          map((userInfo: IUserInfo) => {
+            const user: IUser = {
+              firstName: userInfo.name.first,
+              lastName: userInfo.name.last,
+              token: userInfo.fakeToken
+            };
+
+            return new AuthActions.TryToLoginSuccess({ user });
+          }),
+          catchError(() => of(new AuthActions.TryToLoginFailure()))
+        );
+      } else {
+        this.router.navigate(['/login']);
+        return empty();
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  tryToLoginSuccess$ = this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.TryToLoginSuccess),
+    map((action: { payload: { user: IUser } }) => action.payload.user),
+    tap<any>((user: IUser) => {
+      this.router.navigate(['/courses']);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  tryToLoginFailure$ = this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.TryToLoginFailure),
+    tap<any>((status: number) => {
+      this.router.navigate(['/login']);
+    })
+  );
+
   @Effect()
   login$ = this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.Login),
@@ -52,6 +95,7 @@ export class AuthEffects {
   logout$ = this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.Logout),
     tap<any>((status: number) => {
+      localStorage.removeItem('angularCoursesToken');
       this.router.navigate(['/login']);
     })
   );

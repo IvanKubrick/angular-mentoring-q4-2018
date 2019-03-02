@@ -15,7 +15,8 @@ export const initialState: State = {
 // tslint:disable:typedef
 export function reducer(state: State = initialState, action: AuthActions.AuthActionsUnion): State {
   switch (action.type) {
-    case AuthActions.AuthActionTypes.LoginSuccess: {
+    case AuthActions.AuthActionTypes.LoginSuccess:
+    case AuthActions.AuthActionTypes.TryToLoginSuccess: {
       return {
         ...state,
         user: (<AuthActions.LoginSuccess>action).payload.user,
@@ -23,7 +24,8 @@ export function reducer(state: State = initialState, action: AuthActions.AuthAct
       };
     }
 
-    case AuthActions.AuthActionTypes.LoginFailure: {
+    case AuthActions.AuthActionTypes.LoginFailure:
+    case AuthActions.AuthActionTypes.TryToLoginFailure: {
       return {
         ...state,
         user: null,

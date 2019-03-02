@@ -1,10 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import { AppState } from './app.state';
 import { AuthService } from './core/auth/auth.service';
+import * as AuthActions from './core/auth/store/auth.actions';
 import { LoaderService } from './page/loader/loader.service';
 import { IUserInfo } from './userInfo.model';
 
@@ -15,24 +18,13 @@ import { IUserInfo } from './userInfo.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  constructor(private readonly router: Router, private readonly authService: AuthService) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
-    const token: string | null = this.authService.getToken();
-
-    if (token !== null) {
-      this.authService.getUserInfo(token).subscribe(
-        (value: IUserInfo) => {
-          this.authService.authenticate();
-          this.authService.revealUserData(value.fakeToken, value.name.first, value.name.last);
-          this.router.navigate(['/courses']);
-        },
-        (error: HttpErrorResponse) => {
-          this.router.navigate(['/unauthorized']);
-        }
-      );
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.store.dispatch(new AuthActions.TryToLogin());
   }
 }
