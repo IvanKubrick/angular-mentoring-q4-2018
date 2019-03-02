@@ -25,13 +25,6 @@ export class AuthService {
     return this.http.post<IUser>(url, { login: authData.login, password: authData.password });
   }
 
-  logout(): void {
-    localStorage.removeItem('angularCoursesToken');
-    this.userData = null;
-    this._isAuthenticated.next(false);
-    this.user.next(null);
-  }
-
   getUserInfo(token: string): Observable<IUserInfo> {
     const url: string = 'http://localhost:3004/auth/userinfo';
 

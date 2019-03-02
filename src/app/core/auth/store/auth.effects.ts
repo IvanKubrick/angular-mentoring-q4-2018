@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -31,6 +32,27 @@ export class AuthEffects {
     tap<any>((user: IUser) => {
       localStorage.setItem('angularCoursesToken', user.token);
       this.router.navigate(['/courses']);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  loginFailure$ = this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.LoginFailure),
+    map((action: { payload: { error: HttpErrorResponse } }) => action.payload.error.status),
+    tap<any>((status: number) => {
+      if (status === 401) {
+        this.router.navigate(['/unauthorized']);
+      } else {
+        this.router.navigate(['/error']);
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  logout$ = this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.Logout),
+    tap<any>((status: number) => {
+      this.router.navigate(['/login']);
     })
   );
 
