@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "serve": "node server",
     "start": "ng serve",
     "build": "ng build",
     "build:ci": "ng build --base-href https://ivankubrick.github.io/angular-mentoring-q4-2018/ --prod",
@@ -38,7 +39,10 @@
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "express": "^4.14.1",
+    "json-server": "^0.9.4",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.12.2",
