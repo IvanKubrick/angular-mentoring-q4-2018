@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "node server",
-    "start": "ng serve",
+    "start": "node server | ng serve",
     "build": "ng build",
     "build:ci": "ng build --base-href https://ivankubrick.github.io/angular-mentoring-q4-2018/ --prod",
     "test": "ng test",
