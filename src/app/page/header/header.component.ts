@@ -8,9 +8,8 @@ import { AuthService } from '@app/core';
 import { ICourse, IUser } from '@app/shared';
 
 import { CoursesService } from 'src/app/courses/courses.service';
+import { AppState, selectAuthUser } from 'src/app/store';
 import * as AuthActions from '../../core/auth/store/auth.actions';
-import * as fromAuth from '../../core/auth/store/auth.reducer';
-import { AppState } from '../../store';
 
 @Component({
   selector: 'app-header',
@@ -37,15 +36,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store
-      .pipe(
-        select('auth'),
-        map((auth: fromAuth.State) => auth.user)
-      )
-      .subscribe((user: IUser) => {
-        this.loggedInUser = user;
-        this.changeDetectorRef.markForCheck();
-      });
+    this.store.select(selectAuthUser).subscribe((user: IUser) => {
+      this.loggedInUser = user;
+      this.changeDetectorRef.markForCheck();
+    });
     this.subscribeForRouterEvents();
   }
 

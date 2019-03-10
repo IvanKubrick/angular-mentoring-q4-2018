@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
+import { AppState } from 'src/app/store';
 import * as AuthActions from '../../core/auth/store/auth.actions';
-import { AppState } from '../../store';
 
 @Component({
   selector: 'app-login-page',

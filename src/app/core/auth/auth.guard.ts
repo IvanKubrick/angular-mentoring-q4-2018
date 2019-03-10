@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { AppState, selectAuthAuthenticated } from '../../store';
+import { AppState, selectAuthAuthenticated } from 'src/app/store';
 import { CoreModule } from '../core.module';
 
 @Injectable({

@@ -73,7 +73,7 @@ export class AuthEffects {
     ofType(AuthActions.AuthActionTypes.LoginSuccess),
     map((action: { payload: { user: IUser } }) => action.payload.user),
     tap<any>((user: IUser) => {
-      localStorage.setItem('angularCoursesToken', user.token);
+      this.authService.saveToken(user.token);
       this.router.navigate(['/courses']);
     })
   );
@@ -95,7 +95,7 @@ export class AuthEffects {
   logout$ = this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.Logout),
     tap<any>((status: number) => {
-      localStorage.removeItem('angularCoursesToken');
+      this.authService.removeToken();
       this.router.navigate(['/login']);
     })
   );

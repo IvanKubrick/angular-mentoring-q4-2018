@@ -25,4 +25,12 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('angularCoursesToken');
   }
+
+  saveToken(token: string): void {
+    localStorage.setItem('angularCoursesToken', token);
+  }
+
+  removeToken(): void {
+    localStorage.removeItem('angularCoursesToken');
+  }
 }
