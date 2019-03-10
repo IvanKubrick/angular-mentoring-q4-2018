@@ -10,7 +10,7 @@ import { ICourse, IUser } from '@app/shared';
 import { CoursesService } from 'src/app/courses/courses.service';
 import * as AuthActions from '../../core/auth/store/auth.actions';
 import * as fromAuth from '../../core/auth/store/auth.reducer';
-import { AppState } from './../../app.state';
+import { AppState } from '../../store';
 
 @Component({
   selector: 'app-header',

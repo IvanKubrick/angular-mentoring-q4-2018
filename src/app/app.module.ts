@@ -11,7 +11,6 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './core/auth/auth.module';
-import { AuthEffects } from './core/auth/store/auth.effects';
 import { DialogComponent } from './courses/course-list/dialog/dialog.component';
 import { CoursesModule } from './courses/courses.module';
 import { LoginModule } from './login/login.module';
@@ -32,10 +31,9 @@ import { LoaderInterceptorService } from './page/loader/loader.interceptor';
     LoginModule,
     HttpClientModule,
     StoreModule.forRoot({}),
-    AuthModule,
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([AuthEffects])
+    AuthModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [
     {

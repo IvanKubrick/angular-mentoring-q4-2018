@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import * as AuthActions from '../../core/auth/store/auth.actions';
-import { AppState } from './../../app.state';
+import { AppState } from '../../store';
 
 @Component({
   selector: 'app-login-page',

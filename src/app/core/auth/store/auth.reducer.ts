@@ -42,5 +42,3 @@ export function reducer(state: State = initialState, action: AuthActions.AuthAct
     }
   }
 }
-
-export const getUser = (state: State): IUser | null => state.user;

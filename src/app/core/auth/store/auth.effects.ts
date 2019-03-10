@@ -1,10 +1,10 @@
-import { IUserInfo } from './../../../userInfo.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, empty } from 'rxjs';
+import { empty, of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { IUserInfo } from './../../../userInfo.model';
 
 import { IAuthData, IUser } from '@app/shared';
 import { AuthService } from '../auth.service';
