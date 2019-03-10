@@ -229,6 +229,9 @@ Apache-2.0
  
 
 
+@ngrx/store-devtools
+MIT
+
 @angular/core
 MIT
 
@@ -300,6 +303,9 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 END OF TERMS AND CONDITIONS
 
 
+@ngrx/store
+MIT
+
 @angular/animations
 MIT
 
@@ -340,6 +346,9 @@ MIT
 @angular/material/button
 
 @angular/material/datepicker
+
+@ngrx/effects
+MIT
 
 zone.js
 MIT
