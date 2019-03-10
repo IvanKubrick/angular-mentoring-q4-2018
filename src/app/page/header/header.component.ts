@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
@@ -7,6 +8,8 @@ import { AuthService } from '@app/core';
 import { ICourse, IUser } from '@app/shared';
 
 import { CoursesService } from 'src/app/courses/courses.service';
+import { AppState, selectAuthUser } from 'src/app/store';
+import * as AuthActions from '../../core/auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -28,16 +31,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly coursesService: CoursesService,
     private readonly router: Router,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this._subscriptions.push(
-      this.authService.user.subscribe((value: IUser) => {
-        this.loggedInUser = value;
-        this.changeDetectorRef.markForCheck();
-      })
-    );
+    this.store.select(selectAuthUser).subscribe((user: IUser) => {
+      this.loggedInUser = user;
+      this.changeDetectorRef.markForCheck();
+    });
     this.subscribeForRouterEvents();
   }
 
@@ -48,8 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogOffClick(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.store.dispatch(new AuthActions.Logout());
   }
 
   private subscribeForRouterEvents(): void {

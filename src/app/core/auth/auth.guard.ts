@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { AppState, selectAuthAuthenticated } from 'src/app/store';
 import { CoreModule } from '../core.module';
-import { AuthService } from './auth.service';
 
-// tslint:disable-next-line: no-unsafe-any
 @Injectable({
   providedIn: CoreModule
 })
 export class AuthGuard implements CanActivate {
-  constructor(private readonly router: Router, private readonly authService: AuthService) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.isAuthenticated$;
+    return this.store.select(selectAuthAuthenticated);
   }
 }
