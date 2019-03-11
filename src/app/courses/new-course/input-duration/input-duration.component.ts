@@ -12,16 +12,25 @@ import { skipUntil, takeUntil } from 'rxjs/operators';
 export class InputDurationComponent implements OnInit, OnDestroy {
   durationForm: FormGroup;
 
-  @Input() duration: number;
+  @Input()
+  set duration(value: number) {
+    const time: number = Number(value);
+
+    this._duration = time ? time : null;
+  }
+  get duration(): number {
+    return this._duration;
+  }
 
   @Output() durationChanged: EventEmitter<number> = new EventEmitter<number>();
 
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
+  private _duration: number;
 
   constructor() {
     this.durationForm = new FormGroup({
-      duration: new FormControl(null, [Validators.required, Validators.min(10)])
+      duration: new FormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')])
     });
   }
 

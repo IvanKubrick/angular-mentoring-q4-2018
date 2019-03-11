@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Route, Router } from '@angular/router';
 import { ICourse } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
@@ -7,12 +7,20 @@ import { filter, finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { LoaderService } from './../../page/loader/loader.service';
 
 import { CoursesService } from '../courses.service';
+import { InputDateComponent } from './input-date/input-date.component';
 
 @Component({
   selector: 'app-new-course',
   templateUrl: './new-course.component.html',
   styleUrls: ['./new-course.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputDateComponent),
+      multi: true
+    }
+  ]
 })
 export class NewCourseComponent implements OnInit, OnDestroy {
   courseForm: FormGroup;
@@ -24,6 +32,10 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
 
+  get formInvalid(): boolean {
+    return this.courseForm.invalid;
+  }
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -31,10 +43,10 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     private readonly loaderService: LoaderService
   ) {
     this.courseForm = new FormGroup({
-      name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
-      description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
-      date: new FormControl(null, Validators.required),
-      duration: new FormControl(null, [Validators.required, Validators.min(10)])
+      name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
+      date: new FormControl(null, [Validators.required]),
+      duration: new FormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')])
     });
   }
 

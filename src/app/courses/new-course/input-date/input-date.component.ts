@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { skipUntil, takeUntil } from 'rxjs/operators';
+
+import { isDate } from '@app/shared';
 
 @Component({
   selector: 'app-input-date',
   templateUrl: './input-date.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InputDateComponent implements OnInit, OnDestroy {
+export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestroy {
   dateForm: FormGroup;
 
   @Input() date: Date;
@@ -20,7 +22,7 @@ export class InputDateComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.dateForm = new FormGroup({
-      date: new FormControl(null, Validators.required)
+      date: new FormControl(null, [Validators.required, isDate])
     });
   }
 
@@ -42,5 +44,24 @@ export class InputDateComponent implements OnInit, OnDestroy {
     this._initialized.complete();
     this._destroyed.next();
     this._destroyed.complete();
+  }
+
+  writeValue(value: string): void {
+    if (!value || typeof value !== 'string') {
+      return;
+    }
+  }
+
+  // tslint:disable:no-empty typedef
+  onChange() {}
+
+  onTouched() {}
+
+  registerOnChange(fn: () => {}): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
   }
 }

@@ -9,6 +9,7 @@
         <input class="course-form__description" matInput placeholder="Description" formControlName="description" />
       </mat-form-field>
       <app-input-date [date]="date" (dateChanged)="onDateChanged($event)"></app-input-date>
+      <!-- <app-input-date [date]="date" formControlName="date"></app-input-date> -->
       <app-input-duration [duration]="duration" (durationChanged)="onDurationChanged($event)"></app-input-duration>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>

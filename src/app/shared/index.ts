@@ -7,3 +7,5 @@ export * from './duration-pipe/duration.pipe';
 export * from './orderBy-pipe/order-by.pipe';
 
 export * from './course-border/course-border.directive';
+
+export * from './custom-validators/date-validator';
