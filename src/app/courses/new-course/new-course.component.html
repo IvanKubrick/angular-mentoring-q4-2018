@@ -2,18 +2,32 @@
   <mat-card-title class="course-card__title">New Course</mat-card-title>
   <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
     <div class="course-card__form course-form">
-      <mat-form-field class="course-card__field">
-        <input class="course-form__title" matInput placeholder="Title" formControlName="name" />
-      </mat-form-field>
-      <mat-form-field class="course-card__field">
-        <input class="course-form__description" matInput placeholder="Description" formControlName="description" />
-      </mat-form-field>
+      <div class="control">
+        <mat-form-field class="course-card__field">
+          <input class="course-form__title" matInput placeholder="Title" id="name" formControlName="name" />
+        </mat-form-field>
+        <div *ngIf="courseForm.name?.errors.required" class="control__message">111</div>
+      </div>
+      <div class="control">
+        <mat-form-field class="course-card__field">
+          <input
+            class="course-form__description"
+            matInput
+            placeholder="Description"
+            id="description"
+            formControlName="description"
+          />
+        </mat-form-field>
+        <div *ngIf="courseForm.description?.errors.required" class="control__message"></div>
+      </div>
       <app-input-date [date]="date" (dateChanged)="onDateChanged($event)"></app-input-date>
       <!-- <app-input-date [date]="date" formControlName="date"></app-input-date> -->
       <app-input-duration [duration]="duration" (durationChanged)="onDurationChanged($event)"></app-input-duration>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>
-    <button class="course-card__button_save" type="submit" mat-raised-button color="primary">Save</button>
+    <button class="course-card__button_save" type="submit" mat-raised-button color="primary" [disabled]="formInvalid">
+      Save
+    </button>
     <button class="course-card__button_cancel" type="button" mat-button color="primary" (click)="onCancel()">
       Cancel
     </button>
