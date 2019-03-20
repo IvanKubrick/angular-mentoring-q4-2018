@@ -21,7 +21,7 @@
         <div *ngIf="courseForm.description?.errors.required" class="control__message"></div>
       </div>
       <app-input-date [date]="date" formControlName="date"></app-input-date>
-      <app-input-duration [duration]="duration" (durationChanged)="onDurationChanged($event)"></app-input-duration>
+      <app-input-duration [duration]="duration" formControlName="duration"></app-input-duration>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>
     <button class="course-card__button_save" type="submit" mat-raised-button color="primary" [disabled]="formInvalid">

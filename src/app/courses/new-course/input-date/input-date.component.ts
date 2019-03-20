@@ -1,7 +1,6 @@
 // tslint:disable:no-empty typedef
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnDestroy, Output } from '@angular/core';
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-input-date',
@@ -15,21 +14,8 @@ import { Subject } from 'rxjs';
     }
   ]
 })
-export class InputDateComponent implements ControlValueAccessor, OnDestroy {
-  dateForm: FormGroup;
-
+export class InputDateComponent implements ControlValueAccessor {
   @Input() date: Date;
-
-  @Output() dateChanged: EventEmitter<Date> = new EventEmitter<Date>();
-
-  private readonly _initialized: Subject<void> = new Subject<void>();
-  private readonly _destroyed: Subject<void> = new Subject<void>();
-
-  ngOnDestroy(): void {
-    this._initialized.complete();
-    this._destroyed.next();
-    this._destroyed.complete();
-  }
 
   writeValue(value): void {
     this.onChange(value);

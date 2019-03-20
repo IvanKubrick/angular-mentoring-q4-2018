@@ -85,13 +85,6 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this.router.navigate(['/courses']);
   }
 
-  onDateChanged(date: Date): void {
-    this.courseForm.patchValue({ date: date });
-  }
-  onDurationChanged(duration: number): void {
-    this.courseForm.patchValue({ duration: duration });
-  }
-
   private patchForm(course: ICourse): void {
     window.console.log(course);
     this.courseForm.patchValue({
