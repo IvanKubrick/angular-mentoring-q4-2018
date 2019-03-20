@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Route, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ICourse } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
-import { filter, finalize, switchMap, takeUntil } from 'rxjs/operators';
-import { LoaderService } from './../../page/loader/loader.service';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { CoursesService } from '../courses.service';
 import { InputDateComponent } from './input-date/input-date.component';
@@ -13,14 +12,7 @@ import { InputDateComponent } from './input-date/input-date.component';
   selector: 'app-new-course',
   templateUrl: './new-course.component.html',
   styleUrls: ['./new-course.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputDateComponent),
-      multi: true
-    }
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewCourseComponent implements OnInit, OnDestroy {
   courseForm: FormGroup;
@@ -39,8 +31,7 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly coursesService: CoursesService,
-    private readonly loaderService: LoaderService
+    private readonly coursesService: CoursesService
   ) {
     this.courseForm = new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
@@ -92,7 +83,8 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     }
   }
   onCancel(): void {
-    this.router.navigate(['/courses']);
+    // this.router.navigate(['/courses']);
+    console.log(this.courseForm);
   }
 
   onDateChanged(date: Date): void {

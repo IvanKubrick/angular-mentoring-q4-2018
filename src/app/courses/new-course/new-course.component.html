@@ -20,8 +20,7 @@
         </mat-form-field>
         <div *ngIf="courseForm.description?.errors.required" class="control__message"></div>
       </div>
-      <app-input-date [date]="date" (dateChanged)="onDateChanged($event)"></app-input-date>
-      <!-- <app-input-date [date]="date" formControlName="date"></app-input-date> -->
+      <app-input-date [date]="date" formControlName="date"></app-input-date>
       <app-input-duration [duration]="duration" (durationChanged)="onDurationChanged($event)"></app-input-duration>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>

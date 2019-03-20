@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { skipUntil, takeUntil } from 'rxjs/operators';
 
@@ -8,7 +17,14 @@ import { isDate } from '@app/shared';
 @Component({
   selector: 'app-input-date',
   templateUrl: './input-date.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputDateComponent),
+      multi: true
+    }
+  ]
 })
 export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestroy {
   dateForm: FormGroup;
@@ -20,24 +36,19 @@ export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestr
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
 
-  constructor() {
-    this.dateForm = new FormGroup({
-      date: new FormControl(null, [Validators.required, isDate])
-    });
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.dateForm
-      .get('date')
-      .valueChanges.pipe(
-        skipUntil(this._initialized),
-        takeUntil(this._destroyed)
-      )
-      .subscribe((value: Date) => {
-        this.dateChanged.emit(value);
-      });
-
-    this._initialized.next();
+    // this.dateForm
+    //   .get('date')
+    //   .valueChanges.pipe(
+    //     skipUntil(this._initialized),
+    //     takeUntil(this._destroyed)
+    //   )
+    //   .subscribe((value: Date) => {
+    //     this.dateChanged.emit(value);
+    //   });
+    // this._initialized.next();
   }
 
   ngOnDestroy(): void {
@@ -46,16 +57,16 @@ export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestr
     this._destroyed.complete();
   }
 
-  writeValue(value: string): void {
+  writeValue(value): void {
     if (!value || typeof value !== 'string') {
       return;
     }
+    this.onChange(value);
   }
 
   // tslint:disable:no-empty typedef
-  onChange() {}
-
-  onTouched() {}
+  onChange = value => {};
+  onTouched = () => {};
 
   registerOnChange(fn: () => {}): void {
     this.onChange = fn;
@@ -63,5 +74,9 @@ export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestr
 
   registerOnTouched(fn: () => {}): void {
     this.onTouched = fn;
+  }
+
+  onBlur() {
+    this.onTouched();
   }
 }
