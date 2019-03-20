@@ -1,7 +1,7 @@
 <mat-form-field class="course-card__datepicker">
   <input
     [value]="date"
-    (blur)="onBlur()"
+    (dateChange)="onDateChange($event.value)"
     class="course-form__date"
     matInput
     [matDatepicker]="picker"

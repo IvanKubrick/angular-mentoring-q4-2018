@@ -6,7 +6,6 @@ import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { CoursesService } from '../courses.service';
-import { InputDateComponent } from './input-date/input-date.component';
 
 @Component({
   selector: 'app-new-course',
@@ -83,8 +82,7 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     }
   }
   onCancel(): void {
-    // this.router.navigate(['/courses']);
-    console.log(this.courseForm);
+    this.router.navigate(['/courses']);
   }
 
   onDateChanged(date: Date): void {

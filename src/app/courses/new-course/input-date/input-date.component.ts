@@ -1,18 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+// tslint:disable:no-empty typedef
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnDestroy, Output } from '@angular/core';
+import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { skipUntil, takeUntil } from 'rxjs/operators';
-
-import { isDate } from '@app/shared';
 
 @Component({
   selector: 'app-input-date',
@@ -26,7 +15,7 @@ import { isDate } from '@app/shared';
     }
   ]
 })
-export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class InputDateComponent implements ControlValueAccessor, OnDestroy {
   dateForm: FormGroup;
 
   @Input() date: Date;
@@ -36,21 +25,6 @@ export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestr
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
 
-  constructor() {}
-
-  ngOnInit(): void {
-    // this.dateForm
-    //   .get('date')
-    //   .valueChanges.pipe(
-    //     skipUntil(this._initialized),
-    //     takeUntil(this._destroyed)
-    //   )
-    //   .subscribe((value: Date) => {
-    //     this.dateChanged.emit(value);
-    //   });
-    // this._initialized.next();
-  }
-
   ngOnDestroy(): void {
     this._initialized.complete();
     this._destroyed.next();
@@ -58,13 +32,9 @@ export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestr
   }
 
   writeValue(value): void {
-    if (!value || typeof value !== 'string') {
-      return;
-    }
     this.onChange(value);
   }
 
-  // tslint:disable:no-empty typedef
   onChange = value => {};
   onTouched = () => {};
 
@@ -76,7 +46,7 @@ export class InputDateComponent implements ControlValueAccessor, OnInit, OnDestr
     this.onTouched = fn;
   }
 
-  onBlur() {
-    this.onTouched();
+  onDateChange(date: Date) {
+    this.onChange(date);
   }
 }
