@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { ICourse } from '@app/shared';
+import { ICourse, isDate } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -35,7 +35,7 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this.courseForm = new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
-      date: new FormControl(null, [Validators.required]),
+      date: new FormControl(null, [Validators.required, isDate]),
       duration: new FormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')])
     });
   }
