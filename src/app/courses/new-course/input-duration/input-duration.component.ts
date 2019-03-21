@@ -45,6 +45,9 @@ export class InputDurationComponent {
 
   onInput(value: string) {
     const duration = +value ? +value : null;
+
+    this._duration = duration;
+
     this.onChange(duration);
   }
 }
