@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ICourse, isDate } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
@@ -25,6 +25,27 @@ export class NewCourseComponent implements OnInit, OnDestroy {
 
   get formInvalid(): boolean {
     return this.courseForm.invalid;
+  }
+
+  get nameInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('name');
+
+    return control.invalid && control.dirty;
+  }
+  get descriptionInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('description');
+
+    return control.invalid && control.dirty;
+  }
+  get nameErrors(): string {
+    const control: AbstractControl = this.courseForm.get('name');
+
+    return Object.keys(control.errors).join(' ');
+  }
+  get descriptionErrors(): string {
+    const control: AbstractControl = this.courseForm.get('description');
+
+    return Object.keys(control.errors).join(' ');
   }
 
   constructor(
