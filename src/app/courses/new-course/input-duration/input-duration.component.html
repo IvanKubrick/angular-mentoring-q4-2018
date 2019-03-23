@@ -1,16 +1,14 @@
-<form [formGroup]="durationForm">
-  <div class="course-card__duration duration">
-    <mat-form-field class="duration__control">
-      <input
-        type="number"
-        min="10"
-        class="course-form__duration"
-        matInput
-        placeholder="Duration"
-        [value]="duration"
-        formControlName="duration"
-      />
-    </mat-form-field>
-    <div class="duration__text">{{ duration | duration }}</div>
-  </div>
-</form>
+<div class="course-card__duration duration">
+  <mat-form-field class="duration__control">
+    <input
+      type="text"
+      class="course-form__duration"
+      matInput
+      placeholder="Duration"
+      [value]="duration"
+      (change)="onInput($event.target.value)"
+      (blur)="onBlur()"
+    />
+  </mat-form-field>
+  <div class="duration__text">{{ duration | duration }}</div>
+</div>

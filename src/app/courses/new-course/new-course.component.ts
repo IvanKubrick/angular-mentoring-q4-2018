@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Route, Router } from '@angular/router';
-import { ICourse } from '@app/shared';
+import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators, AbstractControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ICourse, isDate } from '@app/shared';
 import { Observable, Subject } from 'rxjs';
-import { filter, finalize, switchMap, takeUntil } from 'rxjs/operators';
-import { LoaderService } from './../../page/loader/loader.service';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { CoursesService } from '../courses.service';
 
@@ -21,20 +20,66 @@ export class NewCourseComponent implements OnInit, OnDestroy {
 
   private _editMode: boolean = false;
   private _activeCourseId: number;
+  private _dateControlTouched: boolean = false;
+  private _durationControlTouched: boolean = false;
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
+
+  get formInvalid(): boolean {
+    return this.courseForm.invalid;
+  }
+
+  get nameInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('name');
+
+    return control.invalid && control.touched;
+  }
+  get descriptionInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('description');
+
+    return control.invalid && control.touched;
+  }
+  get dateInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('date');
+
+    return control.invalid && this._dateControlTouched;
+  }
+  get durationInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('duration');
+
+    return control.invalid && this._durationControlTouched;
+  }
+  get nameErrors(): string {
+    const control: AbstractControl = this.courseForm.get('name');
+
+    return Object.keys(control.errors).join(' ');
+  }
+  get descriptionErrors(): string {
+    const control: AbstractControl = this.courseForm.get('description');
+
+    return Object.keys(control.errors).join(' ');
+  }
+  get dateErrors(): string {
+    const control: AbstractControl = this.courseForm.get('date');
+
+    return Object.keys(control.errors).join(' ');
+  }
+  get durationErrors(): string {
+    const control: AbstractControl = this.courseForm.get('duration');
+
+    return Object.keys(control.errors).join(' ');
+  }
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly coursesService: CoursesService,
-    private readonly loaderService: LoaderService
+    private readonly coursesService: CoursesService
   ) {
     this.courseForm = new FormGroup({
-      name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
-      description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
-      date: new FormControl(null, Validators.required),
-      duration: new FormControl(null, [Validators.required, Validators.min(10)])
+      name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
+      date: new FormControl(null, [Validators.required, isDate]),
+      duration: new FormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')])
     });
   }
 
@@ -64,6 +109,14 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this._destroyed.complete();
   }
 
+  onDateControlBlur(): void {
+    this._dateControlTouched = true;
+  }
+
+  onDurationControlBlur(): void {
+    this._durationControlTouched = true;
+  }
+
   onSubmit(): void {
     if (this._editMode) {
       this.coursesService.updateItem(this._activeCourseId, <ICourse>this.courseForm.value).subscribe(
@@ -81,13 +134,6 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   }
   onCancel(): void {
     this.router.navigate(['/courses']);
-  }
-
-  onDateChanged(date: Date): void {
-    this.courseForm.patchValue({ date: date });
-  }
-  onDurationChanged(duration: number): void {
-    this.courseForm.patchValue({ duration: duration });
   }
 
   private patchForm(course: ICourse): void {

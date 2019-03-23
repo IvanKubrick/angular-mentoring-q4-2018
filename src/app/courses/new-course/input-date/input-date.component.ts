@@ -1,46 +1,48 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { skipUntil, takeUntil } from 'rxjs/operators';
+// tslint:disable:no-empty typedef
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-input-date',
   templateUrl: './input-date.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputDateComponent),
+      multi: true
+    }
+  ]
 })
-export class InputDateComponent implements OnInit, OnDestroy {
-  dateForm: FormGroup;
-
+export class InputDateComponent implements ControlValueAccessor {
   @Input() date: Date;
+  @Output() controlBlur: EventEmitter<void> = new EventEmitter<void>();
 
-  @Output() dateChanged: EventEmitter<Date> = new EventEmitter<Date>();
+  private _touched: boolean = false;
 
-  private readonly _initialized: Subject<void> = new Subject<void>();
-  private readonly _destroyed: Subject<void> = new Subject<void>();
-
-  constructor() {
-    this.dateForm = new FormGroup({
-      date: new FormControl(null, Validators.required)
-    });
+  writeValue(value): void {
+    this.onChange(value);
   }
 
-  ngOnInit(): void {
-    this.dateForm
-      .get('date')
-      .valueChanges.pipe(
-        skipUntil(this._initialized),
-        takeUntil(this._destroyed)
-      )
-      .subscribe((value: Date) => {
-        this.dateChanged.emit(value);
-      });
+  onChange = value => {};
+  onTouched = () => {};
 
-    this._initialized.next();
+  registerOnChange(fn: () => {}): void {
+    this.onChange = fn;
   }
 
-  ngOnDestroy(): void {
-    this._initialized.complete();
-    this._destroyed.next();
-    this._destroyed.complete();
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
+  }
+
+  onDateChange(date: Date) {
+    this.onChange(date);
+  }
+
+  onBlur() {
+    if (!this._touched) {
+      this.controlBlur.emit();
+    }
+    this._touched = true;
   }
 }

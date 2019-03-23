@@ -2,17 +2,41 @@
   <mat-card-title class="course-card__title">New Course</mat-card-title>
   <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
     <div class="course-card__form course-form">
-      <mat-form-field class="course-card__field">
-        <input class="course-form__title" matInput placeholder="Title" formControlName="name" />
-      </mat-form-field>
-      <mat-form-field class="course-card__field">
-        <input class="course-form__description" matInput placeholder="Description" formControlName="description" />
-      </mat-form-field>
-      <app-input-date [date]="date" (dateChanged)="onDateChanged($event)"></app-input-date>
-      <app-input-duration [duration]="duration" (durationChanged)="onDurationChanged($event)"></app-input-duration>
+      <div class="control">
+        <mat-form-field class="course-card__field">
+          <input class="course-form__title" matInput placeholder="Title" id="name" formControlName="name" />
+        </mat-form-field>
+        <div *ngIf="nameInvalid" class="control__message">{{ nameErrors }}</div>
+      </div>
+      <div class="control">
+        <mat-form-field class="course-card__field">
+          <input
+            class="course-form__description"
+            matInput
+            placeholder="Description"
+            id="description"
+            formControlName="description"
+          />
+        </mat-form-field>
+        <div *ngIf="descriptionInvalid" class="control__message">{{ descriptionErrors }}</div>
+      </div>
+      <div class="control">
+        <app-input-date [date]="date" formControlName="date" (controlBlur)="onDateControlBlur()"></app-input-date>
+        <div *ngIf="dateInvalid" class="control__message">{{ dateErrors }}</div>
+      </div>
+      <div class="control">
+        <app-input-duration
+          [duration]="duration"
+          formControlName="duration"
+          (controlBlur)="onDurationControlBlur()"
+        ></app-input-duration>
+        <div *ngIf="durationInvalid" class="control__message">{{ durationErrors }}</div>
+      </div>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>
-    <button class="course-card__button_save" type="submit" mat-raised-button color="primary">Save</button>
+    <button class="course-card__button_save" type="submit" mat-raised-button color="primary" [disabled]="formInvalid">
+      Save
+    </button>
     <button class="course-card__button_cancel" type="button" mat-button color="primary" (click)="onCancel()">
       Cancel
     </button>

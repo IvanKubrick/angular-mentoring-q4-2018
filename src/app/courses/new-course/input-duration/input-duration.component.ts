@@ -1,48 +1,63 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { skipUntil, takeUntil } from 'rxjs/operators';
+// tslint:disable:no-empty typedef
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-input-duration',
   templateUrl: './input-duration.component.html',
   styleUrls: ['./input-duration.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputDurationComponent),
+      multi: true
+    }
+  ]
 })
-export class InputDurationComponent implements OnInit, OnDestroy {
-  durationForm: FormGroup;
+export class InputDurationComponent {
+  @Input()
+  set duration(value: number) {
+    const time: number = Number(value);
 
-  @Input() duration: number;
-
-  @Output() durationChanged: EventEmitter<number> = new EventEmitter<number>();
-
-  private readonly _initialized: Subject<void> = new Subject<void>();
-  private readonly _destroyed: Subject<void> = new Subject<void>();
-
-  constructor() {
-    this.durationForm = new FormGroup({
-      duration: new FormControl(null, [Validators.required, Validators.min(10)])
-    });
+    this._duration = time ? time : null;
+  }
+  get duration(): number {
+    return this._duration;
   }
 
-  ngOnInit(): void {
-    this.durationForm
-      .get('duration')
-      .valueChanges.pipe(
-        skipUntil(this._initialized),
-        takeUntil(this._destroyed)
-      )
-      .subscribe((value: number) => {
-        this.duration = value;
-        this.durationChanged.emit(value);
-      });
+  @Output() controlBlur: EventEmitter<void> = new EventEmitter<void>();
 
-    this._initialized.next();
+  private _duration: number;
+  private _touched: boolean = false;
+
+  writeValue(value): void {
+    this.onChange(value);
   }
 
-  ngOnDestroy(): void {
-    this._initialized.complete();
-    this._destroyed.next();
-    this._destroyed.complete();
+  onChange = value => {};
+  onTouched = () => {};
+
+  registerOnChange(fn: () => {}): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
+  }
+
+  onInput(value: string) {
+    const duration = +value ? +value : null;
+
+    this._duration = duration;
+
+    this.onChange(duration);
+  }
+
+  onBlur() {
+    if (!this._touched) {
+      this.controlBlur.emit();
+    }
+    this._touched = true;
   }
 }

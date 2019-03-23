@@ -28,3 +28,15 @@
     width: 12rem;
   }
 }
+
+.control {
+  position: relative;
+
+  &__message {
+    position: absolute;
+    margin-left: 110px;
+    top: 0px;
+    color: red;
+    font-size: 0.75rem;
+  }
+}
