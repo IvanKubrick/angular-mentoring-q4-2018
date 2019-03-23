@@ -20,8 +20,18 @@
         </mat-form-field>
         <div *ngIf="descriptionInvalid" class="control__message">{{ descriptionErrors }}</div>
       </div>
-      <app-input-date [date]="date" formControlName="date"></app-input-date>
-      <app-input-duration [duration]="duration" formControlName="duration"></app-input-duration>
+      <div class="control">
+        <app-input-date [date]="date" formControlName="date" (controlBlur)="onDateControlBlur()"></app-input-date>
+        <div *ngIf="dateInvalid" class="control__message">{{ dateErrors }}</div>
+      </div>
+      <div class="control">
+        <app-input-duration
+          [duration]="duration"
+          formControlName="duration"
+          (controlBlur)="onDurationControlBlur()"
+        ></app-input-duration>
+        <div *ngIf="durationInvalid" class="control__message">{{ durationErrors }}</div>
+      </div>
       <div class="course-card__field"><app-authors></app-authors></div>
     </div>
     <button class="course-card__button_save" type="submit" mat-raised-button color="primary" [disabled]="formInvalid">

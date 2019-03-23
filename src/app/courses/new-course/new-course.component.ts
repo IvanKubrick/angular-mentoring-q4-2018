@@ -20,6 +20,8 @@ export class NewCourseComponent implements OnInit, OnDestroy {
 
   private _editMode: boolean = false;
   private _activeCourseId: number;
+  private _dateControlTouched: boolean = false;
+  private _durationControlTouched: boolean = false;
   private readonly _initialized: Subject<void> = new Subject<void>();
   private readonly _destroyed: Subject<void> = new Subject<void>();
 
@@ -30,12 +32,22 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   get nameInvalid(): boolean {
     const control: AbstractControl = this.courseForm.get('name');
 
-    return control.invalid && control.dirty;
+    return control.invalid && control.touched;
   }
   get descriptionInvalid(): boolean {
     const control: AbstractControl = this.courseForm.get('description');
 
-    return control.invalid && control.dirty;
+    return control.invalid && control.touched;
+  }
+  get dateInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('date');
+
+    return control.invalid && this._dateControlTouched;
+  }
+  get durationInvalid(): boolean {
+    const control: AbstractControl = this.courseForm.get('duration');
+
+    return control.invalid && this._durationControlTouched;
   }
   get nameErrors(): string {
     const control: AbstractControl = this.courseForm.get('name');
@@ -44,6 +56,16 @@ export class NewCourseComponent implements OnInit, OnDestroy {
   }
   get descriptionErrors(): string {
     const control: AbstractControl = this.courseForm.get('description');
+
+    return Object.keys(control.errors).join(' ');
+  }
+  get dateErrors(): string {
+    const control: AbstractControl = this.courseForm.get('date');
+
+    return Object.keys(control.errors).join(' ');
+  }
+  get durationErrors(): string {
+    const control: AbstractControl = this.courseForm.get('duration');
 
     return Object.keys(control.errors).join(' ');
   }
@@ -85,6 +107,14 @@ export class NewCourseComponent implements OnInit, OnDestroy {
     this._initialized.complete();
     this._destroyed.next();
     this._destroyed.complete();
+  }
+
+  onDateControlBlur(): void {
+    this._dateControlTouched = true;
+  }
+
+  onDurationControlBlur(): void {
+    this._durationControlTouched = true;
   }
 
   onSubmit(): void {
