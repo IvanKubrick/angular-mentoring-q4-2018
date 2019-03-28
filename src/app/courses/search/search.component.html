@@ -7,5 +7,9 @@
       (keyup)="onSearchInputChange($event.target.value)"
     />
   </div>
-  <button class="search__button_add-course button button_pink" (click)="onAddCourseButtonClick()">Add course</button>
+  <button
+    class="search__button_add-course button button_pink"
+    (click)="onAddCourseButtonClick()"
+    [translate]="'ADD_COURSE'"
+  ></button>
 </div>

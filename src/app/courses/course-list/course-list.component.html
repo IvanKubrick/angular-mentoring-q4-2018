@@ -9,5 +9,9 @@
   <div class="course-no-data">
     <p class="course-no-data-text" *ngIf="!courses.length">No data. Feel free to add new course.</p>
   </div>
-  <button class="button button_blue button-load-more" (click)="onLoadMoreButtonClick()">Load more</button>
+  <button
+    class="button button_blue button-load-more"
+    (click)="onLoadMoreButtonClick()"
+    [translate]="'LOAD_MORE'"
+  ></button>
 </div>

@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly authService: AuthService,
     private readonly coursesService: CoursesService,
     private readonly router: Router,
     private readonly changeDetectorRef: ChangeDetectorRef,

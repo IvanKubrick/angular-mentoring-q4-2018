@@ -7,7 +7,7 @@
       </div>
       <div class="top-header__controls" *ngIf="loggedInUser">
         <span class="top-header__user">{{ userName }}</span>
-        <button class="button button-log-off" type="button" (click)="onLogOffClick()">Log Off</button>
+        <button class="button button-log-off" type="button" (click)="onLogOffClick()" [translate]="'LOG_OFF'"></button>
       </div>
       <div class="top-header__controls" *ngIf="!loggedInUser">
         <button class="button button-log-in" type="button" [routerLink]="'/login'">Log In</button>

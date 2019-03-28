@@ -1,5 +1,5 @@
 <mat-card class="course-card">
-  <mat-card-title class="course-card__title">New Course</mat-card-title>
+  <mat-card-title class="course-card__title" [translate]="'NEW_COURSE'"></mat-card-title>
   <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
     <div class="course-card__form course-form">
       <div class="control">

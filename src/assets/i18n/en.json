@@ -1,7 +1,9 @@
 {
   "ADD_COURSE": "Add course",
+  "NEW_COURSE": "New Course",
   "EDIT": "Edit",
   "DELETE": "Delete",
   "LOAD_MORE": "Load more",
-  "COPYRIGHT": "All Rights Reserved"
+  "COPYRIGHT": "All Rights Reserved",
+  "LOG_OFF": "Log off"
 }
