@@ -1,5 +1,11 @@
 <header class="header">
   <div class="header__container">
+    <div class="languages">
+      <select (change)="onLanguageChange($event.target.value)">
+        <option value="en">EN</option>
+        <option value="ru">RU</option>
+      </select>
+    </div>
     <div class="top-header">
       <div class="top-header__logo">
         <img class="header-logo__img" src="assets/img/header-logo.png" alt="logo" />
