@@ -53,8 +53,7 @@ import { SearchComponent } from './search/search.component';
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
         deps: [HttpClient]
-      },
-      isolate: true
+      }
     })
   ]
 })
