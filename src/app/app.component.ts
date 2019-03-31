@@ -11,7 +11,7 @@ import { AppState } from './store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store<AppState>) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(new AuthActions.TryToLogin());

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
-import { AuthService } from '@app/core';
 import { ICourse, IUser } from '@app/shared';
 
 import { CoursesService } from 'src/app/courses/courses.service';
@@ -28,12 +28,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly authService: AuthService,
     private readonly coursesService: CoursesService,
     private readonly router: Router,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private store: Store<AppState>
-  ) {}
+    private store: Store<AppState>,
+    private readonly translate: TranslateService
+  ) {
+    translate.setDefaultLang('en');
+  }
 
   ngOnInit(): void {
     this.store.select(selectAuthUser).subscribe((user: IUser) => {
@@ -51,6 +53,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogOffClick(): void {
     this.store.dispatch(new AuthActions.Logout());
+  }
+
+  onLanguageChange(lang: string): void {
+    this.translate.use(lang);
   }
 
   private subscribeForRouterEvents(): void {
