@@ -306,6 +306,12 @@ END OF TERMS AND CONDITIONS
 @ngrx/store
 MIT
 
+@ngx-translate/http-loader
+MIT
+
+@ngx-translate/core
+MIT
+
 @angular/animations
 MIT
 
